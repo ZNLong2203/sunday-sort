@@ -1,3 +1,22 @@
+# Shipped by Lens Studio
+
+# The lines below are automatically generated and updated by Lens Studio.
+# Please do not modify them manually, as changes will be overwritten each time!
+# If you want to make changes to this file, please put them either above or below this section.
+
+Cache/**
+PluginsUserPreferences/**
+Support/**
+BackUp/**
+Workspaces/**
+.vscode/**
+/jsconfig.json
+/tsconfig.json
+.DS_Store
+/spk_debug_key.pem
+*.lock
+
+# Shipped by Lens Studio
 # ─── Local notes and tooling ─────────────────────────────────
 /private/
 *.private.md
@@ -9,18 +28,8 @@
 # skill lives in .agents/skills and is committed.
 /agent/
 
-# ─── Lens Studio: regenerated on open, never part of the Lens ─
-Cache/**
-PluginsUserPreferences/**
-Support/**
-BackUp/**
-Workspaces/**
-.vscode/**
+# ─── Lens Studio extras (the shipped block above covers caches) ─
 /.clad/
-/jsconfig.json
-/tsconfig.json
-/spk_debug_key.pem
-*.lock
 .virtual-scene.json
 leaf_plugin_settings.json
 
@@ -48,3 +57,7 @@ ls-live-instance.json.tmp
 /node_modules/
 *.mp4
 *.mov
+
+# Lens Studio regenerates this with Git LFS rules; this repo stores
+# assets as normal files so they stay readable on GitHub.
+/.gitattributes
