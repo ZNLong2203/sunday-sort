@@ -1,0 +1,29 @@
+# ─── Local notes and tooling ─────────────────────────────────
+/private/
+*.private.md
+/AGENTS.md
+/CLAUDE.md
+
+# ─── Skill pack ──────────────────────────────────────────────
+# Duplicate copy the installer makes for the Eve agent; the real
+# skill lives in .agents/skills and is committed.
+/agent/
+
+# ─── Lens Studio ─────────────────────────────────────────────
+# Regenerated on open; never part of the project.
+/Cache/
+/Workspaces/
+*.lsproj.bak
+/Support/StudioLib.d.ts
+
+# ─── Secrets ─────────────────────────────────────────────────
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# ─── OS / editor ─────────────────────────────────────────────
+.DS_Store
+.idea/
+/node_modules/
