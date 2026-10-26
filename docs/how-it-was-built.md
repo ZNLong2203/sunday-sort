@@ -23,7 +23,7 @@ Decisions the interview pushed on, and where they landed:
 - Prompt, in a fresh session: *"Read devpost/design-brief.md and build it for SPECS. Follow the brief closely. Get the basic flow working first, then add detail. Write and run LEAF tests for each done criterion, and tell me which pass."*
 - CLAD's `lens-studio-router` checked the project, the MCP connection and the sign-in, then handed off to the `specs-experience-builder` agent.
 - Assets: five pill bottles from AI text-to-3D through `build-mesh`, three chimes from `build-sfx` (done, nudge, week ready), and Material icons for the buttons.
-- Logic: twelve TypeScript components in `Assets/Scripts/SundaySort*.ts`. `SundaySortData.ts` holds the sample week; `SundaySortMain.ts` runs the flow.
+- Logic: TypeScript components in `Assets/Scripts/SundaySort*.ts` (twelve in the first build, thirteen after the doctor's change). `SundaySortData.ts` holds the sample week; `SundaySortMain.ts` runs the flow.
 - After building, the agent pinched through the flow itself in the preview, then handed testing to CLAD's `live-lens-tester` agent.
 
 ### First build: LEAF results
@@ -92,6 +92,8 @@ The layout checks in `SundaySortLayoutChecks.ts` measure on-screen overlap from 
 **Signing in on 5.24.1 failed, which blocks CLAD.** Lens Studio 5.24.1 signs in through the new Specs account page, which kept answering "Something went wrong". CLAD's router has a mandatory sign-in gate, so the build stopped with `not_signed_in`. The organizers' published fix worked: on Lens Studio **5.23.2** sign-in went through first time. Recreate the Base Template there rather than opening a 5.24.1 project in it: the older editor warns the project and its Spectacles packages come from a newer version.
 
 **Claude Code can remember "no" for the MCP server.** If the prompt to use the project's `.mcp.json` server is dismissed, the `lens-studio` server silently disappears from `/mcp`. `claude mcp reset-project-choices`, then restart and choose "Use this and all future MCP servers in this project".
+
+**The faint "100cm" in some screenshots isn't the Lens.** Behind unlit cells you may see a faint "100cm". It's the distance marker on the floor of Lens Studio's built-in Plane preview scene. The SPECS preview blends the Lens over that room the way the additive display would, so the floor shows through the virtual counter. CLAD confirmed no text in the Lens matches, and the marker slides with the floor when the viewpoint moves. It can't appear on real glasses.
 
 **Lens Studio adds Git LFS rules.** It writes a `.gitattributes` that routes everything in `Assets/` and `Packages/` through Git LFS. This repo leaves that file untracked and stores assets as ordinary files, so they stay readable on GitHub.
 
