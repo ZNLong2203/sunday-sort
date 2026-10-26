@@ -8,9 +8,12 @@
 import {Scenario} from "Leaf.lspkg/Scenarios/scenario/Scenario"
 import {sleep} from "Leaf.lspkg/Utils/common/Utils"
 import {SundaySortMain} from "../../Scripts/SundaySortMain"
+import {checkContentsInsideCells, checkOverlayClearOfBottles, describeText} from "./SundaySortLayoutChecks"
 import {
   BOTTLE_OBJECTS,
   CameraGuard,
+  LeafHeadTurner,
+  pitchDownToBox,
   CheckList,
   DAYS,
   PILL_COLOR,
@@ -35,6 +38,8 @@ export const C3_ID = "c3-furosemide-half-mon-wed-fri"
 
 const EXPECTED_CELLS = ["MON_AM", "WED_AM", "FRI_AM"]
 const LIT_DAYS = ["MON", "WED", "FRI"]
+/** Allowed overhang of a "½" + icon pair beyond its cell, in cm (the pair is wider than "1" + icon). */
+const HALF_PAIR_TOL_CM = 0.3
 
 @component
 export class C3FurosemideScenario extends Scenario {
@@ -42,9 +47,12 @@ export class C3FurosemideScenario extends Scenario {
     const c = new CheckList(C3_ID)
     const main = await waitForLens()
     const guard = new CameraGuard(C3_ID, main.cameraObject)
+    let head: LeafHeadTurner | null = null
     try {
+      head = await pitchDownToBox(c, main, guard)
       await this.steps(c, main)
     } finally {
+      if (head) head.dispose()
       await guard.restore()
     }
     c.finish()
@@ -119,6 +127,11 @@ export class C3FurosemideScenario extends Scenario {
       JSON.stringify(text("BottleCardNote")),
       '"½ tablet — split before you start"',
     )
+
+    // Layout (looking down): each "½" + half-pill pair inside its own cell (small overhang allowed), nothing over a bottle.
+    c.note(`text bbox sample: ${describeText("CellCount_MON_AM")}`)
+    checkContentsInsideCells(c, main, EXPECTED_CELLS, "lit furosemide cells", () => HALF_PAIR_TOL_CM)
+    checkOverlayClearOfBottles(c, main, "lit furosemide view")
 
     for (const b of BOTTLE_OBJECTS) {
       const want = b === "Bottle_Furosemide"

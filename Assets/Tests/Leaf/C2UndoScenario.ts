@@ -12,6 +12,8 @@ import {SundaySortMain} from "../../Scripts/SundaySortMain"
 import {
   BOTTLE_OBJECTS,
   CameraGuard,
+  LeafHeadTurner,
+  pitchDownToBox,
   CheckList,
   filledDots,
   haloShown,
@@ -31,9 +33,12 @@ export class C2UndoScenario extends Scenario {
     const c = new CheckList(C2_UNDO_ID)
     const main = await waitForLens()
     const guard = new CameraGuard(C2_UNDO_ID, main.cameraObject)
+    let head: LeafHeadTurner | null = null
     try {
+      head = await pitchDownToBox(c, main, guard)
       await this.steps(c, main)
     } finally {
+      if (head) head.dispose()
       await guard.restore()
     }
     c.finish()

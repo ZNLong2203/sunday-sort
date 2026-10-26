@@ -7,7 +7,7 @@
     - !<own> 07612024-c62b-4995-a0de-fda0e3e84f75
     - !<own> 205e6c39-914e-4e8c-9894-4d07430dc933
     - !<own> 6de99b08-4cb9-4451-b4a7-bc8f9f7b08bd
-    - !<own> d060142a-0f5c-4ca5-b90d-065a15caa3a5
+    - !<own> 5c570664-5217-4337-842e-c28da1661101
   layers: !<Layers/267ee9a7-aff2-4f9d-9a49-f71214747d03>
     userLayers:
       - id: 1
@@ -919,7 +919,7 @@
     "":
       cameraObject: !<reference.SceneObject> 00000000-0000-0065-0000-000000000064
       arrowIcon: !<reference.Texture> 0cf8a7ff-46a8-424c-b1bf-ec2c49b9f4f5
-      distanceCm: !<float> 36.000000
+      distanceCm: !<float> 50.000000
       edgeInset: 0.880000
       arrowColor: !<Vec4> {x: 1.000000, y: 0.860000, z: 0.350000, w: 1.000000}
       plateColor: !<Vec4> {x: 0.100000, y: 0.360000, z: 0.460000, w: 0.900000}
@@ -948,7 +948,7 @@
   Enabled: true
   Layers: 1
   LocalTransform: !<TransformEntity>
-    Position: {x: 0.000000, y: -11.200000, z: -60.000000}
+    Position: {x: 0.000000, y: -70.000000, z: -40.000000}
     Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
     Scale: {x: 1.000000, y: 1.000000, z: 1.000000}
     HasSegmentScaleCompensation: false
@@ -1028,9 +1028,9 @@
   Enabled: true
   Layers: 1
   LocalTransform: !<TransformEntity>
-    Position: {x: 0.000000, y: -13.200000, z: -66.000000}
+    Position: {x: 0.000000, y: -115.000000, z: -45.000000}
     Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
-    Scale: {x: 120.000000, y: 4.000000, z: 48.000000}
+    Scale: {x: 120.000000, y: 90.000000, z: 60.000000}
     HasSegmentScaleCompensation: false
   Children:
     []
@@ -1103,7 +1103,7 @@
   Enabled: true
   Layers: 1
   LocalTransform: !<TransformEntity>
-    Position: {x: 3.000000, y: -2.700000, z: -67.599998}
+    Position: {x: 3.000000, y: -66.000000, z: -50.750000}
     Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
     Scale: {x: 1.000000, y: 1.000000, z: 1.000000}
     HasSegmentScaleCompensation: false
@@ -1216,26 +1216,6 @@
     - !<own> 7aa85bd8-d423-42cd-b190-473711e94929
   Components:
     []
-- !<RenderMeshVisual/420e3559-cac9-42cd-8a1c-1802bec1d03c>
-  PrefabRemaps:
-    []
-  Name: Render Mesh Visual
-  Enabled: true
-  RenderOrder: 0
-  StretchMode: Stretch
-  VerticalAlignment: Center
-  HorizontalAlignment: Center
-  MeshShadowMode: None
-  ShadowColor: {x: 1.000000, y: 1.000000, z: 1.000000, w: 1.000000}
-  ShadowDensity: 1.000000
-  Materials:
-    - !<reference> 781bffee-6146-415f-ac9c-c3c4013b0832
-  Mesh: !<reference> 935319a9-7765-404f-9dac-60bd4ce06dda
-  Skin: !<reference> 00000000-0000-0000-0000-000000000000
-  BlendShapesEnabled: true
-  BlendNormals: false
-  BlendShapes:
-    {}
 - !<SceneObject/421c3378-3246-429d-bd2f-4ee81f6751a7>
   PrefabRemaps:
     []
@@ -1400,7 +1380,6 @@
     undoLabel: true
     doneWidthCm: true
     undoWidthCm: true
-    buttonGapCm: true
   ScriptTypesDefault:
     {}
   ScriptInputs:
@@ -1413,7 +1392,7 @@
       undoLabel: Undo
       doneWidthCm: !<float> 8.000000
       undoWidthCm: !<float> 5.000000
-      buttonGapCm: 1.200000
+      buttonGapCm: !<float> 1.000000
   ScriptTypes:
     "":
       {}
@@ -1424,7 +1403,7 @@
   Enabled: true
   Layers: 1
   LocalTransform: !<TransformEntity>
-    Position: {x: -9.000000, y: -2.700000, z: -67.599998}
+    Position: {x: -9.000000, y: -66.000000, z: -50.750000}
     Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
     Scale: {x: 1.000000, y: 1.000000, z: 1.000000}
     HasSegmentScaleCompensation: false
@@ -1432,21 +1411,22 @@
     - !<own> 0646e58d-6327-4a97-bc60-629ba1acce14
   Components:
     - !<own> a093d8b9-db33-4a37-9e38-2f148c71ef19
-- !<SceneObject/50b36a56-be5f-48f8-95ab-faaeee2e4f3f>
+- !<ScriptComponent/4fd21c0c-2603-47e6-8838-f4d20ef9385e>
   PrefabRemaps:
     []
-  Name: BottleStep
+  Name: AgentInteractScript
   Enabled: true
-  Layers: 1
-  LocalTransform: !<TransformEntity>
-    Position: {x: 0.000000, y: -8.950000, z: -67.599998}
-    Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
-    Scale: {x: 24.000000, y: 4.500000, z: 6.000000}
-    HasSegmentScaleCompensation: false
-  Children:
-    []
-  Components:
-    - !<own> 420e3559-cac9-42cd-8a1c-1802bec1d03c
+  ScriptAsset: !<reference> 29091811-e792-46be-bfa4-28ddec5f11be
+  ScriptInputsDefault:
+    {}
+  ScriptTypesDefault:
+    {}
+  ScriptInputs:
+    "":
+      {}
+  ScriptTypes:
+    "":
+      {}
 - !<SceneObject/52ecefe4-5642-445a-ad16-52ce818076bc>
   PrefabRemaps:
     []
@@ -1522,6 +1502,22 @@
     - !<own> fa9baa4e-439c-4e6a-a9fe-0082117155b7
   Components:
     []
+- !<SceneObject/5c570664-5217-4337-842e-c28da1661101>
+  PrefabRemaps:
+    []
+  Name: AiPreviewAgent Handler
+  Enabled: true
+  Layers: 1
+  LocalTransform: !<TransformEntity>
+    Position: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Scale: {x: 1.000000, y: 1.000000, z: 1.000000}
+    HasSegmentScaleCompensation: false
+  Children:
+    []
+  Components:
+    - !<own> 748fdc1b-5f1a-4773-bb3f-e90e4eb3a402
+    - !<own> 4fd21c0c-2603-47e6-8838-f4d20ef9385e
 - !<ScriptComponent/5f153ad7-2baa-4fd9-a298-0dcfad86da3b>
   PrefabRemaps:
     []
@@ -1579,7 +1575,7 @@
       cameraObject: !<reference.SceneObject> 00000000-0000-0065-0000-000000000064
       titlePrefix: "Found: "
       cardWidthCm: 13.500000
-      cardLiftCm: !<float> 3.000000
+      cardLiftCm: 4.500000
       plateColor: !<Vec4> {x: 0.100000, y: 0.360000, z: 0.460000, w: 0.900000}
       borderColor: !<Vec4> {x: 0.300000, y: 0.950000, z: 1.000000, w: 1.000000}
       noteColor: !<Vec4> {x: 1.000000, y: 0.860000, z: 0.400000, w: 1.000000}
@@ -1818,7 +1814,7 @@
   Enabled: true
   Layers: 1
   LocalTransform: !<TransformEntity>
-    Position: {x: -3.000000, y: -2.700000, z: -67.599998}
+    Position: {x: -3.000000, y: -66.000000, z: -50.750000}
     Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
     Scale: {x: 1.000000, y: 1.000000, z: 1.000000}
     HasSegmentScaleCompensation: false
@@ -1910,8 +1906,8 @@
   ScriptInputsDefault:
     ringColor: true
     dayLitColor: true
-    countHeightCm: true
-    dotLiftCm: true
+    dayLabelBackCm: true
+    dotBackCm: true
     doseChangeColor: true
   ScriptTypesDefault:
     {}
@@ -1923,12 +1919,30 @@
       tickIcon: !<reference.Texture> 54f874c8-f07a-4640-a4f2-2211fcbbf65a
       ringColor: !<Vec4> {x: 0.200000, y: 0.950000, z: 1.000000, w: 1.000000}
       dayLitColor: !<Vec4> {x: 0.350000, y: 0.970000, z: 1.000000, w: 1.000000}
-      countHeightCm: !<float> 2.000000
-      countLiftFrontCm: 4.300000
-      countLiftBackCm: !<float> 7.000000
-      dayLabelLiftCm: 0.800000
-      dotLiftCm: 1.600000
+      countHeightCm: 1.600000
+      countLiftFrontCm: 1.300000
+      countLiftBackCm: 1.300000
+      dayLabelLiftCm: 0.350000
+      dayLabelBackCm: 0.500000
+      dotLiftCm: 0.450000
+      dotBackCm: 1.700000
       doseChangeColor: !<Vec4> {x: 1.000000, y: 0.550000, z: 0.120000, w: 1.000000}
+  ScriptTypes:
+    "":
+      {}
+- !<ScriptComponent/748fdc1b-5f1a-4773-bb3f-e90e4eb3a402>
+  PrefabRemaps:
+    []
+  Name: AgentInspectScript
+  Enabled: true
+  ScriptAsset: !<reference> 0b25079c-f5bf-4c6d-96c4-f43b89dfa213
+  ScriptInputsDefault:
+    {}
+  ScriptTypesDefault:
+    {}
+  ScriptInputs:
+    "":
+      {}
   ScriptTypes:
     "":
       {}
@@ -2262,22 +2276,6 @@
     - !<own> b859e31c-4c76-46bd-bd6a-042228e52728
   Components:
     []
-- !<ScriptComponent/8dff7cf6-de1f-496b-a8a3-017f5a2654b5>
-  PrefabRemaps:
-    []
-  Name: AgentInteractScript
-  Enabled: true
-  ScriptAsset: !<reference> 29091811-e792-46be-bfa4-28ddec5f11be
-  ScriptInputsDefault:
-    {}
-  ScriptTypesDefault:
-    {}
-  ScriptInputs:
-    "":
-      {}
-  ScriptTypes:
-    "":
-      {}
 - !<SceneObject/8e9ec7f0-cc83-499c-ba76-6368f2b14b90>
   PrefabRemaps:
     - 7de0f627-e3e8-48a9-a8ff-91bc105eebb8: 0bfd6697-ce91-40a6-6d29-94701684aab0
@@ -2451,7 +2449,7 @@
   Enabled: true
   Layers: 1
   LocalTransform: !<TransformEntity>
-    Position: {x: -7.000000, y: 6.000000, z: -63.000000}
+    Position: {x: 0.000000, y: -54.849998, z: -50.750000}
     Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
     Scale: {x: 1.000000, y: 1.000000, z: 1.000000}
     HasSegmentScaleCompensation: false
@@ -2734,6 +2732,7 @@
     weekReadySeconds: true
     nudgeTemplate: true
     doctorCardDelaySeconds: true
+    lookDownLabel: true
     turnBackLabel: true
     viewMargin: true
     debugColliders: true
@@ -2757,6 +2756,7 @@
       weekReadySeconds: !<float> 3.000000
       nudgeTemplate: "1 left: {name}"
       doctorCardDelaySeconds: !<float> 1.000000
+      lookDownLabel: Look down at your pillbox
       turnBackLabel: Back to the box
       viewMargin: 0.050000
       debugColliders: false
@@ -2986,22 +2986,6 @@
     []
   Components:
     []
-- !<ScriptComponent/c1140367-f9b2-4f9e-9d6c-a7a4651fef77>
-  PrefabRemaps:
-    []
-  Name: AgentInspectScript
-  Enabled: true
-  ScriptAsset: !<reference> 0b25079c-f5bf-4c6d-96c4-f43b89dfa213
-  ScriptInputsDefault:
-    {}
-  ScriptTypesDefault:
-    {}
-  ScriptInputs:
-    "":
-      {}
-  ScriptTypes:
-    "":
-      {}
 - !<SceneObject/c67ba66b-a4b9-47ce-b7b9-807f1276559a>
   PrefabRemaps:
     []
@@ -3129,7 +3113,6 @@
   Children:
     - !<own> 342e54c9-26b3-4e33-af7d-65466a177686
     - !<own> 5fb8295b-12e7-4073-9c09-63bd86bc7a83
-    - !<own> 50b36a56-be5f-48f8-95ab-faaeee2e4f3f
   Components:
     []
 - !<SceneObject/cd0f2cbf-e0bd-493a-a336-65fc75831c0d>
@@ -3177,22 +3160,6 @@
     - !<own> 650dc0b4-8d22-4aab-87b4-d8e56fb59a67
   Components:
     - !<own> 0847d2bb-a13f-4c4a-a404-169f67308f6f
-- !<SceneObject/d060142a-0f5c-4ca5-b90d-065a15caa3a5>
-  PrefabRemaps:
-    []
-  Name: AiPreviewAgent Handler
-  Enabled: true
-  Layers: 1
-  LocalTransform: !<TransformEntity>
-    Position: {x: 0.000000, y: 0.000000, z: 0.000000}
-    Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
-    Scale: {x: 1.000000, y: 1.000000, z: 1.000000}
-    HasSegmentScaleCompensation: false
-  Children:
-    []
-  Components:
-    - !<own> c1140367-f9b2-4f9e-9d6c-a7a4651fef77
-    - !<own> 8dff7cf6-de1f-496b-a8a3-017f5a2654b5
 - !<SceneObject/d08269e3-acd4-4156-b5b9-477ca259611d>
   PrefabRemaps:
     []
@@ -3575,8 +3542,8 @@
   Enabled: true
   Layers: 1
   LocalTransform: !<TransformEntity>
-    Position: {x: 3.900000, y: -9.600000, z: -46.000000}
-    Rotation: {x: -60.000000, y: -4.000000, z: 0.000000}
+    Position: {x: 4.500000, y: -68.639999, z: -29.000000}
+    Rotation: {x: -68.000000, y: 0.000000, z: 0.000000}
     Scale: {x: 1.000000, y: 1.000000, z: 1.000000}
     HasSegmentScaleCompensation: false
   Children:
@@ -3760,7 +3727,7 @@
   Enabled: true
   Layers: 1
   LocalTransform: !<TransformEntity>
-    Position: {x: 9.000000, y: -2.700000, z: -67.599998}
+    Position: {x: 9.000000, y: -66.000000, z: -50.750000}
     Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
     Scale: {x: 1.000000, y: 1.000000, z: 1.000000}
     HasSegmentScaleCompensation: false
@@ -3842,7 +3809,7 @@
   LocalTransform: !<TransformEntity>
     Position: {x: -14.000000, y: -8.000000, z: -60.000000}
     Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
-    Scale: {x: 0.600000, y: 0.600000, z: 0.600000}
+    Scale: {x: 0.830000, y: 0.830000, z: 0.830000}
     HasSegmentScaleCompensation: false
   Children:
     []

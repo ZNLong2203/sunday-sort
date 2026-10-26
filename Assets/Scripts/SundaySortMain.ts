@@ -6,7 +6,8 @@
  *       chime, dot, tick, hide card; Undo → clear selection; check mode →
  *       every cell's pills + total and "All checked"; finish → "Week ready"
  *       for N s, then everything fades except the corner tick. Also decides
- *       when the edge arrow shows (out-of-view Vitamin D nudge with one spatial
+ *       when the edge arrow shows: "look down" at the start until the box has
+ *       been in view once, the out-of-view Vitamin D nudge with one spatial
  *       chime, or "turn back" when a bottle is selected and the box is out of view).
  *       Stretch: once the week is finished the "Doctor's change" card appears
  *       beside the box; pinching it pulses only the changed cells orange, and
@@ -34,7 +35,7 @@ import {SundaySortPointerUI} from "./SundaySortPointerUI"
 import {SundaySortState} from "./SundaySortState"
 
 const GLOW_FADE_SECONDS = 0.45
-const NUDGE_ANCHOR_FORWARD_CM = 17 // nudge arrow height: just past the counter's front edge, below Done/Undo
+const NUDGE_ANCHOR_FORWARD_CM = 8 // nudge arrow height: on the counter in front of the box's left half (Done/Undo are on the right)
 
 @component
 export class SundaySortMain extends BaseScriptComponent {
@@ -115,6 +116,10 @@ export class SundaySortMain extends BaseScriptComponent {
   doctorCardDelaySeconds: number = 1.0
 
   @input
+  @hint("Hint at the bottom of the view at the start, until the box has been in view once.")
+  lookDownLabel: string = "Look down at your pillbox"
+
+  @input
   @hint("Arrow text when a bottle is selected and the box is out of view.")
   turnBackLabel: string = "Back to the box"
 
@@ -133,6 +138,7 @@ export class SundaySortMain extends BaseScriptComponent {
   private camTransform: Transform | null = null
   private camera: Camera | null = null
   private nudgeChimed = false
+  private boxSeen = false
   private _pointerMode = "none"
   private pendingGen = 0
   private ready = false
@@ -315,7 +321,7 @@ export class SundaySortMain extends BaseScriptComponent {
     return this.state.mode
   }
 
-  /** "none" | "nudge" | "turnBack" — what the edge arrow is doing right now. */
+  /** "none" | "lookDown" | "nudge" | "turnBack" — what the edge arrow is doing right now. */
   get pointerMode(): string {
     return this._pointerMode
   }
@@ -363,8 +369,13 @@ export class SundaySortMain extends BaseScriptComponent {
     const shelf = this.shelfBottleDef()
     const shelfBottle = shelf ? this.bottles[shelf.id] : null
     let mode = "none"
+    if (!this.boxSeen && this.isInView(this.pillbox.topCenterWorld())) this.boxSeen = true
 
-    if (this.state.selected !== null) {
+    if (!this.boxSeen) {
+      // the box starts below the view: point down to it until it has been seen once
+      mode = "lookDown"
+      this.pointer.pointTo(this.pillbox.topCenterWorld(), this.lookDownLabel)
+    } else if (this.state.selected !== null) {
       const box = this.pillbox.topCenterWorld()
       if (!this.isInView(box)) {
         mode = "turnBack"

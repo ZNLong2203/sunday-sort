@@ -66,7 +66,7 @@
     - '// @ui {"widget":"group_start", "label":"Settings"}'
     - '// @input string titlePrefix = "Found: " {"hint":"Text placed before the bottle name on the card."}'
     - '// @input float cardWidthCm = 13.5 {"hint":"Card width in cm.", "widget":"slider", "min":8, "max":24, "step":0.5}'
-    - '// @input float cardLiftCm = 3 {"hint":"Gap between the top of the bottle and the bottom of the card, in cm.", "widget":"slider", "min":0, "max":8, "step":0.1}'
+    - '// @input float cardLiftCm = 4.5 {"hint":"Gap between the top of the bottle and the bottom of the card, in cm. Looked at from above, ~4.5 cm keeps the card clear of the bottle caps.", "widget":"slider", "min":0, "max":8, "step":0.1}'
     - '// @input vec4 plateColor = "{0.10,0.36,0.46,0.9}" {"hint":"Card fill. Mid-bright teal so white text still contrasts on the additive display.", "widget":"color"}'
     - '// @input vec4 borderColor = "{0.3,0.95,1.0,1}" {"hint":"Card border colour.", "widget":"color"}'
     - '// @input vec4 noteColor = "{1.0,0.86,0.4,1}" {"hint":"Colour of the second line (e.g. the half-tablet instruction).", "widget":"color"}'

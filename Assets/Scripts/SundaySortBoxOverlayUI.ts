@@ -2,10 +2,13 @@
  * SundaySortBoxOverlayUI — everything drawn ON the pillbox (passive view).
  *
  * Owns: the 14 cell overlays (cyan rim ring + floating count + pill icons),
- *       the MON..SUN day labels and one progress dot per bottle sitting on the
- *       back edge, the "Week ready" banner, the small corner tick left at the
- *       end, and (stretch) the pulsing orange cells + "-1 amlodipine" label of
- *       the doctor's change.
+ *       the MON..SUN day labels and one progress dot per bottle in the strip
+ *       along the back edge, the "Week ready" banner, the small corner tick left
+ *       at the end, and (stretch) the pulsing orange cells + "-1 amlodipine"
+ *       label of the doctor's change.
+ * Viewpoint: the user stands at the counter and looks DOWN at the box (~60°).
+ *       Every label faces the eyes and floats just above its own cell, so from
+ *       that view it stays inside the cell and never crosses a bottle.
  * Expects: pillbox (cell geometry), overlayMaterial (Unlit), cameraObject
  *          (labels turn to face it), tickIcon (check_circle texture).
  * Must NOT: decide anything. SundaySortMain pushes what to show through the
@@ -36,14 +39,19 @@ import {applyTextRole, outlineText, setupText, sizeForDigitHeight, tintPlate, wi
 const imageMaterial = requireAsset("../Materials/ImageMaterial.mat") as Material
 
 const MAX_ICONS = 4
-const LIT_ICON_CM = 1.0
-const CHECK_ICON_CM = 0.75
+const LIT_ICON_CM = 1.15
+const LIT_ICON_GAP_CM = 0.12
+const CHECK_ICON_CM = 0.8
+const CHECK_STACK_DROP_CM = 0.4
 const FADE_SECONDS = 0.45
 const DOT_SPACING_CM = 1.3
 const DOT_RADIUS_CM = 0.4
-const DAY_LABEL_DIGIT_CM = 0.7
-const WEEK_READY_LIFT_CM = 6.0 // above the back-edge labels and dots, so it never covers them
-const DOSE_LABEL_GAP_CM = 1.6 // gap between the morning counts and the "-1 amlodipine" label
+const DAY_LABEL_DIGIT_CM = 0.8
+const WEEK_READY_LIFT_CM = 2.0 // just above the box: read on the box itself, inside its outline from above
+// "-1 amlodipine" sits on the counter just in front of the box, under the changed
+// days: from above, anything floating over the back row would run into the bottles.
+const DOSE_LABEL_FRONT_CM = 2.2
+const DOSE_LABEL_HEIGHT_CM = 1.0 // above the counter (the tray's base)
 const COUNT_WHITE = new vec4(1, 1, 1, 1)
 const DAY_DIM = new vec4(0.78, 0.8, 0.88, 0.55)
 const CHECK_RING = new vec4(1, 1, 1, 0.45)
@@ -102,29 +110,39 @@ export class SundaySortBoxOverlayUI extends BaseScriptComponent {
   dayLitColor: vec4
 
   @input
-  @hint("Height of the floating count digits in cm (brief: about 2 cm).")
+  @hint("Height of the floating count digits in cm. ~1.6 cm reads from ~80 cm and, with its icon, fits a 3 cm cell.")
   @widget(new SliderWidget(1, 3.5, 0.1))
-  countHeightCm: number = 2.0
+  countHeightCm: number = 1.6
 
   @input
-  @hint("How far above the rim the evening (front row) counts float, in cm. High enough to clear the back-edge labels and dots from where the user stands.")
-  @widget(new SliderWidget(0.5, 8, 0.1))
-  countLiftFrontCm: number = 4.3
+  @hint("How far above the rim the evening (front row) counts float, in cm. Looked at from above, ~1.3 cm keeps each count inside its own cell.")
+  @widget(new SliderWidget(0.5, 4, 0.1))
+  countLiftFrontCm: number = 1.3
 
   @input
-  @hint("How far above the rim the morning (back row) counts float, in cm. Higher than the front row so the rows don't overlap from 60 cm.")
-  @widget(new SliderWidget(0.5, 10, 0.1))
-  countLiftBackCm: number = 7.0
+  @hint("How far above the rim the morning (back row) counts float, in cm. Keep it low so, from above, the count never reaches the bottles behind the box.")
+  @widget(new SliderWidget(0.5, 4, 0.1))
+  countLiftBackCm: number = 1.3
 
   @input
-  @hint("Height of the centre of the MON..SUN labels above the back edge, in cm (they sit on the edge: keep it 2 cm or less).")
-  @widget(new SliderWidget(0.3, 2, 0.05))
-  dayLabelLiftCm: number = 0.8
+  @hint("Height of the centre of the MON..SUN labels above the back edge, in cm.")
+  @widget(new SliderWidget(0.1, 2, 0.05))
+  dayLabelLiftCm: number = 0.35
 
   @input
-  @hint("Height of the centre of the progress dots above the back edge, in cm (top of the dots stays within 2 cm).")
-  @widget(new SliderWidget(0.4, 1.6, 0.05))
-  dotLiftCm: number = 1.6
+  @hint("How far behind the back wall the MON..SUN labels sit, in cm (on the edge, facing up toward the user).")
+  @widget(new SliderWidget(0, 2, 0.05))
+  dayLabelBackCm: number = 0.5
+
+  @input
+  @hint("Height of the centre of the progress dots above the back edge, in cm.")
+  @widget(new SliderWidget(0.2, 1.6, 0.05))
+  dotLiftCm: number = 0.45
+
+  @input
+  @hint("How far behind the back wall the progress dots sit, in cm (behind the day labels, in front of the bottles).")
+  @widget(new SliderWidget(0.5, 3, 0.05))
+  dotBackCm: number = 1.7
 
   @input("vec4", "{1.0,0.55,0.12,1}")
   @hint("Doctor's change: colour of the pulsing rings, counts and label (bright orange).")
@@ -415,7 +433,7 @@ export class SundaySortBoxOverlayUI extends BaseScriptComponent {
 
   private buildDayLabels(): void {
     this.dayLabelsRoot = this.child(this.getSceneObject(), "DayLabels")
-    const backZ = -this.pillbox.depthCm / 2 - 0.4
+    const backZ = -this.pillbox.depthCm / 2 - this.dayLabelBackCm
     for (let d = 0; d < 7; d++) {
       const c = this.pillbox.cellCenterLocal(d, ROW_AM)
       const so = this.child(this.dayLabelsRoot, SCENE_NAMES.dayLabelPrefix + DAY_NAMES[d])
@@ -430,7 +448,7 @@ export class SundaySortBoxOverlayUI extends BaseScriptComponent {
 
   private buildProgressDots(): void {
     this.dotsRoot = this.child(this.getSceneObject(), "ProgressDots")
-    const backZ = -this.pillbox.depthCm / 2 - 0.4
+    const backZ = -this.pillbox.depthCm / 2 - this.dotBackCm
     this.dotsRoot.getTransform().setLocalPosition(new vec3(0, this.pillbox.rimY + this.dotLiftCm, backZ))
     const ringMesh = buildCircleRing(DOT_RADIUS_CM, DOT_RADIUS_CM * 0.72)
     const fillMesh = buildEllipse(DOT_RADIUS_CM * 0.72, DOT_RADIUS_CM * 0.72)
@@ -497,22 +515,15 @@ export class SundaySortBoxOverlayUI extends BaseScriptComponent {
     this.cornerTick.enabled = false
   }
 
-  /** One "-1 amlodipine" label centred over the cells the doctor's change touches, above their counts. */
+  /** One "-1 amlodipine" label on the counter just in front of the box, centred under the changed days. */
   private buildDoseChangeLabel(): void {
     const so = this.child(this.getSceneObject(), SCENE_NAMES.doseChangeLabel)
     let x = 0
-    let z = 0
-    let maxLift = 0
-    for (const c of DOSE_CHANGE.cells) {
-      const p = this.pillbox.cellCenterLocal(c.day, c.row)
-      x += p.x / DOSE_CHANGE.cells.length
-      z += p.z / DOSE_CHANGE.cells.length
-      maxLift = Math.max(maxLift, c.row === ROW_AM ? this.countLiftBackCm : this.countLiftFrontCm)
-    }
-    so.getTransform().setLocalPosition(new vec3(x, this.pillbox.rimY + maxLift + this.countHeightCm / 2 + DOSE_LABEL_GAP_CM, z))
+    for (const c of DOSE_CHANGE.cells) x += this.pillbox.cellCenterLocal(c.day, c.row).x / DOSE_CHANGE.cells.length
+    so.getTransform().setLocalPosition(new vec3(x, DOSE_LABEL_HEIGHT_CM, this.pillbox.depthCm / 2 + DOSE_LABEL_FRONT_CM))
     this.doseLabel = so.createComponent("Component.Text") as Text
-    setupText(this.doseLabel, DOSE_CHANGE.label, this.doseChangeColor, 12, 2.0)
-    this.doseLabel.size = sizeForDigitHeight(1.3)
+    setupText(this.doseLabel, DOSE_CHANGE.label, this.doseChangeColor, 12, 1.6)
+    this.doseLabel.size = sizeForDigitHeight(1.0)
     outlineText(this.doseLabel)
     so.enabled = false
   }
@@ -526,8 +537,9 @@ export class SundaySortBoxOverlayUI extends BaseScriptComponent {
     if (checkMode) {
       n.count.size = sizeForDigitHeight(this.countHeightCm * 0.7)
       n.count.horizontalAlignment = HorizontalAlignment.Center
-      n.count.getTransform().setLocalPosition(new vec3(0, this.countHeightCm * 0.32, 0))
-      const rowY = -this.countHeightCm * 0.32 - iconCm * 0.35
+      // the total + icon stack is taller than a lit count: drop it so, from above, it stays inside the cell
+      n.count.getTransform().setLocalPosition(new vec3(0, this.countHeightCm * 0.32 - CHECK_STACK_DROP_CM, 0))
+      const rowY = -this.countHeightCm * 0.32 - iconCm * 0.35 - CHECK_STACK_DROP_CM
       const step = iconCm * 1.12
       for (let i = 0; i < MAX_ICONS; i++) {
         const icon = n.icons[i]
@@ -540,10 +552,12 @@ export class SundaySortBoxOverlayUI extends BaseScriptComponent {
         icon.getTransform().setLocalPosition(new vec3((i - (k - 1) / 2) * step, rowY, 0.02))
       }
     } else {
-      // big count on the left, the pill's own icon on its right
+      // big count, then the pill's own icon on its right — the pair centred on its own cell
       n.count.size = sizeForDigitHeight(this.countHeightCm)
-      n.count.horizontalAlignment = HorizontalAlignment.Right
-      n.count.getTransform().setLocalPosition(new vec3(-1.5 + 0.05, 0, 0))
+      n.count.horizontalAlignment = HorizontalAlignment.Center
+      const textW = this.textWidthCm(n.count, this.countHeightCm)
+      const groupW = textW + LIT_ICON_GAP_CM + iconCm
+      n.count.getTransform().setLocalPosition(new vec3(-groupW / 2 + textW / 2, 0, 0))
       for (let i = 0; i < MAX_ICONS; i++) {
         const icon = n.icons[i]
         const on = i === 0 && k > 0
@@ -552,9 +566,23 @@ export class SundaySortBoxOverlayUI extends BaseScriptComponent {
         icon.mesh = pillMesh(v.icons[0].shape, iconCm)
         n.iconColors[0] = v.icons[0].color
         setVisualColor(icon, v.icons[0].color)
-        icon.getTransform().setLocalPosition(new vec3(0.25 + iconCm / 2, 0, 0.02))
+        icon.getTransform().setLocalPosition(new vec3(groupW / 2 - iconCm / 2, 0, 0.02))
       }
     }
+  }
+
+  /**
+   * Rendered width of a count, in cm: the laid-out character bounds when the
+   * text engine has them, else an estimate ("½" is about twice a digit's width).
+   */
+  private textWidthCm(t: Text, digitHeightCm: number): number {
+    const bb = t.getBoundingBox()
+    const w = bb ? bb.right - bb.left : 0
+    if (w > 0.01) return w
+    const em = digitHeightCm / 0.7
+    let units = 0
+    for (const ch of t.text) units += ch === "½" ? 1.1 : ch === "-" ? 0.4 : 0.56
+    return units * em
   }
 
   private applyCellAlpha(n: CellNodes, a: number): void {
@@ -617,22 +645,20 @@ export class SundaySortBoxOverlayUI extends BaseScriptComponent {
     }
   }
 
-  /** Turn every visible label toward the camera so it reads from where the user stands. */
+  /**
+   * Turn every visible label to face the user's eyes. They share the view's
+   * rotation (parallel to the view, not each aimed at the eye on its own), so
+   * from above the counts and day labels stay level instead of fanning out.
+   */
   private faceCamera(): void {
     if (!this.camTransform) return
-    const cam = this.camTransform.getWorldPosition()
-    for (const n of this.cellOrder) if (n.root.enabled) this.face(n.label.getTransform(), cam)
-    if (this.dayLabelsRoot.enabled) for (const so of this.dayLabelRoots) this.face(so.getTransform(), cam)
-    if (this.dotsRoot.enabled) this.face(this.dotsRoot.getTransform(), cam)
-    if (this.weekReadyRoot.enabled) this.face(this.weekReadyRoot.getTransform(), cam)
-    if (this.cornerTick.enabled) this.face(this.cornerTick.getTransform(), cam)
-    if (this.doseLabel.getSceneObject().enabled) this.face(this.doseLabel.getTransform(), cam)
-  }
-
-  private face(t: Transform, cam: vec3): void {
-    const dir = cam.sub(t.getWorldPosition())
-    if (dir.length < 0.001) return
-    t.setWorldRotation(quat.lookAt(dir.normalize(), vec3.up()))
+    const rot = this.camTransform.getWorldRotation()
+    for (const n of this.cellOrder) if (n.root.enabled) n.label.getTransform().setWorldRotation(rot)
+    if (this.dayLabelsRoot.enabled) for (const so of this.dayLabelRoots) so.getTransform().setWorldRotation(rot)
+    if (this.dotsRoot.enabled) this.dotsRoot.getTransform().setWorldRotation(rot)
+    if (this.weekReadyRoot.enabled) this.weekReadyRoot.getTransform().setWorldRotation(rot)
+    if (this.cornerTick.enabled) this.cornerTick.getTransform().setWorldRotation(rot)
+    if (this.doseLabel.getSceneObject().enabled) this.doseLabel.getTransform().setWorldRotation(rot)
   }
 
   private child(parent: SceneObject, name: string): SceneObject {

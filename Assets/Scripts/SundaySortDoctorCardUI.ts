@@ -141,11 +141,10 @@ export class SundaySortDoctorCardUI extends BaseScriptComponent {
     return t
   }
 
+  /** Parallel to the view (shares the camera's rotation), so it stays level from any head pitch. */
   private faceCamera(): void {
     if (!this.camTransform) return
-    const t = this.getTransform()
-    const dir = this.camTransform.getWorldPosition().sub(t.getWorldPosition())
-    if (dir.length > 0.001) t.setWorldRotation(quat.lookAt(dir.normalize(), vec3.up()))
+    this.getTransform().setWorldRotation(this.camTransform.getWorldRotation())
   }
 
   private onUpdate(): void {

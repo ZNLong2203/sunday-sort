@@ -32,6 +32,7 @@ import {SundaySortMain} from "../../Scripts/SundaySortMain"
 import {
   BOTTLE_OBJECTS,
   CameraGuard,
+  pitchDownToBox,
   CheckList,
   FrameRecorder,
   filledDots,
@@ -55,9 +56,11 @@ export class IKReachScenario extends Scenario {
     const main = await waitForLens()
     const guard = new CameraGuard(IK_ID, main.cameraObject)
     try {
-      // From where the user stands (start pose): no bottle's pinch target overlaps another's on screen.
+      // Working pose: pitch down to the box, then stop the turner so only LEAF's IK head moves the camera.
+      const head = await pitchDownToBox(c, main, guard)
+      head.dispose()
+      // From the looking-down pose: no bottle's pinch target overlaps another's on screen.
       this.checkBottlesSeparateOnScreen(c, main)
-      guard.pauseTracking()
       await this.steps(c, main)
     } finally {
       await guard.restore()
@@ -72,7 +75,7 @@ export class IKReachScenario extends Scenario {
     for (let i = 0; i < rects.length; i++)
       for (let j = i + 1; j < rects.length; j++) if (rectsOverlap(rects[i].r, rects[j].r)) overlaps.push(`${rects[i].name}×${rects[j].name}`)
     for (const x of rects.slice(0, 4)) c.note(`${x.name} pinch target ${fmt3(main.bottleMetformin.colliderSizeCm)} cm, screen rect ${fmtRect(x.r)}`)
-    c.check(overlaps.length === 0, "no bottle pinch target overlaps another on screen (start pose)", overlaps.length ? JSON.stringify(overlaps) : "no overlaps", "no overlaps")
+    c.check(overlaps.length === 0, "no bottle pinch target overlaps another on screen (looking down)", overlaps.length ? JSON.stringify(overlaps) : "no overlaps", "no overlaps")
   }
 
   private async steps(c: CheckList, main: SundaySortMain): Promise<void> {

@@ -8,13 +8,15 @@
  *
  * Setup (API-driven shortcut, labelled in the log): selectBottle(id) + done()
  * for metformin, amlodipine, furosemide, atorvastatin.
- * Head turns: LEAF's IK HeadController rotates the Camera Object (LeafHeadTurner).
+ * Head turns: LEAF's IK HeadController rotates the Camera Object (LeafHeadTurner):
+ * first down to the box (the working pose), then to the shelf and back down.
  * Pinches: real SIK pinches through LEAF's simulated hands — left hand for the
  * shelf bottle, right hand for the UIKit Done / All checked button.
  */
 import {Scenario} from "Leaf.lspkg/Scenarios/scenario/Scenario"
 import {sleep} from "Leaf.lspkg/Utils/common/Utils"
 import {SundaySortMain} from "../../Scripts/SundaySortMain"
+import {checkContentsInsideCells, checkOverlayClearOfBottles} from "./SundaySortLayoutChecks"
 import {
   ALL_KEYS,
   BOTTLE_OBJECTS,
@@ -22,6 +24,7 @@ import {
   CheckList,
   FrameRecorder,
   LeafHeadTurner,
+  pitchDownToBox,
   fmtRect,
   meshVisual,
   rectsOverlap,
@@ -52,6 +55,9 @@ import {
 } from "./SundaySortLeafHelpers"
 
 export const C4_ID = "c4-vitamin-d-nudge-check-finish"
+
+/** Allowed overhang of a check-mode stack beyond its cell, in cm. */
+const STACK_TOL_CM = 0.1
 
 type IconSpec = [string, vec4]
 interface CellSpec {
@@ -89,12 +95,12 @@ export class C4VitaminDScenario extends Scenario {
     const c = new CheckList(C4_ID)
     const main = await waitForLens()
     const guard = new CameraGuard(C4_ID, main.cameraObject)
-    guard.pauseTracking()
-    const head = new LeafHeadTurner(main.cameraObject)
+    let head: LeafHeadTurner | null = null
     try {
+      head = await pitchDownToBox(c, main, guard)
       await this.steps(c, main, head)
     } finally {
-      head.dispose()
+      if (head) head.dispose()
       await guard.restore()
     }
     c.finish()
@@ -254,6 +260,10 @@ export class C4VitaminDScenario extends Scenario {
         want.icons.every((spec, i) => pillShape(icons[i]) === spec[0] && sameRgb(colorOf(icons[i]), spec[1]))
       c.check(ok, `check ${key} pill icons`, JSON.stringify(got), JSON.stringify(want.icons.map((s) => s[0] + fmt4(s[1]))))
     }
+
+    // Layout (looking down): each check-mode stack (total + icon row) inside its own cell.
+    checkContentsInsideCells(c, main, ALL_KEYS, "check-mode stacks", () => STACK_TOL_CM)
+    checkOverlayClearOfBottles(c, main, "check-mode view", false)
 
     // ── All checked -> Week ready -> fade to the corner tick ─────────────────
     const weekBefore = main.weekReadyChimeCount

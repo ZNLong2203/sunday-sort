@@ -14,6 +14,8 @@ import {SundaySortMain} from "../../Scripts/SundaySortMain"
 import {
   BOTTLE_OBJECTS,
   CameraGuard,
+  LeafHeadTurner,
+  pitchDownToBox,
   CheckList,
   FrameRecorder,
   audioComp,
@@ -36,9 +38,12 @@ export class C2DoneScenario extends Scenario {
     const c = new CheckList(C2_DONE_ID)
     const main = await waitForLens()
     const guard = new CameraGuard(C2_DONE_ID, main.cameraObject)
+    let head: LeafHeadTurner | null = null
     try {
+      head = await pitchDownToBox(c, main, guard)
       await this.steps(c, main)
     } finally {
+      if (head) head.dispose()
       await guard.restore()
     }
     c.finish()

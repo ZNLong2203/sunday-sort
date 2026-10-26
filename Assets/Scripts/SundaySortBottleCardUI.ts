@@ -45,9 +45,9 @@ export class SundaySortBottleCardUI extends BaseScriptComponent {
   cardWidthCm: number = 13.5
 
   @input
-  @hint("Gap between the top of the bottle and the bottom of the card, in cm.")
+  @hint("Gap between the top of the bottle and the bottom of the card, in cm. Looked at from above, ~4.5 cm keeps the card clear of the bottle caps.")
   @widget(new SliderWidget(0, 8, 0.1))
-  cardLiftCm: number = 3.0
+  cardLiftCm: number = 4.5
 
   @input("vec4", "{0.10,0.36,0.46,0.9}")
   @hint("Card fill. Mid-bright teal so white text still contrasts on the additive display.")
@@ -74,6 +74,7 @@ export class SundaySortBottleCardUI extends BaseScriptComponent {
   private wantVisible = false
   private started = false
   private anchor: vec3 = vec3.zero()
+  private cardH = PAD * 2 + TITLE_H
   private camTransform: Transform | null = null
 
   onAwake(): void {
@@ -93,7 +94,8 @@ export class SundaySortBottleCardUI extends BaseScriptComponent {
     const h = PAD * 2 + TITLE_H + (hasNote ? ROW_GAP + NOTE_H : 0)
     this.flex.height = h
     this.plate.size = new vec2(this.cardWidthCm, h)
-    this.anchor = anchorWorld.add(new vec3(0, this.cardLiftCm + h / 2, 0))
+    this.anchor = anchorWorld.add(new vec3(0, this.cardLiftCm, 0))
+    this.cardH = h
     this.wantVisible = true
     this.place()
     if (this.started) {
@@ -169,14 +171,17 @@ export class SundaySortBottleCardUI extends BaseScriptComponent {
   private place(): void {
     const t = this.getTransform()
     if (!this.camTransform) {
-      t.setWorldPosition(this.anchor)
+      t.setWorldPosition(this.anchor.add(new vec3(0, this.cardH / 2, 0)))
       return
     }
-    const cam = this.camTransform.getWorldPosition()
-    const toCam = cam.sub(this.anchor).normalize()
+    // The card is parallel to the view, so raise it by half its height along the
+    // view's up: its bottom edge then sits the same distance above the bottle on
+    // screen whatever its height or the head's pitch (a 2-line card no longer dips).
+    const center = this.anchor.add(this.camTransform.up.uniformScale(this.cardH / 2))
+    const toCam = this.camTransform.getWorldPosition().sub(center).normalize()
     // nudge 1.5 cm toward the viewer so the card never clips into the bottle
-    t.setWorldPosition(this.anchor.add(toCam.uniformScale(1.5)))
-    t.setWorldRotation(quat.lookAt(toCam, vec3.up()))
+    t.setWorldPosition(center.add(toCam.uniformScale(1.5)))
+    t.setWorldRotation(this.camTransform.getWorldRotation()) // parallel to the view: level from any head pitch
   }
 
   private onUpdate(): void {

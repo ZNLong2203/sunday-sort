@@ -5,6 +5,7 @@
  */
 import {scenariosIndex} from "Leaf.lspkg/Scenarios/decorator/ScenarioIndexDecorator"
 import {ScenarioMetadata} from "Leaf.lspkg/Scenarios/scenario/ScenarioMetadata"
+import {C0_ID, C0LookDownHintScenario} from "./C0LookDownHintScenario"
 import {C1_ID, C1MetforminScenario} from "./C1MetforminScenario"
 import {C2_DONE_ID, C2DoneScenario} from "./C2DoneScenario"
 import {C2_UNDO_ID, C2UndoScenario} from "./C2UndoScenario"
@@ -18,6 +19,7 @@ import {IK_ID, IKReachScenario} from "./IKReachScenario"
 export class LeafIndex extends BaseScriptComponent {
   @scenariosIndex
   static scenariosIndex: ScenarioMetadata[] = [
+    {id: C0_ID, typename: C0LookDownHintScenario.getTypeName()},
     {id: C1_ID, typename: C1MetforminScenario.getTypeName()},
     {id: C2_DONE_ID, typename: C2DoneScenario.getTypeName()},
     {id: C2_UNDO_ID, typename: C2UndoScenario.getTypeName()},

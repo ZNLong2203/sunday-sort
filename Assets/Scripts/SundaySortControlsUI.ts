@@ -2,10 +2,10 @@
  * SundaySortControlsUI — the big Done button and the smaller Undo next to it.
  *
  * Owns: two UIKit Buttons in a FlexLayout row ([Undo] [Done]) lying on the
- *       counter in front of the box's front-right edge. The authored SceneObject
- *       carries the ~30° tilt toward the user and sits far enough forward that
- *       the buttons never cover a cell from where the user stands. Done reads
- *       "All checked" in check mode (same spot).
+ *       counter in front of the box's right half, facing up toward the user
+ *       (the authored SceneObject carries the tilt). From above they sit below
+ *       the box and never cover a cell. Done reads "All checked" in check mode
+ *       (same spot).
  * Expects: icon textures (check, done_all, undo).
  * Must NOT: decide what Done/Undo mean — it only emits onDone / onUndo.
  *

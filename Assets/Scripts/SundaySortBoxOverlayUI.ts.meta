@@ -32,9 +32,11 @@
     countHeightCm: false
     countLiftBackCm: false
     countLiftFrontCm: false
+    dayLabelBackCm: false
     dayLabelLiftCm: false
     dayLitColor: false
     doseChangeColor: false
+    dotBackCm: false
     dotLiftCm: false
     overlayMaterial: false
     pillbox: false
@@ -59,7 +61,9 @@
       countLiftFrontCm: 1.900000
       countLiftBackCm: 4.300000
       dayLabelLiftCm: 6.400000
+      dayLabelBackCm: 0.500000
       dotLiftCm: 1.600000
+      dotBackCm: 1.700000
       doseChangeColor: !<Vec4> {x: 1.000000, y: 0.550000, z: 0.120000, w: 1.000000}
   ScriptTypes:
     -
@@ -79,10 +83,12 @@
     - '// @ui {"widget":"group_start", "label":"Settings"}'
     - "// @input vec4 ringColor = \"{0.2,0.95,1.0,1}\" {\"hint\":\"Colour of the ring around a lit cell's rim (brief: bright cyan).\", \"widget\":\"color\"}"
     - '// @input vec4 dayLitColor = "{0.35,0.97,1.0,1}" {"hint":"Colour of a day label when that day is lit.", "widget":"color"}'
-    - '// @input float countHeightCm = 2 {"hint":"Height of the floating count digits in cm (brief: about 2 cm).", "widget":"slider", "min":1, "max":3.5, "step":0.1}'
-    - '// @input float countLiftFrontCm = 4.3 {"hint":"How far above the rim the evening (front row) counts float, in cm. High enough to clear the back-edge labels and dots from where the user stands.", "widget":"slider", "min":0.5, "max":8, "step":0.1}'
-    - "// @input float countLiftBackCm = 7 {\"hint\":\"How far above the rim the morning (back row) counts float, in cm. Higher than the front row so the rows don't overlap from 60 cm.\", \"widget\":\"slider\", \"min\":0.5, \"max\":10, \"step\":0.1}"
-    - '// @input float dayLabelLiftCm = 0.8 {"hint":"Height of the centre of the MON..SUN labels above the back edge, in cm (they sit on the edge: keep it 2 cm or less).", "widget":"slider", "min":0.3, "max":2, "step":0.05}'
-    - '// @input float dotLiftCm = 1.6 {"hint":"Height of the centre of the progress dots above the back edge, in cm (top of the dots stays within 2 cm).", "widget":"slider", "min":0.4, "max":1.6, "step":0.05}'
+    - '// @input float countHeightCm = 1.6 {"hint":"Height of the floating count digits in cm. ~1.6 cm reads from ~80 cm and, with its icon, fits a 3 cm cell.", "widget":"slider", "min":1, "max":3.5, "step":0.1}'
+    - '// @input float countLiftFrontCm = 1.3 {"hint":"How far above the rim the evening (front row) counts float, in cm. Looked at from above, ~1.3 cm keeps each count inside its own cell.", "widget":"slider", "min":0.5, "max":4, "step":0.1}'
+    - '// @input float countLiftBackCm = 1.3 {"hint":"How far above the rim the morning (back row) counts float, in cm. Keep it low so, from above, the count never reaches the bottles behind the box.", "widget":"slider", "min":0.5, "max":4, "step":0.1}'
+    - '// @input float dayLabelLiftCm = 0.35 {"hint":"Height of the centre of the MON..SUN labels above the back edge, in cm.", "widget":"slider", "min":0.1, "max":2, "step":0.05}'
+    - '// @input float dayLabelBackCm = 0.5 {"hint":"How far behind the back wall the MON..SUN labels sit, in cm (on the edge, facing up toward the user).", "widget":"slider", "min":0, "max":2, "step":0.05}'
+    - '// @input float dotLiftCm = 0.45 {"hint":"Height of the centre of the progress dots above the back edge, in cm.", "widget":"slider", "min":0.2, "max":1.6, "step":0.05}'
+    - '// @input float dotBackCm = 1.7 {"hint":"How far behind the back wall the progress dots sit, in cm (behind the day labels, in front of the bottles).", "widget":"slider", "min":0.5, "max":3, "step":0.05}'
     - "// @input vec4 doseChangeColor = \"{1.0,0.55,0.12,1}\" {\"hint\":\"Doctor's change: colour of the pulsing rings, counts and label (bright orange).\", \"widget\":\"color\"}"
     - '// @ui {"widget":"group_end"}'

@@ -9,7 +9,7 @@ import {Scenario} from "Leaf.lspkg/Scenarios/scenario/Scenario"
 import {sleep} from "Leaf.lspkg/Utils/common/Utils"
 import {SundaySortMain} from "../../Scripts/SundaySortMain"
 import {DOSE_KEYS, openDoseChange, readDim, setupFinishedWeek} from "./C5DoseChangeSteps"
-import {CameraGuard, CheckList, pinch, shown, visibleCellKeys, waitForLens} from "./SundaySortLeafHelpers"
+import {CameraGuard, LeafHeadTurner, pitchDownToBox, CheckList, pinch, shown, visibleCellKeys, waitForLens} from "./SundaySortLeafHelpers"
 
 export const C5B_ID = "c5b-doctors-change-undo"
 
@@ -19,9 +19,12 @@ export class C5bDoctorsChangeUndoScenario extends Scenario {
     const c = new CheckList(C5B_ID)
     const main = await waitForLens()
     const guard = new CameraGuard(C5B_ID, main.cameraObject)
+    let head: LeafHeadTurner | null = null
     try {
+      head = await pitchDownToBox(c, main, guard)
       await this.steps(c, main)
     } finally {
+      if (head) head.dispose()
       await guard.restore()
     }
     c.finish()
@@ -29,7 +32,7 @@ export class C5bDoctorsChangeUndoScenario extends Scenario {
 
   private async steps(c: CheckList, main: SundaySortMain): Promise<void> {
     const dim = await readDim()
-    await setupFinishedWeek(c, main, C5B_ID)
+    await setupFinishedWeek(c, main, C5B_ID, false) // bottle-card layout is asserted once, in c5-doctors-change
     await openDoseChange(c, main, dim)
 
     const chimesBefore = main.doneChimeCount

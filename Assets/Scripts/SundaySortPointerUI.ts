@@ -45,9 +45,9 @@ export class SundaySortPointerUI extends BaseScriptComponent {
   @ui.label('<span style="color: #60A5FA;">Settings</span>')
   @ui.group_start("Settings")
   @input
-  @hint("Distance from the eyes to the arrow, in cm. Nearer than the box (~60 cm) so the pill floats in front of the counter's edge; scale the SceneObject by distance / 60 to keep its size in view.")
+  @hint("Distance from the eyes to the arrow, in cm. Nearer than the box (~80 cm away, below) so the pill floats in the air above the counter; scale the SceneObject by distance / 60 to keep its size in view.")
   @widget(new SliderWidget(30, 120, 1))
-  distanceCm: number = 36
+  distanceCm: number = 50
 
   @input
   @hint("How close to the view edge the arrow sits (1 = right at the edge).")

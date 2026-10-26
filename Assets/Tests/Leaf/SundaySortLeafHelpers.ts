@@ -379,6 +379,26 @@ export class LeafHeadTurner {
   }
 }
 
+/** Camera pitch in degrees (negative = looking down). */
+export function cameraPitchDeg(main: SundaySortMain): number {
+  const f = main.cameraObject.getTransform().getWorldRotation().multiplyVec3(vec3.back())
+  return (Math.asin(Math.max(-1, Math.min(1, f.y))) * 180) / Math.PI
+}
+
+/**
+ * The user's working pose: pause DeviceTracking and pitch the head down with
+ * LEAF's IK HeadController until the box top centre is centred in view
+ * (≈ -60° at the start position). Returns the head turner (dispose it, then
+ * CameraGuard.restore() puts the level pose and tracking back).
+ */
+export async function pitchDownToBox(c: CheckList, main: SundaySortMain, guard: CameraGuard): Promise<LeafHeadTurner> {
+  guard.pauseTracking()
+  const head = new LeafHeadTurner(main.cameraObject)
+  const err = await head.lookAt(main.pillbox.topCenterWorld())
+  c.check(err < 3, "head pitched down to the box (LEAF HeadController)", `${err.toFixed(1)}° off, pitch ${cameraPitchDeg(main).toFixed(1)}°`, "< 3° off the box centre")
+  return head
+}
+
 // ── Screen-space layout ──────────────────────────────────────────────────────
 
 export interface ScreenRect {

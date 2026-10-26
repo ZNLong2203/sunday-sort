@@ -8,6 +8,15 @@
 import {nextFrame, sleep} from "Leaf.lspkg/Utils/common/Utils"
 import {SundaySortMain} from "../../Scripts/SundaySortMain"
 import {
+  buttonFootprints,
+  cellFootprints,
+  checkCardClearOfBottles,
+  checkOverlayClearOfBottles,
+  describeText,
+  overlaps,
+  textRect,
+} from "./SundaySortLayoutChecks"
+import {
   CheckList,
   DAYS,
   FrameRecorder,
@@ -31,7 +40,6 @@ import {
   text,
   textComp,
   visibleCellKeys,
-  labelsOverBottles,
   visibleIcons,
 } from "./SundaySortLeafHelpers"
 
@@ -44,12 +52,17 @@ function isOrange(col: vec4): boolean {
 }
 
 /** Finished week via the API (labelled), checking the card stays hidden until the week is finished. */
-export async function setupFinishedWeek(c: CheckList, main: SundaySortMain, id: string): Promise<void> {
+export async function setupFinishedWeek(c: CheckList, main: SundaySortMain, id: string, assertBottleCards: boolean = true): Promise<void> {
   c.check(!shown("DoctorChangeCard") && !main.isDoctorCardVisible, "doctor card hidden at start", `shown=${shown("DoctorChangeCard")}`, "false")
 
   log(`${id} SETUP (API-driven): selectBottle()+done() for all five bottles`)
   for (let i = 0; i < ALL_IDS.length; i++) {
     main.selectBottle(ALL_IDS[i])
+    if (ALL_IDS[i] !== "vitaminD") {
+      // the bottle card (placed on select) must not cover any counter bottle from the looking-down pose
+      await nextFrame()
+      checkCardClearOfBottles(c, main, "BottleCard", `card for ${ALL_IDS[i]}`, assertBottleCards)
+    }
     main.done()
     if (i === 2) {
       await sleep(200)
@@ -147,15 +160,17 @@ export async function openDoseChange(c: CheckList, main: SundaySortMain, dim: ve
   c.check(text("DoneButtonLabel") === "Done", "Done reads Done", JSON.stringify(text("DoneButtonLabel")), '"Done"')
   c.note(`doctor card visible during the change: ${shown("DoctorChangeCard")}`)
 
-  // Layout note: does the doctor card cover any bottle (pinch-target box) on screen?
-  const cardRect = screenRectOf(main, "DoctorChangeCard")
-  const bottles = [main.bottleMetformin, main.bottleAmlodipine, main.bottleFurosemide, main.bottleAtorvastatin]
-  const covered = bottles
-    .filter((b) => rectsOverlap(cardRect, screenRectOfBox(main, b.getTransform(), b.colliderSizeCm)))
-    .map((b) => b.getSceneObject().name)
-  c.note(`doctor card screen rect ${fmtRect(cardRect)}; bottles it overlaps on screen: ${covered.length ? JSON.stringify(covered) : "none"}`)
-  const over = labelsOverBottles(main, DOSE_KEYS.map((k) => "CellCount_" + k).concat(["DoseChangeLabel"]))
-  c.note(`dose-change labels whose screen anchor falls on a counter bottle: ${over.length ? JSON.stringify(over) : "none"}`)
+  // Layout (looking down): the dose label covers no cell or button; the doctor card covers no bottle.
+  const label = textRect(main, "DoseChangeLabel", "line")
+  if (label) {
+    const hits = overlaps([{name: "DoseChangeLabel", r: label}], cellFootprints(main).concat(buttonFootprints(main)))
+    c.note(`DoseChangeLabel screen rect ${fmtRect(label)} (${describeText("DoseChangeLabel")})`)
+    c.check(hits.length === 0, "DoseChangeLabel overlaps no cell or button", hits.length ? JSON.stringify(hits) : "no overlaps", "no overlaps")
+  } else {
+    c.check(false, "DoseChangeLabel measurable on screen", "no text bounding box", "a bounding box")
+  }
+  checkCardClearOfBottles(c, main, "DoctorChangeCard", "dose change")
+  checkOverlayClearOfBottles(c, main, "dose-change view", false)
 }
 
 export async function readDim(): Promise<vec4> {

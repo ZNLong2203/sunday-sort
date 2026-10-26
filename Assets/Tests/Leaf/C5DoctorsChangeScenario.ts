@@ -19,7 +19,7 @@ import {ScenarioConfig} from "Leaf.lspkg/Scenarios/scenario/ScenarioConfig"
 import {sleep} from "Leaf.lspkg/Utils/common/Utils"
 import {SundaySortMain} from "../../Scripts/SundaySortMain"
 import {openDoseChange, readDim, setupFinishedWeek} from "./C5DoseChangeSteps"
-import {BOTTLE_OBJECTS, CameraGuard, CheckList, FrameRecorder, colorOf, log, meshVisual, obj, pinch, shown, visibleCellKeys, waitForLens} from "./SundaySortLeafHelpers"
+import {BOTTLE_OBJECTS, CameraGuard, LeafHeadTurner, pitchDownToBox, CheckList, FrameRecorder, colorOf, log, meshVisual, obj, pinch, shown, visibleCellKeys, waitForLens} from "./SundaySortLeafHelpers"
 
 export const C5_ID = "c5-doctors-change"
 
@@ -30,9 +30,12 @@ export class C5DoctorsChangeScenario extends Scenario {
     const main = await waitForLens()
     const guard = new CameraGuard(C5_ID, main.cameraObject)
     const stop = config ? config.get("stop_in_dose_change") === "true" : false
+    let head: LeafHeadTurner | null = null
     try {
+      head = await pitchDownToBox(c, main, guard)
       await this.steps(c, main, stop)
     } finally {
+      if (head) head.dispose()
       await guard.restore()
     }
     c.finish()
