@@ -20,6 +20,10 @@ The hard part isn't knowing the schedule. It's keeping your place while your han
 |---|---|---|
 | ![Furosemide: only Monday, Wednesday and Friday mornings light up, each with "½".](docs/images/furosemide-half.png) | ![Check mode: each cell shows a total such as 2½ or 3 with coloured pill dots.](docs/images/check-mode.png) | ![Doctor's change: only Thursday to Sunday mornings glow orange with "-1".](docs/images/doctors-change.png) |
 
+| The forgotten bottle | Week ready |
+|---|---|
+| ![Four bottles ticked; an arrow at the left edge of the view reads "1 left: Vitamin D".](docs/images/vitamin-d-nudge.png) | ![After All checked, a green "Week ready" banner sits on the box.](docs/images/week-ready.png) |
+
 ## Why glasses
 
 - **It shares your view.** On SPECS the camera would recognise the bottle in your hand. In this demo, pinching the bottle stands in for that moment.
