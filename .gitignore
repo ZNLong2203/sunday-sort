@@ -9,12 +9,29 @@
 # skill lives in .agents/skills and is committed.
 /agent/
 
-# ─── Lens Studio ─────────────────────────────────────────────
-# Regenerated on open; never part of the project.
-/Cache/
-/Workspaces/
-*.lsproj.bak
-/Support/StudioLib.d.ts
+# ─── Lens Studio: regenerated on open, never part of the Lens ─
+Cache/**
+PluginsUserPreferences/**
+Support/**
+BackUp/**
+Workspaces/**
+.vscode/**
+/.clad/
+/jsconfig.json
+/tsconfig.json
+/spk_debug_key.pem
+*.lock
+.virtual-scene.json
+leaf_plugin_settings.json
+
+# Lens Studio MCP connection details (local port and token)
+.mcp.json
+.cursor/mcp.json
+.vscode/mcp.json
+.codex/config.toml
+.claude/settings.local.json
+ls-live-instance.json
+ls-live-instance.json.tmp
 
 # ─── Secrets ─────────────────────────────────────────────────
 .env
@@ -23,7 +40,9 @@
 *.pem
 *.key
 
-# ─── OS / editor ─────────────────────────────────────────────
+# ─── OS / editor / media drafts ──────────────────────────────
 .DS_Store
 .idea/
 /node_modules/
+*.mp4
+*.mov
