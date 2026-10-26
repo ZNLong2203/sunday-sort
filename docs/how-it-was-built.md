@@ -22,7 +22,7 @@ Decisions the interview pushed on, and where they landed:
 - CLAD plugin: `ls-clad@ls-extensions`, enabled for this project in [`.claude/settings.json`](../.claude/settings.json).
 - Prompt, in a fresh session: *"Read devpost/design-brief.md and build it for SPECS. Follow the brief closely. Get the basic flow working first, then add detail. Write and run LEAF tests for each done criterion, and tell me which pass."*
 - CLAD's `lens-studio-router` checked the project, the MCP connection and the sign-in, then handed off to the `specs-experience-builder` agent.
-- Assets: five pill bottles from SPECS text-to-3D (`build-mesh`), three chimes from `build-sfx` (done, nudge, week ready), and Material icons for the buttons.
+- Assets: five pill bottles from AI text-to-3D through `build-mesh`, three chimes from `build-sfx` (done, nudge, week ready), and Material icons for the buttons.
 - Logic: twelve TypeScript components in `Assets/Scripts/SundaySort*.ts`. `SundaySortData.ts` holds the sample week; `SundaySortMain.ts` runs the flow.
 - After building, the agent pinched through the flow itself in the preview, then handed testing to CLAD's `live-lens-tester` agent.
 
@@ -50,6 +50,40 @@ Two tool notes from the build:
 
 - Pinching a UI Kit button by name in the preview tool can fail as "obstructed by Collider" (the button's own child collider). Pinching at the button's world position works; LEAF's hand pinch is unaffected.
 - LEAF scenarios that turn the head need the camera's device tracking paused, or the preview resets the turn every frame.
+
+### Fixing with design notes, not code
+
+The brief's last section says to judge the build in the preview and send fixes as design notes. Two rounds of notes changed the Lens more than the first build did.
+
+**Round 2: fit the portrait view, add the doctor's change.** The SPECS preview is portrait, about 33 cm wide at 60 cm, so the box plus a 2x2 group of bottles beside it didn't fit. The notes moved the bottles into one row behind the box, which also cleared the aim problem the reach test found, moved Done and Undo off the cells, and asked for criterion 5.
+
+**Round 3: design for looking down.** Round 2 worked but didn't read. With the box near eye level, the cells were seen almost edge-on, and the counts had to float 4 to 7 cm up to stay visible, so they drew across the bottles:
+
+![Round 2: from near eye level the cells are thin slivers and the -1 counts float over the bottles.](images/before-eye-level.png)
+
+At home you look down at the counter while you sort pills, and SPECS' own guidance says to design around where people already look, often down at their hands or the table. So the counter went to kitchen height, about 90 cm, with the box about 40 cm ahead and below the eyes. From there the 14 cells read as a grid, each count sits inside its own cell, and a small "Look down at your pillbox" hint covers the moment the Lens starts with the box out of view.
+
+| Round 3: metformin | Round 3: check mode |
+|---|---|
+| ![Looking down at the box: metformin's 14 cells lit in cyan, each with "1" and a white pill.](images/metformin.png) | ![Check mode: every cell shows its total, such as 2½ on Monday morning, with one coloured dot per pill.](images/check-mode.png) |
+
+### Final LEAF results
+
+All nine scenarios pass in the preview, each one starting with the head pitched down to the box.
+
+| Scenario | Checks | Result |
+|---|---|---|
+| Look-down hint | Shows at the bottom of the view with a down arrow, hides once the box is in view | Pass |
+| 1. Metformin | Exactly 14 cells with "1"; each count stays inside its cell; nothing covers a cell or a bottle | Pass |
+| 2. Done | Glow fades, chime plays once, the bottle's dot fills and it gets a tick | Pass |
+| 2. Undo | Selection cleared, nothing marked done | Pass |
+| 3. Furosemide | Only MON, WED, FRI mornings, each "½" with a half-pill icon; those day labels brighten | Pass |
+| 4. Vitamin D, check, week ready | One chime from the left and an arrow; then every cell's total and pills; "Week ready" | Pass |
+| 5. Doctor's change, then Done | Only THU to SUN mornings pulse orange with "-1"; Done applies it | Pass |
+| 5. Doctor's change, then Undo | Nothing applied; the card can be reopened | Pass |
+| Reach | A full simulated arm aims at each bottle, Done, Undo and the vitamin D; every aim lands on its own target | Pass |
+
+The layout checks in `SundaySortLayoutChecks.ts` measure on-screen overlap from the looking-down pose, so "nothing covers anything" is tested, not eyeballed. They hold from about 48° to 64° of look-down; past about 66° the bottle cards leave the top of the view.
 
 ## 3. Snags worth knowing about
 
