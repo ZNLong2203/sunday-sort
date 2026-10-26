@@ -1,0 +1,70 @@
+- !<AssetImportMetadata/8ab56f82-1d74-4b76-b21d-8c5b03597709>
+  ImportedAssetIds:
+    TypeScriptAsset: !<reference> a03a8241-e309-47a8-b528-a073fdd39ef2
+  ImporterName: TypeScriptAssetImporter
+  PrimaryAsset: !<reference> a03a8241-e309-47a8-b528-a073fdd39ef2
+  PackageType: NotAPackage
+  LegacyPackagePolicy: ~
+  ExtraData:
+    {}
+  AssetDataMap:
+    TypeScriptAsset: !<own> f004e927-8d47-483e-945c-313b6521e330
+  DependentFiles:
+    []
+  ImporterSettings: !<AssetImporterSettings>
+    {}
+  CompressionSettings: !<own> 00000000-0000-0000-0000-000000000000
+- !<TypeScriptAssetData/f004e927-8d47-483e-945c-313b6521e330>
+  SvgIcon: ""
+  SetupScript:
+    code: ""
+  Description: ""
+  VersionMajor: 0
+  VersionMinor: 0
+  VersionPatch: 0
+  VersionPrerelease: ""
+  UpdateOrder: 0
+  ComponentUid: e9c2eaf5-85a9-4da2-8472-01f7a9a64ce7
+  ExportUid: 00000000-0000-0000-0000-000000000000
+  PackagePolicy: CanBeUnpacked
+  ScriptInputsHidden:
+    arrowColor: false
+    arrowIcon: false
+    cameraObject: false
+    distanceCm: false
+    edgeInset: false
+    plateColor: false
+  ScriptTypesHidden:
+    {}
+  ReadMe: !<reference> 00000000-0000-0000-0000-000000000000
+  DeclarationFile: !<reference> 00000000-0000-0000-0000-000000000000
+  Tags:
+    []
+  Attachments:
+    []
+  DefaultScriptInputs:
+    - cameraObject: !<reference.SceneObject> 00000000-0000-0000-0000-000000000000
+      arrowIcon: !<reference.Texture> 00000000-0000-0000-0000-000000000000
+      distanceCm: !<float> 60.000000
+      edgeInset: 0.880000
+      arrowColor: !<Vec4> {x: 1.000000, y: 0.860000, z: 0.350000, w: 1.000000}
+      plateColor: !<Vec4> {x: 0.100000, y: 0.360000, z: 0.460000, w: 0.900000}
+  ScriptTypes:
+    -
+      {}
+  InputLines:
+    - '// @ui {"widget":"label", "label":"<span style=\"color: #60A5FA;\">SundaySortPointerUI – edge-of-view arrow</span>"}'
+    - '// @ui {"widget":"separator"}'
+    - '// @ui {"widget":"label", "label":"<span style=\"color: #60A5FA;\">References</span>"}'
+    - '// @ui {"widget":"group_start", "label":"References"}'
+    - "// @input SceneObject cameraObject {\"hint\":\"Camera Object — the arrow sits at the edge of this camera's view.\"}"
+    - '// @input Asset.Texture arrowIcon {"hint":"Left-pointing arrow icon; it is rolled to point at the target."}'
+    - '// @ui {"widget":"group_end"}'
+    - '// @ui {"widget":"separator"}'
+    - '// @ui {"widget":"label", "label":"<span style=\"color: #60A5FA;\">Settings</span>"}'
+    - '// @ui {"widget":"group_start", "label":"Settings"}'
+    - '// @input float distanceCm = 60 {"hint":"Distance from the eyes to the arrow, in cm (the box is ~60 cm away).", "widget":"slider", "min":30, "max":120, "step":1}'
+    - '// @input float edgeInset = 0.88 {"hint":"How close to the view edge the arrow sits (1 = right at the edge).", "widget":"slider", "min":0.5, "max":1, "step":0.01}'
+    - '// @input vec4 arrowColor = "{1.0,0.86,0.35,1}" {"hint":"Arrow colour.", "widget":"color"}'
+    - '// @input vec4 plateColor = "{0.10,0.36,0.46,0.9}" {"hint":"Pill fill colour.", "widget":"color"}'
+    - '// @ui {"widget":"group_end"}'

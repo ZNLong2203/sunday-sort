@@ -1,0 +1,79 @@
+- !<AssetImportMetadata/211bd760-9e38-4d7b-b797-635cf5cab017>
+  ImportedAssetIds:
+    TypeScriptAsset: !<reference> deffef83-6d7f-4eb0-a411-dab7b8542b70
+  ImporterName: TypeScriptAssetImporter
+  PrimaryAsset: !<reference> deffef83-6d7f-4eb0-a411-dab7b8542b70
+  PackageType: NotAPackage
+  LegacyPackagePolicy: ~
+  ExtraData:
+    {}
+  AssetDataMap:
+    TypeScriptAsset: !<own> 34fa1219-094f-48ad-b2d8-e3dc3c50d9d9
+  DependentFiles:
+    []
+  ImporterSettings: !<AssetImporterSettings>
+    {}
+  CompressionSettings: !<own> 00000000-0000-0000-0000-000000000000
+- !<TypeScriptAssetData/34fa1219-094f-48ad-b2d8-e3dc3c50d9d9>
+  SvgIcon: ""
+  SetupScript:
+    code: ""
+  Description: ""
+  VersionMajor: 0
+  VersionMinor: 0
+  VersionPatch: 0
+  VersionPrerelease: ""
+  UpdateOrder: 0
+  ComponentUid: 949f4c7c-20db-45f1-a86f-a9f1cee29a86
+  ExportUid: 00000000-0000-0000-0000-000000000000
+  PackagePolicy: CanBeUnpacked
+  ScriptInputsHidden:
+    allCheckedIcon: false
+    allCheckedLabel: false
+    buttonGapCm: false
+    doneIcon: false
+    doneLabel: false
+    doneWidthCm: false
+    undoIcon: false
+    undoLabel: false
+    undoWidthCm: false
+  ScriptTypesHidden:
+    {}
+  ReadMe: !<reference> 00000000-0000-0000-0000-000000000000
+  DeclarationFile: !<reference> 00000000-0000-0000-0000-000000000000
+  Tags:
+    []
+  Attachments:
+    []
+  DefaultScriptInputs:
+    - doneIcon: !<reference.Texture> 00000000-0000-0000-0000-000000000000
+      allCheckedIcon: !<reference.Texture> 00000000-0000-0000-0000-000000000000
+      undoIcon: !<reference.Texture> 00000000-0000-0000-0000-000000000000
+      doneLabel: Done
+      allCheckedLabel: All checked
+      undoLabel: Undo
+      doneWidthCm: !<float> 8.000000
+      undoWidthCm: !<float> 5.000000
+      buttonGapCm: 1.200000
+  ScriptTypes:
+    -
+      {}
+  InputLines:
+    - '// @ui {"widget":"label", "label":"<span style=\"color: #60A5FA;\">SundaySortControlsUI – Done / Undo at the box corner</span>"}'
+    - '// @ui {"widget":"separator"}'
+    - '// @ui {"widget":"label", "label":"<span style=\"color: #60A5FA;\">References</span>"}'
+    - '// @ui {"widget":"group_start", "label":"References"}'
+    - '// @input Asset.Texture doneIcon {"hint":"Icon on the Done button."}'
+    - "// @input Asset.Texture allCheckedIcon {\"hint\":\"Icon on the button while it reads 'All checked'.\"}"
+    - '// @input Asset.Texture undoIcon {"hint":"Icon on the Undo button."}'
+    - '// @ui {"widget":"group_end"}'
+    - '// @ui {"widget":"separator"}'
+    - '// @ui {"widget":"label", "label":"<span style=\"color: #60A5FA;\">Settings</span>"}'
+    - '// @ui {"widget":"group_start", "label":"Settings"}'
+    - '// @input string doneLabel = "Done" {"hint":"Done button label while sorting."}'
+    - "// @input string allCheckedLabel = \"All checked\" {\"hint\":\"Same button's label in check mode.\"}"
+    - '// @input string undoLabel = "Undo" {"hint":"Undo button label."}'
+    - '// @input float doneWidthCm = 8 {"hint":"Done button width in cm (brief: about 8 cm — one easy pinch).", "widget":"slider", "min":5, "max":12, "step":0.5}'
+    - '// @input float undoWidthCm = 5 {"hint":"Undo button width in cm (smaller than Done).", "widget":"slider", "min":3, "max":8, "step":0.5}'
+    - '// @input float buttonGapCm = 1.2 {"hint":"Gap between Undo and Done, in cm.", "widget":"slider", "min":0.3, "max":4, "step":0.1}'
+    - '// @ui {"widget":"group_end"}'

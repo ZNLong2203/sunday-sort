@@ -1,0 +1,103 @@
+- !<AssetImportMetadata/fe0899dd-bfc0-4b3f-90e4-b8e7ac786674>
+  ImportedAssetIds:
+    TypeScriptAsset: !<reference> 713256c9-f26f-4dce-ac0a-615ce0f89939
+  ImporterName: TypeScriptAssetImporter
+  PrimaryAsset: !<reference> 713256c9-f26f-4dce-ac0a-615ce0f89939
+  PackageType: NotAPackage
+  LegacyPackagePolicy: ~
+  ExtraData:
+    {}
+  AssetDataMap:
+    TypeScriptAsset: !<own> c958e1f5-a5fd-4e4f-91c0-e307be8f726e
+  DependentFiles:
+    []
+  ImporterSettings: !<AssetImporterSettings>
+    {}
+  CompressionSettings: !<own> 00000000-0000-0000-0000-000000000000
+- !<TypeScriptAssetData/c958e1f5-a5fd-4e4f-91c0-e307be8f726e>
+  SvgIcon: ""
+  SetupScript:
+    code: ""
+  Description: ""
+  VersionMajor: 0
+  VersionMinor: 0
+  VersionPatch: 0
+  VersionPrerelease: ""
+  UpdateOrder: 0
+  ComponentUid: 01e3258d-e98a-491d-9d36-ca7916210709
+  ExportUid: 00000000-0000-0000-0000-000000000000
+  PackagePolicy: CanBeUnpacked
+  ScriptInputsHidden:
+    audio: false
+    bottleAmlodipine: false
+    bottleAtorvastatin: false
+    bottleFurosemide: false
+    bottleMetformin: false
+    bottleVitaminD: false
+    cameraObject: false
+    card: false
+    controls: false
+    debugColliders: false
+    nudgeTemplate: false
+    overlay: false
+    pillbox: false
+    pointer: false
+    turnBackLabel: false
+    viewMargin: false
+    weekReadySeconds: false
+  ScriptTypesHidden:
+    {}
+  ReadMe: !<reference> 00000000-0000-0000-0000-000000000000
+  DeclarationFile: !<reference> 00000000-0000-0000-0000-000000000000
+  Tags:
+    []
+  Attachments:
+    []
+  DefaultScriptInputs:
+    - pillbox: !<MappingBased.AssignableType_1> 00000000-0000-0000-0000-000000000000
+      overlay: !<MappingBased.AssignableType_2> 00000000-0000-0000-0000-000000000000
+      card: !<MappingBased.AssignableType_3> 00000000-0000-0000-0000-000000000000
+      controls: !<MappingBased.AssignableType_4> 00000000-0000-0000-0000-000000000000
+      pointer: !<MappingBased.AssignableType_5> 00000000-0000-0000-0000-000000000000
+      audio: !<MappingBased.AssignableType_6> 00000000-0000-0000-0000-000000000000
+      bottleMetformin: !<MappingBased.AssignableType_7> 00000000-0000-0000-0000-000000000000
+      bottleAmlodipine: !<MappingBased.AssignableType_8> 00000000-0000-0000-0000-000000000000
+      bottleFurosemide: !<MappingBased.AssignableType_9> 00000000-0000-0000-0000-000000000000
+      bottleAtorvastatin: !<MappingBased.AssignableType_10> 00000000-0000-0000-0000-000000000000
+      bottleVitaminD: !<MappingBased.AssignableType_11> 00000000-0000-0000-0000-000000000000
+      cameraObject: !<reference.SceneObject> 00000000-0000-0000-0000-000000000000
+      weekReadySeconds: !<float> 3.000000
+      nudgeTemplate: "1 left: {name}"
+      turnBackLabel: Back to the box
+      viewMargin: 0.050000
+      debugColliders: false
+  ScriptTypes:
+    -
+      {}
+  InputLines:
+    - '// @ui {"widget":"label", "label":"<span style=\"color: #60A5FA;\">SundaySortMain – Sunday Sort controller</span>"}'
+    - '// @ui {"widget":"separator"}'
+    - '// @ui {"widget":"label", "label":"<span style=\"color: #60A5FA;\">References</span>"}'
+    - '// @ui {"widget":"group_start", "label":"References"}'
+    - "// @input AssignableType_1 pillbox {\"hint\":\"The pillbox stand-in (cell geometry, 'is the box in view').\"}"
+    - '// @input AssignableType_2 overlay {"hint":"Overlay drawn on the box: rings, counts, day labels, dots, Week ready."}'
+    - '// @input AssignableType_3 card {"hint":"Card shown above the pinched bottle."}'
+    - '// @input AssignableType_4 controls {"hint":"Done / Undo buttons."}'
+    - '// @input AssignableType_5 pointer {"hint":"Edge-of-view arrow."}'
+    - '// @input AssignableType_6 audio {"hint":"Chimes."}'
+    - '// @input AssignableType_7 bottleMetformin {"hint":"Metformin bottle."}'
+    - '// @input AssignableType_8 bottleAmlodipine {"hint":"Amlodipine bottle."}'
+    - '// @input AssignableType_9 bottleFurosemide {"hint":"Furosemide bottle."}'
+    - '// @input AssignableType_10 bottleAtorvastatin {"hint":"Atorvastatin bottle."}'
+    - '// @input AssignableType_11 bottleVitaminD {"hint":"Vitamin D bottle (on the shelf to the left)."}'
+    - '// @input SceneObject cameraObject {"hint":"Camera Object — used to tell what is in view."}'
+    - '// @ui {"widget":"group_end"}'
+    - '// @ui {"widget":"separator"}'
+    - '// @ui {"widget":"label", "label":"<span style=\"color: #60A5FA;\">Settings</span>"}'
+    - '// @ui {"widget":"group_start", "label":"Settings"}'
+    - "// @input float weekReadySeconds = 3 {\"hint\":\"How long 'Week ready' stays on the box before everything fades, in seconds.\", \"widget\":\"slider\", \"min\":1, \"max\":8, \"step\":0.5}"
+    - "// @input string nudgeTemplate = \"1 left: {name}\" {\"hint\":\"Nudge text when only the out-of-view bottle is left. {name} is replaced by the bottle's short name.\"}"
+    - '// @input string turnBackLabel = "Back to the box" {"hint":"Arrow text when a bottle is selected and the box is out of view."}'
+    - "// @input float viewMargin = 0.05 {\"hint\":\"Screen-edge margin (fraction of the view) a point must be inside to count as 'in view'.\", \"widget\":\"slider\", \"min\":0, \"max\":0.3, \"step\":0.01}"
+    - '// @input bool debugColliders {"hint":"Debug: draw every collider as a wireframe (takes effect on preview restart)."}'
+    - '// @ui {"widget":"group_end"}'
