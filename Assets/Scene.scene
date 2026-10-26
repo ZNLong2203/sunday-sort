@@ -4,6 +4,10 @@
     - !<own> 00000000-0000-0065-0000-000000000064
     - !<own> 0005641c-028d-459a-0000-000000014b4d
     - !<own> f5d74682-203a-4970-81ea-9fa7b88c96bb
+    - !<own> 07612024-c62b-4995-a0de-fda0e3e84f75
+    - !<own> 4fbce8a3-b5a4-4fc2-9f2e-2c208a46653b
+    - !<own> 205e6c39-914e-4e8c-9894-4d07430dc933
+    - !<own> 6de99b08-4cb9-4451-b4a7-bc8f9f7b08bd
   layers: !<Layers/267ee9a7-aff2-4f9d-9a49-f71214747d03>
     userLayers:
       - id: 1
@@ -33,6 +37,7 @@
   Components:
     - !<own> 00000000-0000-0065-0000-000000000065
     - !<own> e5553c8a-0b7e-4ef4-92d9-3e1318fb82c1
+    - !<own> 0d4fcb30-56ee-4195-88e3-5b7f13437869
 - !<Camera/00000000-0000-0065-0000-000000000065>
   PrefabRemaps:
     []
@@ -234,6 +239,91 @@
     []
   Components:
     []
+- !<SceneObject/0646e58d-6327-4a97-bc60-629ba1acce14>
+  PrefabRemaps:
+    []
+  Name: BottleVisual_Metformin
+  Enabled: true
+  Layers: 1
+  LocalTransform: !<TransformEntity>
+    Position: {x: 0.000000, y: -4.000000, z: 0.000000}
+    Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Scale: {x: 1.000000, y: 1.000000, z: 1.000000}
+    HasSegmentScaleCompensation: false
+  Children:
+    - !<own> e82e477a-d07c-4fd8-91ca-ffcfa56be5d7
+  Components:
+    []
+- !<SceneObject/067d18b9-1786-4902-8e3d-040ef5f443de>
+  PrefabRemaps:
+    []
+  Name: Scene
+  Enabled: true
+  Layers: 1
+  LocalTransform: !<TransformEntity>
+    Position: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Scale: {x: 1.000000, y: 1.000000, z: 1.000000}
+    HasSegmentScaleCompensation: false
+  Children:
+    - !<own> a4510532-825f-417b-b8d0-91e3c61068bf
+  Components:
+    []
+- !<SceneObject/07612024-c62b-4995-a0de-fda0e3e84f75>
+  PrefabRemaps:
+    []
+  Name: SundaySortMain
+  Enabled: true
+  Layers: 1
+  LocalTransform: !<TransformEntity>
+    Position: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Scale: {x: 1.000000, y: 1.000000, z: 1.000000}
+    HasSegmentScaleCompensation: false
+  Children:
+    - !<own> ccfad242-1bcb-455f-ad97-cd8a9cdbae6d
+    - !<own> 2edd70f1-1f39-40a1-b407-b7ed83cb154a
+    - !<own> 0b4daa6d-feaf-4a61-ab3f-82e3a3a40be8
+    - !<own> a9d59e1c-9b6c-4d62-bbc1-4cf4558e654b
+    - !<own> 79317d9f-d2a8-4e0c-a6ad-cce141e788da
+  Components:
+    - !<own> af4653d4-4329-4cb9-8618-52f97268f25f
+- !<RenderMeshVisual/07ab0995-1d19-4485-925f-d27381d0859d>
+  PrefabRemaps:
+    []
+  Name: geometry_0
+  Enabled: true
+  RenderOrder: 0
+  StretchMode: Stretch
+  VerticalAlignment: Center
+  HorizontalAlignment: Center
+  MeshShadowMode: None
+  ShadowColor: {x: 1.000000, y: 1.000000, z: 1.000000, w: 1.000000}
+  ShadowDensity: 1.000000
+  Materials:
+    - !<reference> 2e1de229-7001-438c-995f-e2751a183128
+  Mesh: !<reference> 1ae641b8-f330-41f0-9e37-5ff98a50cf46
+  Skin: !<reference> 00000000-0000-0000-0000-000000000000
+  BlendShapesEnabled: true
+  BlendNormals: false
+  BlendShapes:
+    {}
+- !<ScriptComponent/083decbc-07ba-4b4f-98ee-f1284ba67d52>
+  PrefabRemaps:
+    []
+  Name: MessagingBridge
+  Enabled: true
+  ScriptAsset: !<reference> 9aa407db-2872-4afc-a162-cf7faf2a0f29
+  ScriptInputsDefault:
+    {}
+  ScriptTypesDefault:
+    {}
+  ScriptInputs:
+    "":
+      {}
+  ScriptTypes:
+    "":
+      {}
 - !<ScriptComponent/0847d2bb-a13f-4c4a-a404-169f67308f6f>
   PrefabRemaps:
     []
@@ -364,6 +454,25 @@
     - !<own> 05147ea1-cb6b-4629-9484-199a4aa4d92a
   Components:
     []
+- !<SceneObject/0b4daa6d-feaf-4a61-ab3f-82e3a3a40be8>
+  PrefabRemaps:
+    []
+  Name: Bottles
+  Enabled: true
+  Layers: 1
+  LocalTransform: !<TransformEntity>
+    Position: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Scale: {x: 1.000000, y: 1.000000, z: 1.000000}
+    HasSegmentScaleCompensation: false
+  Children:
+    - !<own> 4ed5c47e-8e91-4f52-aaab-13400ce8052b
+    - !<own> 6cb9ad4a-92f3-4fbf-a44c-acdea5f3f021
+    - !<own> 37e6541b-0efc-4b07-be50-9df5a9c0a7c8
+    - !<own> f5e9a82d-5d23-41cd-bef4-87e793d4b12f
+    - !<own> 3421d506-03a6-4b83-82f1-713d917b5e22
+  Components:
+    []
 - !<SceneObject/0c355300-e635-47c1-a8c3-5ddef30b8824>
   PrefabRemaps:
     []
@@ -394,6 +503,11 @@
     []
   Components:
     []
+- !<AudioListenerComponent/0d4fcb30-56ee-4195-88e3-5b7f13437869>
+  PrefabRemaps:
+    []
+  Name: Audio Listener
+  Enabled: true
 - !<SceneObject/0e778a10-bd57-4a2a-b20a-b6f4326e8058>
   PrefabRemaps:
     []
@@ -496,6 +610,21 @@
     - !<own> a6af4948-9adc-4052-ae22-db902dd2764e
   Components:
     []
+- !<SceneObject/139f6c54-5c17-4383-ba11-3b3591beac68>
+  PrefabRemaps:
+    []
+  Name: Scenes
+  Enabled: true
+  Layers: 1
+  LocalTransform: !<TransformEntity>
+    Position: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Scale: {x: 1.000000, y: 1.000000, z: 1.000000}
+    HasSegmentScaleCompensation: false
+  Children:
+    - !<own> 067d18b9-1786-4902-8e3d-040ef5f443de
+  Components:
+    []
 - !<SceneObject/181c239f-175e-4912-94fc-d37a2599b2d6>
   PrefabRemaps:
     []
@@ -511,6 +640,53 @@
     []
   Components:
     []
+- !<ScriptComponent/1db664e4-3abc-48e6-8190-c3c3076ef905>
+  PrefabRemaps:
+    []
+  Name: LeafIndex
+  Enabled: true
+  ScriptAsset: !<reference> ef7b1f98-b26f-4c42-bec0-e536a3f9638f
+  ScriptInputsDefault:
+    {}
+  ScriptTypesDefault:
+    {}
+  ScriptInputs:
+    "":
+      {}
+  ScriptTypes:
+    "":
+      {}
+- !<SceneObject/1ed29961-53eb-4fce-b406-6ba6c6ba0b08>
+  PrefabRemaps:
+    []
+  Name: geometry_0
+  Enabled: true
+  Layers: 1
+  LocalTransform: !<TransformEntity>
+    Position: {x: 0.000000, y: 0.040000, z: 0.000000}
+    Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Scale: {x: 1.000000, y: 1.000000, z: 1.000000}
+    HasSegmentScaleCompensation: false
+  Children:
+    []
+  Components:
+    - !<own> f86b7ad5-b588-48b6-acde-5cd115156750
+- !<ScriptComponent/1f5769c0-9614-4a23-9734-2eac789f5d71>
+  PrefabRemaps:
+    []
+  Name: AgentInteractScript
+  Enabled: true
+  ScriptAsset: !<reference> 29091811-e792-46be-bfa4-28ddec5f11be
+  ScriptInputsDefault:
+    {}
+  ScriptTypesDefault:
+    {}
+  ScriptInputs:
+    "":
+      {}
+  ScriptTypes:
+    "":
+      {}
 - !<RenderMeshVisual/1f969daa-5809-4500-b314-98d91ccba131>
   PrefabRemaps:
     []
@@ -546,6 +722,21 @@
     []
   Components:
     - !<own> e1031f7e-3474-489f-a529-282f7192f812
+- !<SceneObject/205e6c39-914e-4e8c-9894-4d07430dc933>
+  PrefabRemaps:
+    []
+  Name: LeafIndex
+  Enabled: true
+  Layers: 1
+  LocalTransform: !<TransformEntity>
+    Position: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Scale: {x: 1.000000, y: 1.000000, z: 1.000000}
+    HasSegmentScaleCompensation: false
+  Children:
+    []
+  Components:
+    - !<own> 1db664e4-3abc-48e6-8190-c3c3076ef905
 - !<SceneObject/23018601-1041-4785-a20e-9ad5ab722f95>
   PrefabRemaps:
     []
@@ -693,6 +884,65 @@
     ring-3_end_end_end: !<reference> b93dfa60-41bd-4999-ac0f-4b2f1df2bdaf
     thumb-3_end_end_end_end: !<reference> 08e3cc22-f2e1-49fb-9ddc-145fe6547ce3
     pinky-3_end_end: !<reference> d08269e3-acd4-4156-b5b9-477ca259611d
+- !<RenderMeshVisual/2b9c0e1b-c561-4fbf-90a8-e42cb3aa0cd0>
+  PrefabRemaps:
+    []
+  Name: geometry_0
+  Enabled: true
+  RenderOrder: 0
+  StretchMode: Stretch
+  VerticalAlignment: Center
+  HorizontalAlignment: Center
+  MeshShadowMode: None
+  ShadowColor: {x: 1.000000, y: 1.000000, z: 1.000000, w: 1.000000}
+  ShadowDensity: 1.000000
+  Materials:
+    - !<reference> d2c6544e-e7c6-4087-a687-2ad333197be8
+  Mesh: !<reference> a68e9952-40f0-4359-8c2c-980567004b7a
+  Skin: !<reference> 00000000-0000-0000-0000-000000000000
+  BlendShapesEnabled: true
+  BlendNormals: false
+  BlendShapes:
+    {}
+- !<SceneObject/2cfc25bd-a95c-4e19-b2c2-42ba063603af>
+  PrefabRemaps:
+    []
+  Name: BottleCardUI
+  Enabled: true
+  Layers: 1
+  LocalTransform: !<TransformEntity>
+    Position: {x: 15.750000, y: 2.000000, z: -62.000000}
+    Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Scale: {x: 1.000000, y: 1.000000, z: 1.000000}
+    HasSegmentScaleCompensation: false
+  Children:
+    []
+  Components:
+    - !<own> 60ab39fd-9523-4a49-991c-21aacc1f7d00
+- !<ScriptComponent/2d7ec838-da56-4e28-a4c6-5ec5da74e8b5>
+  PrefabRemaps:
+    []
+  Name: SundaySortPointerUI
+  Enabled: true
+  ScriptAsset: !<reference> a03a8241-e309-47a8-b528-a073fdd39ef2
+  ScriptInputsDefault:
+    distanceCm: true
+    edgeInset: true
+    arrowColor: true
+    plateColor: true
+  ScriptTypesDefault:
+    {}
+  ScriptInputs:
+    "":
+      cameraObject: !<reference.SceneObject> 00000000-0000-0065-0000-000000000064
+      arrowIcon: !<reference.Texture> 0cf8a7ff-46a8-424c-b1bf-ec2c49b9f4f5
+      distanceCm: !<float> 60.000000
+      edgeInset: 0.880000
+      arrowColor: !<Vec4> {x: 1.000000, y: 0.860000, z: 0.350000, w: 1.000000}
+      plateColor: !<Vec4> {x: 0.100000, y: 0.360000, z: 0.460000, w: 0.900000}
+  ScriptTypes:
+    "":
+      {}
 - !<SceneObject/2dae2a27-8ce6-466a-8bff-622195c1b3a8>
   PrefabRemaps:
     []
@@ -708,6 +958,21 @@
     - !<own> a7da4af4-3d84-4acd-a31e-920a56b4c5c8
   Components:
     []
+- !<SceneObject/2edd70f1-1f39-40a1-b407-b7ed83cb154a>
+  PrefabRemaps:
+    []
+  Name: Pillbox
+  Enabled: true
+  Layers: 1
+  LocalTransform: !<TransformEntity>
+    Position: {x: -5.000000, y: -16.000000, z: -64.000000}
+    Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Scale: {x: 1.000000, y: 1.000000, z: 1.000000}
+    HasSegmentScaleCompensation: false
+  Children:
+    - !<own> 3c6f70ea-9ffb-434a-964e-c9f8ebde887c
+  Components:
+    - !<own> b63923a9-3a43-4605-9922-86b91cb40254
 - !<RenderMeshVisual/335c5f8b-2917-49e8-8af5-220696e9bc09>
   PrefabRemaps:
     []
@@ -743,6 +1008,51 @@
     - !<own> e42bbb9f-e951-4432-be2e-3cc712b1fc33
   Components:
     []
+- !<SceneObject/340385c0-8bf4-4f9a-a20d-10a9eba127cd>
+  PrefabRemaps:
+    []
+  Name: Scenes
+  Enabled: true
+  Layers: 1
+  LocalTransform: !<TransformEntity>
+    Position: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Scale: {x: 1.000000, y: 1.000000, z: 1.000000}
+    HasSegmentScaleCompensation: false
+  Children:
+    - !<own> cd0f2cbf-e0bd-493a-a336-65fc75831c0d
+  Components:
+    []
+- !<SceneObject/3421d506-03a6-4b83-82f1-713d917b5e22>
+  PrefabRemaps:
+    []
+  Name: Bottle_VitaminD
+  Enabled: true
+  Layers: 1
+  LocalTransform: !<TransformEntity>
+    Position: {x: -50.000000, y: -4.250000, z: -30.000000}
+    Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Scale: {x: 1.000000, y: 1.000000, z: 1.000000}
+    HasSegmentScaleCompensation: false
+  Children:
+    - !<own> c67ba66b-a4b9-47ce-b7b9-807f1276559a
+  Components:
+    - !<own> f48d186c-9d0b-4c69-af41-31d009c7c618
+- !<SceneObject/342e54c9-26b3-4e33-af7d-65466a177686>
+  PrefabRemaps:
+    []
+  Name: Counter
+  Enabled: true
+  Layers: 1
+  LocalTransform: !<TransformEntity>
+    Position: {x: 0.000000, y: -18.000000, z: -66.000000}
+    Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Scale: {x: 120.000000, y: 4.000000, z: 48.000000}
+    HasSegmentScaleCompensation: false
+  Children:
+    []
+  Components:
+    - !<own> b543dc33-3238-4793-94b4-468397dc4cea
 - !<RenderMeshVisual/35501b69-b651-41e6-9b64-72a252df8105>
   PrefabRemaps:
     []
@@ -779,6 +1089,45 @@
     - !<own> cec12eef-3a06-4b4a-b0ba-3de212ca34dc
   Components:
     []
+- !<ScriptComponent/37c365e8-9e8a-403d-b847-e0f753dbdb08>
+  PrefabRemaps:
+    []
+  Name: SundaySortBottle
+  Enabled: true
+  ScriptAsset: !<reference> 9de67fea-74e5-4160-be0f-6705191cf31b
+  ScriptInputsDefault:
+    highlightColor: true
+    hoverScale: true
+  ScriptTypesDefault:
+    {}
+  ScriptInputs:
+    "":
+      bottleId: furosemide
+      visual: !<reference.SceneObject> 6e7e09ca-e5df-42f8-b10d-23fcec21ff44
+      tickIcon: !<reference.Texture> 54f874c8-f07a-4640-a4f2-2211fcbbf65a
+      overlayMaterial: !<reference.Material> 4d5da0e1-bb1f-4c32-b483-1653c2f43d1f
+      cameraObject: !<reference.SceneObject> 00000000-0000-0065-0000-000000000064
+      colliderSizeCm: !<Vec3> {x: 4.800000, y: 9.000000, z: 4.800000}
+      highlightColor: !<Vec4> {x: 0.200000, y: 0.950000, z: 1.000000, w: 1.000000}
+      hoverScale: 1.070000
+  ScriptTypes:
+    "":
+      {}
+- !<SceneObject/37e6541b-0efc-4b07-be50-9df5a9c0a7c8>
+  PrefabRemaps:
+    []
+  Name: Bottle_Furosemide
+  Enabled: true
+  Layers: 1
+  LocalTransform: !<TransformEntity>
+    Position: {x: 8.750000, y: -12.000000, z: -62.000000}
+    Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Scale: {x: 1.000000, y: 1.000000, z: 1.000000}
+    HasSegmentScaleCompensation: false
+  Children:
+    - !<own> 6e7e09ca-e5df-42f8-b10d-23fcec21ff44
+  Components:
+    - !<own> 37c365e8-9e8a-403d-b847-e0f753dbdb08
 - !<SceneObject/38562bff-09c5-4232-bff1-7ea62a1e7ec5>
   PrefabRemaps:
     []
@@ -792,6 +1141,21 @@
     HasSegmentScaleCompensation: false
   Children:
     - !<own> 4051028a-c608-4a97-b3d5-1a3912a7c007
+  Components:
+    []
+- !<SceneObject/3a51346f-c794-4b68-9dfa-0d5f95d9fde2>
+  PrefabRemaps:
+    []
+  Name: Scene
+  Enabled: true
+  Layers: 1
+  LocalTransform: !<TransformEntity>
+    Position: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Scale: {x: 1.000000, y: 1.000000, z: 1.000000}
+    HasSegmentScaleCompensation: false
+  Children:
+    - !<own> 1ed29961-53eb-4fce-b406-6ba6c6ba0b08
   Components:
     []
 - !<SceneObject/3a794764-c758-4d72-9d89-bf3ed978113f>
@@ -824,6 +1188,21 @@
     - !<own> 54130007-65c1-48d3-b9df-0866d8112e01
   Components:
     []
+- !<SceneObject/3c6f70ea-9ffb-434a-964e-c9f8ebde887c>
+  PrefabRemaps:
+    []
+  Name: BoxOverlay
+  Enabled: true
+  Layers: 1
+  LocalTransform: !<TransformEntity>
+    Position: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Scale: {x: 1.000000, y: 1.000000, z: 1.000000}
+    HasSegmentScaleCompensation: false
+  Children:
+    []
+  Components:
+    - !<own> 7207d4fc-8a56-4964-964e-80a65cefc28c
 - !<SceneObject/3de2c7ea-1525-465a-9056-68565a4014a7>
   PrefabRemaps:
     []
@@ -884,6 +1263,30 @@
     []
   Components:
     []
+- !<ScriptComponent/458d617d-60fc-45fa-9fc5-0fcc22d70043>
+  PrefabRemaps:
+    []
+  Name: SundaySortBottle
+  Enabled: true
+  ScriptAsset: !<reference> 9de67fea-74e5-4160-be0f-6705191cf31b
+  ScriptInputsDefault:
+    highlightColor: true
+    hoverScale: true
+  ScriptTypesDefault:
+    {}
+  ScriptInputs:
+    "":
+      bottleId: amlodipine
+      visual: !<reference.SceneObject> 54627db4-8248-4645-9c14-f3e3bcc6e917
+      tickIcon: !<reference.Texture> 54f874c8-f07a-4640-a4f2-2211fcbbf65a
+      overlayMaterial: !<reference.Material> 4d5da0e1-bb1f-4c32-b483-1653c2f43d1f
+      cameraObject: !<reference.SceneObject> 00000000-0000-0065-0000-000000000064
+      colliderSizeCm: !<Vec3> {x: 4.800000, y: 9.000000, z: 4.800000}
+      highlightColor: !<Vec4> {x: 0.200000, y: 0.950000, z: 1.000000, w: 1.000000}
+      hoverScale: 1.070000
+  ScriptTypes:
+    "":
+      {}
 - !<SceneObject/46b79537-a269-46f1-9483-500d7a4170d6>
   PrefabRemaps:
     []
@@ -914,6 +1317,25 @@
     - !<own> 8fe2a532-9bf3-4cde-b598-04ce5470718d
   Components:
     []
+- !<SceneObject/49ce9fe4-e112-493c-8ba2-16ba73d87371>
+  PrefabRemaps:
+    - 340385c0-8bf4-4f9a-a20d-10a9eba127cd: 38a28051-8955-463f-71c7-6c50ed48029d
+    - 49ce9fe4-e112-493c-8ba2-16ba73d87371: 048e909c-020b-42b7-4746-04109fb6bf24
+    - 9549c070-b525-4414-a850-34d5e20c5fb6: 7f449b91-d6a3-4676-76c8-4d9c1ac3f7f0
+    - cd0f2cbf-e0bd-493a-a336-65fc75831c0d: fb5b8260-ce7e-495b-728c-845fb0211739
+    - ddfe6af6-8b30-42c3-b6fd-dac8a544e204: 59286d20-29e8-46bb-65cb-27d9ed5690e2
+  Name: AtorvastatinMesh
+  Enabled: true
+  Layers: 1
+  LocalTransform: !<TransformEntity>
+    Position: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Scale: {x: 100.000000, y: 100.000000, z: 100.000000}
+    HasSegmentScaleCompensation: false
+  Children:
+    - !<own> 340385c0-8bf4-4f9a-a20d-10a9eba127cd
+  Components:
+    []
 - !<SceneObject/4c195c04-c397-454e-bd08-3485f37d84fe>
   PrefabRemaps:
     []
@@ -927,6 +1349,25 @@
     HasSegmentScaleCompensation: false
   Children:
     - !<own> 9c3a7929-faa9-4369-a85c-c75a6ab4eee7
+  Components:
+    []
+- !<SceneObject/4c8fa4ec-4ff1-4677-b758-f79d34a5f860>
+  PrefabRemaps:
+    - 067d18b9-1786-4902-8e3d-040ef5f443de: 51e96219-7044-47fa-69cc-bab7213fd684
+    - 139f6c54-5c17-4383-ba11-3b3591beac68: 53e7e0a7-ba24-40c1-707d-a88676f237d0
+    - 2b9c0e1b-c561-4fbf-90a8-e42cb3aa0cd0: 83a75a19-57a7-4e90-5bd5-6d5002cf4cb5
+    - 4c8fa4ec-4ff1-4677-b758-f79d34a5f860: 5ee8f600-c2f8-44b0-449d-31a8267131e7
+    - a4510532-825f-417b-b8d0-91e3c61068bf: dc0e5468-2831-4c3f-5970-eccb555d4fc2
+  Name: FurosemideMesh
+  Enabled: true
+  Layers: 1
+  LocalTransform: !<TransformEntity>
+    Position: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Scale: {x: 100.000000, y: 100.000000, z: 100.000000}
+    HasSegmentScaleCompensation: false
+  Children:
+    - !<own> 139f6c54-5c17-4383-ba11-3b3591beac68
   Components:
     []
 - !<SceneObject/4cb212ad-5246-4215-adf1-aaf3ccfc0e9c>
@@ -944,6 +1385,66 @@
     []
   Components:
     - !<own> 5f153ad7-2baa-4fd9-a298-0dcfad86da3b
+- !<ScriptComponent/4d3d3dbe-5f3c-43e3-a0e0-f81def0af29e>
+  PrefabRemaps:
+    []
+  Name: SundaySortControlsUI
+  Enabled: true
+  ScriptAsset: !<reference> deffef83-6d7f-4eb0-a411-dab7b8542b70
+  ScriptInputsDefault:
+    doneLabel: true
+    allCheckedLabel: true
+    undoLabel: true
+    doneWidthCm: true
+    undoWidthCm: true
+    buttonGapCm: true
+  ScriptTypesDefault:
+    {}
+  ScriptInputs:
+    "":
+      doneIcon: !<reference.Texture> 1ba82f7f-3639-40b0-ba14-d10500e75901
+      allCheckedIcon: !<reference.Texture> 807bc79e-6628-4e97-8a5a-e610a13857df
+      undoIcon: !<reference.Texture> 3aa66007-1167-45ac-8007-892bf005f670
+      doneLabel: Done
+      allCheckedLabel: All checked
+      undoLabel: Undo
+      doneWidthCm: !<float> 8.000000
+      undoWidthCm: !<float> 5.000000
+      buttonGapCm: 1.200000
+  ScriptTypes:
+    "":
+      {}
+- !<SceneObject/4ed5c47e-8e91-4f52-aaab-13400ce8052b>
+  PrefabRemaps:
+    []
+  Name: Bottle_Metformin
+  Enabled: true
+  Layers: 1
+  LocalTransform: !<TransformEntity>
+    Position: {x: 8.750000, y: -6.000000, z: -68.000000}
+    Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Scale: {x: 1.000000, y: 1.000000, z: 1.000000}
+    HasSegmentScaleCompensation: false
+  Children:
+    - !<own> 0646e58d-6327-4a97-bc60-629ba1acce14
+  Components:
+    - !<own> a093d8b9-db33-4a37-9e38-2f148c71ef19
+- !<SceneObject/4fbce8a3-b5a4-4fc2-9f2e-2c208a46653b>
+  PrefabRemaps:
+    []
+  Name: AiPreviewAgent Handler
+  Enabled: true
+  Layers: 1
+  LocalTransform: !<TransformEntity>
+    Position: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Scale: {x: 1.000000, y: 1.000000, z: 1.000000}
+    HasSegmentScaleCompensation: false
+  Children:
+    []
+  Components:
+    - !<own> 8ae7efdd-8c75-4e1a-a808-2d56ec6a004a
+    - !<own> 1f5769c0-9614-4a23-9734-2eac789f5d71
 - !<SceneObject/52ecefe4-5642-445a-ad16-52ce818076bc>
   PrefabRemaps:
     []
@@ -974,6 +1475,21 @@
     - !<own> 46b79537-a269-46f1-9483-500d7a4170d6
   Components:
     []
+- !<SceneObject/54627db4-8248-4645-9c14-f3e3bcc6e917>
+  PrefabRemaps:
+    []
+  Name: BottleVisual_Amlodipine
+  Enabled: true
+  Layers: 1
+  LocalTransform: !<TransformEntity>
+    Position: {x: 0.000000, y: -4.000000, z: 0.000000}
+    Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Scale: {x: 1.000000, y: 1.000000, z: 1.000000}
+    HasSegmentScaleCompensation: false
+  Children:
+    - !<own> 8e9ec7f0-cc83-499c-ba76-6368f2b14b90
+  Components:
+    []
 - !<SceneObject/58ef319f-850e-40dd-8295-e6dc36ab4854>
   PrefabRemaps:
     []
@@ -987,6 +1503,21 @@
     HasSegmentScaleCompensation: false
   Children:
     - !<own> bf2095b6-c6f8-48c8-b840-e0a6cec0dc99
+  Components:
+    []
+- !<SceneObject/5bc20738-e29b-46d4-b38b-94b3b288e83e>
+  PrefabRemaps:
+    []
+  Name: Scene
+  Enabled: true
+  Layers: 1
+  LocalTransform: !<TransformEntity>
+    Position: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Scale: {x: 1.000000, y: 1.000000, z: 1.000000}
+    HasSegmentScaleCompensation: false
+  Children:
+    - !<own> fa9baa4e-439c-4e6a-a9fe-0082117155b7
   Components:
     []
 - !<ScriptComponent/5f153ad7-2baa-4fd9-a298-0dcfad86da3b>
@@ -1010,6 +1541,47 @@
       mouseTargetingMode: !<float> 2.000000
       moveInDepth: false
       moveInDepthAmount: !<float> 5.000000
+  ScriptTypes:
+    "":
+      {}
+- !<SceneObject/5fb8295b-12e7-4073-9c09-63bd86bc7a83>
+  PrefabRemaps:
+    []
+  Name: Shelf
+  Enabled: true
+  Layers: 1
+  LocalTransform: !<TransformEntity>
+    Position: {x: -50.000000, y: -9.000000, z: -30.000000}
+    Rotation: {x: 0.000000, y: 59.000000, z: 0.000000}
+    Scale: {x: 24.000000, y: 1.500000, z: 12.000000}
+    HasSegmentScaleCompensation: false
+  Children:
+    []
+  Components:
+    - !<own> a20bc345-75a1-420d-9f15-b0ddfc1410f8
+- !<ScriptComponent/60ab39fd-9523-4a49-991c-21aacc1f7d00>
+  PrefabRemaps:
+    []
+  Name: SundaySortBottleCardUI
+  Enabled: true
+  ScriptAsset: !<reference> df7c6ef1-ed85-4d05-8982-1d34345f7262
+  ScriptInputsDefault:
+    titlePrefix: true
+    cardLiftCm: true
+    plateColor: true
+    borderColor: true
+    noteColor: true
+  ScriptTypesDefault:
+    {}
+  ScriptInputs:
+    "":
+      cameraObject: !<reference.SceneObject> 00000000-0000-0065-0000-000000000064
+      titlePrefix: "Found: "
+      cardWidthCm: 13.500000
+      cardLiftCm: 1.800000
+      plateColor: !<Vec4> {x: 0.100000, y: 0.360000, z: 0.460000, w: 0.900000}
+      borderColor: !<Vec4> {x: 0.300000, y: 0.950000, z: 1.000000, w: 1.000000}
+      noteColor: !<Vec4> {x: 1.000000, y: 0.860000, z: 0.400000, w: 1.000000}
   ScriptTypes:
     "":
       {}
@@ -1037,6 +1609,21 @@
   ScriptTypes:
     "":
       {}
+- !<SceneObject/63d78215-c040-4b77-942b-c0532843c5d1>
+  PrefabRemaps:
+    []
+  Name: Scenes
+  Enabled: true
+  Layers: 1
+  LocalTransform: !<TransformEntity>
+    Position: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Scale: {x: 1.000000, y: 1.000000, z: 1.000000}
+    HasSegmentScaleCompensation: false
+  Children:
+    - !<own> 3a51346f-c794-4b68-9dfa-0d5f95d9fde2
+  Components:
+    []
 - !<ScriptComponent/64f27597-c99d-4c59-8a08-05459cc2258d>
   PrefabRemaps:
     []
@@ -1139,6 +1726,30 @@
     - !<own> 80574bd1-697b-4bb5-b9ce-13b340146d82
   Components:
     - !<own> ccf4d3bc-d3c2-4580-b9c5-62f164ef7eef
+- !<ScriptComponent/658a867b-5b68-4409-b948-8e370db80cbf>
+  PrefabRemaps:
+    []
+  Name: SundaySortBottle
+  Enabled: true
+  ScriptAsset: !<reference> 9de67fea-74e5-4160-be0f-6705191cf31b
+  ScriptInputsDefault:
+    highlightColor: true
+    hoverScale: true
+  ScriptTypesDefault:
+    {}
+  ScriptInputs:
+    "":
+      bottleId: atorvastatin
+      visual: !<reference.SceneObject> e1af9c51-587d-420a-b75d-d308da11c34a
+      tickIcon: !<reference.Texture> 54f874c8-f07a-4640-a4f2-2211fcbbf65a
+      overlayMaterial: !<reference.Material> 4d5da0e1-bb1f-4c32-b483-1653c2f43d1f
+      cameraObject: !<reference.SceneObject> 00000000-0000-0065-0000-000000000064
+      colliderSizeCm: !<Vec3> {x: 4.800000, y: 9.000000, z: 4.800000}
+      highlightColor: !<Vec4> {x: 0.200000, y: 0.950000, z: 1.000000, w: 1.000000}
+      hoverScale: 1.070000
+  ScriptTypes:
+    "":
+      {}
 - !<SceneObject/6a7a67db-5675-49bb-8f31-ba0588e3cffc>
   PrefabRemaps:
     []
@@ -1199,6 +1810,21 @@
     - !<own> 0e778a10-bd57-4a2a-b20a-b6f4326e8058
   Components:
     []
+- !<SceneObject/6cb9ad4a-92f3-4fbf-a44c-acdea5f3f021>
+  PrefabRemaps:
+    []
+  Name: Bottle_Amlodipine
+  Enabled: true
+  Layers: 1
+  LocalTransform: !<TransformEntity>
+    Position: {x: 13.750000, y: -6.000000, z: -68.000000}
+    Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Scale: {x: 1.000000, y: 1.000000, z: 1.000000}
+    HasSegmentScaleCompensation: false
+  Children:
+    - !<own> 54627db4-8248-4645-9c14-f3e3bcc6e917
+  Components:
+    - !<own> 458d617d-60fc-45fa-9fc5-0fcc22d70043
 - !<SceneObject/6dbaab8f-d98a-4f36-b836-1d7c8a0cca87>
   PrefabRemaps:
     []
@@ -1212,6 +1838,36 @@
     HasSegmentScaleCompensation: false
   Children:
     - !<own> 4c195c04-c397-454e-bd08-3485f37d84fe
+  Components:
+    []
+- !<SceneObject/6de99b08-4cb9-4451-b4a7-bc8f9f7b08bd>
+  PrefabRemaps:
+    []
+  Name: LEAF Plugin Bridge
+  Enabled: true
+  Layers: 1
+  LocalTransform: !<TransformEntity>
+    Position: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Scale: {x: 1.000000, y: 1.000000, z: 1.000000}
+    HasSegmentScaleCompensation: false
+  Children:
+    []
+  Components:
+    - !<own> 083decbc-07ba-4b4f-98ee-f1284ba67d52
+- !<SceneObject/6e7e09ca-e5df-42f8-b10d-23fcec21ff44>
+  PrefabRemaps:
+    []
+  Name: BottleVisual_Furosemide
+  Enabled: true
+  Layers: 1
+  LocalTransform: !<TransformEntity>
+    Position: {x: 0.000000, y: -4.000000, z: 0.000000}
+    Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Scale: {x: 1.000000, y: 1.000000, z: 1.000000}
+    HasSegmentScaleCompensation: false
+  Children:
+    - !<own> 4c8fa4ec-4ff1-4677-b758-f79d34a5f860
   Components:
     []
 - !<SceneObject/7037a633-4899-4f2e-bc97-2e3f35395687>
@@ -1244,6 +1900,35 @@
     - !<own> 879ce45b-bd5e-40ff-a3fe-d821523427e4
   Components:
     - !<own> 64f27597-c99d-4c59-8a08-05459cc2258d
+- !<ScriptComponent/7207d4fc-8a56-4964-964e-80a65cefc28c>
+  PrefabRemaps:
+    []
+  Name: SundaySortBoxOverlayUI
+  Enabled: true
+  ScriptAsset: !<reference> 77d60192-593d-4fc4-9724-03042cd1ba4c
+  ScriptInputsDefault:
+    ringColor: true
+    dayLitColor: true
+    countHeightCm: true
+    countLiftFrontCm: true
+    countLiftBackCm: true
+  ScriptTypesDefault:
+    {}
+  ScriptInputs:
+    "":
+      pillbox: !<MappingBased.AssignableType_1> b63923a9-3a43-4605-9922-86b91cb40254
+      overlayMaterial: !<reference.Material> 4d5da0e1-bb1f-4c32-b483-1653c2f43d1f
+      cameraObject: !<reference.SceneObject> 00000000-0000-0065-0000-000000000064
+      tickIcon: !<reference.Texture> 54f874c8-f07a-4640-a4f2-2211fcbbf65a
+      ringColor: !<Vec4> {x: 0.200000, y: 0.950000, z: 1.000000, w: 1.000000}
+      dayLitColor: !<Vec4> {x: 0.350000, y: 0.970000, z: 1.000000, w: 1.000000}
+      countHeightCm: !<float> 2.000000
+      countLiftFrontCm: 1.900000
+      countLiftBackCm: 4.300000
+      dayLabelLiftCm: 6.300000
+  ScriptTypes:
+    "":
+      {}
 - !<SceneObject/74d13517-1dbf-42e6-b536-27afc4909c65>
   PrefabRemaps:
     []
@@ -1304,6 +1989,41 @@
     []
   Components:
     - !<own> c8e031d3-a8a1-468a-a419-427f8556de4c
+- !<SceneObject/79317d9f-d2a8-4e0c-a6ad-cce141e788da>
+  PrefabRemaps:
+    []
+  Name: Audio
+  Enabled: true
+  Layers: 1
+  LocalTransform: !<TransformEntity>
+    Position: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Scale: {x: 1.000000, y: 1.000000, z: 1.000000}
+    HasSegmentScaleCompensation: false
+  Children:
+    []
+  Components:
+    - !<own> e19dc8f4-1670-4e05-960c-576c96d054ad
+- !<RenderMeshVisual/7a1e22a1-b2fe-479c-b87b-a38fe4d45662>
+  PrefabRemaps:
+    []
+  Name: Render Mesh Visual
+  Enabled: true
+  RenderOrder: 0
+  StretchMode: Stretch
+  VerticalAlignment: Center
+  HorizontalAlignment: Center
+  MeshShadowMode: None
+  ShadowColor: {x: 1.000000, y: 1.000000, z: 1.000000, w: 1.000000}
+  ShadowDensity: 1.000000
+  Materials:
+    - !<reference> 781bffee-6146-415f-ac9c-c3c4013b0832
+  Mesh: !<reference> 935319a9-7765-404f-9dac-60bd4ce06dda
+  Skin: !<reference> 00000000-0000-0000-0000-000000000000
+  BlendShapesEnabled: true
+  BlendNormals: false
+  BlendShapes:
+    {}
 - !<SceneObject/7aa85bd8-d423-42cd-b190-473711e94929>
   PrefabRemaps:
     []
@@ -1338,6 +2058,21 @@
     - !<own> 3b4f5057-b516-4d3b-9c8d-14c81af2f505
   Components:
     []
+- !<SceneObject/7de0f627-e3e8-48a9-a8ff-91bc105eebb8>
+  PrefabRemaps:
+    []
+  Name: geometry_0
+  Enabled: true
+  Layers: 1
+  LocalTransform: !<TransformEntity>
+    Position: {x: 0.000000, y: 0.040000, z: 0.000000}
+    Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Scale: {x: 1.000000, y: 1.000000, z: 1.000000}
+    HasSegmentScaleCompensation: false
+  Children:
+    []
+  Components:
+    - !<own> af19198f-167b-420b-ba14-2db9f3942916
 - !<SceneObject/7e2075c6-0882-4275-8365-16a03da73298>
   PrefabRemaps:
     []
@@ -1428,6 +2163,21 @@
     - !<own> dcc36a33-e23d-48f3-8e96-f9c9fd3cd030
   Components:
     []
+- !<SceneObject/83763c4e-feac-4d19-8b91-b5fe2ea6740e>
+  PrefabRemaps:
+    []
+  Name: Scenes
+  Enabled: true
+  Layers: 1
+  LocalTransform: !<TransformEntity>
+    Position: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Scale: {x: 1.000000, y: 1.000000, z: 1.000000}
+    HasSegmentScaleCompensation: false
+  Children:
+    - !<own> a3c836d3-1c95-4492-b8a2-56a4133a363a
+  Components:
+    []
 - !<SceneObject/83ef588c-5040-4344-b15f-0554c739da0b>
   PrefabRemaps:
     []
@@ -1476,6 +2226,22 @@
     - !<own> 1fc7fa3e-6910-4741-b8a7-1b6660a39a9d
   Components:
     - !<own> 28e05826-1521-46fa-a54c-80f2957ec80c
+- !<ScriptComponent/8ae7efdd-8c75-4e1a-a808-2d56ec6a004a>
+  PrefabRemaps:
+    []
+  Name: AgentInspectScript
+  Enabled: true
+  ScriptAsset: !<reference> 0b25079c-f5bf-4c6d-96c4-f43b89dfa213
+  ScriptInputsDefault:
+    {}
+  ScriptTypesDefault:
+    {}
+  ScriptInputs:
+    "":
+      {}
+  ScriptTypes:
+    "":
+      {}
 - !<SceneObject/8b877074-7eee-4be1-b669-714f8d5a1da3>
   PrefabRemaps:
     []
@@ -1529,6 +2295,25 @@
     - !<own> b859e31c-4c76-46bd-bd6a-042228e52728
   Components:
     []
+- !<SceneObject/8e9ec7f0-cc83-499c-ba76-6368f2b14b90>
+  PrefabRemaps:
+    - 7de0f627-e3e8-48a9-a8ff-91bc105eebb8: 0bfd6697-ce91-40a6-6d29-94701684aab0
+    - 83763c4e-feac-4d19-8b91-b5fe2ea6740e: 1f5b3e9e-41aa-4c48-575f-59b06622088f
+    - 8e9ec7f0-cc83-499c-ba76-6368f2b14b90: 0a7f0abb-1ebd-42b6-6512-7827f9018994
+    - a3c836d3-1c95-4492-b8a2-56a4133a363a: 6c82d99c-5e85-4dbd-79eb-bfc46b10acb6
+    - af19198f-167b-420b-ba14-2db9f3942916: c638a305-f616-4d47-4f53-752548e84146
+  Name: AmlodipineMesh
+  Enabled: true
+  Layers: 1
+  LocalTransform: !<TransformEntity>
+    Position: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Scale: {x: 100.000000, y: 100.000000, z: 100.000000}
+    HasSegmentScaleCompensation: false
+  Children:
+    - !<own> 83763c4e-feac-4d19-8b91-b5fe2ea6740e
+  Components:
+    []
 - !<SceneObject/8fe2a532-9bf3-4cde-b598-04ce5470718d>
   PrefabRemaps:
     []
@@ -1560,6 +2345,21 @@
     - !<own> e9454e66-5d09-4a8a-bcd7-dea762326a48
   Components:
     []
+- !<SceneObject/9549c070-b525-4414-a850-34d5e20c5fb6>
+  PrefabRemaps:
+    []
+  Name: geometry_0
+  Enabled: true
+  Layers: 1
+  LocalTransform: !<TransformEntity>
+    Position: {x: 0.000000, y: 0.040000, z: 0.000000}
+    Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Scale: {x: 1.000000, y: 1.000000, z: 1.000000}
+    HasSegmentScaleCompensation: false
+  Children:
+    []
+  Components:
+    - !<own> ddfe6af6-8b30-42c3-b6fd-dac8a544e204
 - !<SceneObject/988c408a-99dc-47e6-b7c4-efbf4bf8dc3c>
   PrefabRemaps:
     []
@@ -1636,6 +2436,81 @@
     - !<own> 46ea93d6-d161-4453-9064-6ac11e1d6523
   Components:
     []
+- !<ScriptComponent/a093d8b9-db33-4a37-9e38-2f148c71ef19>
+  PrefabRemaps:
+    []
+  Name: SundaySortBottle
+  Enabled: true
+  ScriptAsset: !<reference> 9de67fea-74e5-4160-be0f-6705191cf31b
+  ScriptInputsDefault:
+    bottleId: true
+    highlightColor: true
+    hoverScale: true
+  ScriptTypesDefault:
+    {}
+  ScriptInputs:
+    "":
+      bottleId: metformin
+      visual: !<reference.SceneObject> 0646e58d-6327-4a97-bc60-629ba1acce14
+      tickIcon: !<reference.Texture> 54f874c8-f07a-4640-a4f2-2211fcbbf65a
+      overlayMaterial: !<reference.Material> 4d5da0e1-bb1f-4c32-b483-1653c2f43d1f
+      cameraObject: !<reference.SceneObject> 00000000-0000-0065-0000-000000000064
+      colliderSizeCm: !<Vec3> {x: 4.800000, y: 9.000000, z: 4.800000}
+      highlightColor: !<Vec4> {x: 0.200000, y: 0.950000, z: 1.000000, w: 1.000000}
+      hoverScale: 1.070000
+  ScriptTypes:
+    "":
+      {}
+- !<RenderMeshVisual/a20bc345-75a1-420d-9f15-b0ddfc1410f8>
+  PrefabRemaps:
+    []
+  Name: Render Mesh Visual
+  Enabled: true
+  RenderOrder: 0
+  StretchMode: Stretch
+  VerticalAlignment: Center
+  HorizontalAlignment: Center
+  MeshShadowMode: None
+  ShadowColor: {x: 1.000000, y: 1.000000, z: 1.000000, w: 1.000000}
+  ShadowDensity: 1.000000
+  Materials:
+    - !<reference> 781bffee-6146-415f-ac9c-c3c4013b0832
+  Mesh: !<reference> 935319a9-7765-404f-9dac-60bd4ce06dda
+  Skin: !<reference> 00000000-0000-0000-0000-000000000000
+  BlendShapesEnabled: true
+  BlendNormals: false
+  BlendShapes:
+    {}
+- !<SceneObject/a3c836d3-1c95-4492-b8a2-56a4133a363a>
+  PrefabRemaps:
+    []
+  Name: Scene
+  Enabled: true
+  Layers: 1
+  LocalTransform: !<TransformEntity>
+    Position: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Scale: {x: 1.000000, y: 1.000000, z: 1.000000}
+    HasSegmentScaleCompensation: false
+  Children:
+    - !<own> 7de0f627-e3e8-48a9-a8ff-91bc105eebb8
+  Components:
+    []
+- !<SceneObject/a4510532-825f-417b-b8d0-91e3c61068bf>
+  PrefabRemaps:
+    []
+  Name: geometry_0
+  Enabled: true
+  Layers: 1
+  LocalTransform: !<TransformEntity>
+    Position: {x: 0.000000, y: 0.040000, z: 0.000000}
+    Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Scale: {x: 1.000000, y: 1.000000, z: 1.000000}
+    HasSegmentScaleCompensation: false
+  Children:
+    []
+  Components:
+    - !<own> 2b9c0e1b-c561-4fbf-90a8-e42cb3aa0cd0
 - !<SceneObject/a4b1ce71-4840-4493-bc52-58f3c13933e1>
   PrefabRemaps:
     []
@@ -1668,6 +2543,25 @@
     HasSegmentScaleCompensation: false
   Children:
     - !<own> b93dfa60-41bd-4999-ac0f-4b2f1df2bdaf
+  Components:
+    []
+- !<SceneObject/a50b1961-d0d1-45fb-a96c-8b43e8bea4e6>
+  PrefabRemaps:
+    - 07ab0995-1d19-4485-925f-d27381d0859d: fe1b1b8e-db78-455c-5bd5-a222a76f800a
+    - 5bc20738-e29b-46d4-b38b-94b3b288e83e: 5a69fa30-f53d-4b7b-584c-b2b4fc9847f3
+    - a50b1961-d0d1-45fb-a96c-8b43e8bea4e6: 2702b770-57e1-498a-62f4-b864978bdfa1
+    - fa9baa4e-439c-4e6a-a9fe-0082117155b7: 8dfa0c35-3614-46b2-63e5-22cdbb19e44f
+    - ff0d2571-a88e-4e97-95da-2ea85333a3d6: 973b6769-e481-44c3-7f69-f44e85c2c5e6
+  Name: VitaminDMesh
+  Enabled: true
+  Layers: 1
+  LocalTransform: !<TransformEntity>
+    Position: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Scale: {x: 100.000000, y: 100.000000, z: 100.000000}
+    HasSegmentScaleCompensation: false
+  Children:
+    - !<own> ff0d2571-a88e-4e97-95da-2ea85333a3d6
   Components:
     []
 - !<SceneObject/a6305e2f-5379-4729-800a-d5ecae615edc>
@@ -1760,6 +2654,23 @@
     []
   Components:
     - !<own> 11c4bb09-7c38-4023-9802-74f9f28709a9
+- !<SceneObject/a9d59e1c-9b6c-4d62-bbc1-4cf4558e654b>
+  PrefabRemaps:
+    []
+  Name: UI
+  Enabled: true
+  Layers: 1
+  LocalTransform: !<TransformEntity>
+    Position: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Scale: {x: 1.000000, y: 1.000000, z: 1.000000}
+    HasSegmentScaleCompensation: false
+  Children:
+    - !<own> 2cfc25bd-a95c-4e19-b2c2-42ba063603af
+    - !<own> f4760e27-b466-46a8-a832-7c77307f6133
+    - !<own> f96c6a88-facd-49d3-8667-757591ae3722
+  Components:
+    []
 - !<SceneObject/abfa4c71-3560-46f0-9471-90e212f21185>
   PrefabRemaps:
     []
@@ -1775,6 +2686,62 @@
     - !<own> f6687ab7-52ac-408d-a892-8a9559125450
   Components:
     []
+- !<RenderMeshVisual/af19198f-167b-420b-ba14-2db9f3942916>
+  PrefabRemaps:
+    []
+  Name: geometry_0
+  Enabled: true
+  RenderOrder: 0
+  StretchMode: Stretch
+  VerticalAlignment: Center
+  HorizontalAlignment: Center
+  MeshShadowMode: None
+  ShadowColor: {x: 1.000000, y: 1.000000, z: 1.000000, w: 1.000000}
+  ShadowDensity: 1.000000
+  Materials:
+    - !<reference> 34f20934-3ce6-4476-81bd-eba7d58e4d46
+  Mesh: !<reference> b88a8ab7-d612-4d90-90b6-9d19210ec7c0
+  Skin: !<reference> 00000000-0000-0000-0000-000000000000
+  BlendShapesEnabled: true
+  BlendNormals: false
+  BlendShapes:
+    {}
+- !<ScriptComponent/af4653d4-4329-4cb9-8618-52f97268f25f>
+  PrefabRemaps:
+    []
+  Name: SundaySortMain
+  Enabled: true
+  ScriptAsset: !<reference> 713256c9-f26f-4dce-ac0a-615ce0f89939
+  ScriptInputsDefault:
+    weekReadySeconds: true
+    nudgeTemplate: true
+    turnBackLabel: true
+    viewMargin: true
+    debugColliders: true
+  ScriptTypesDefault:
+    {}
+  ScriptInputs:
+    "":
+      pillbox: !<MappingBased.AssignableType_1> b63923a9-3a43-4605-9922-86b91cb40254
+      overlay: !<MappingBased.AssignableType_2> 7207d4fc-8a56-4964-964e-80a65cefc28c
+      card: !<MappingBased.AssignableType_3> 60ab39fd-9523-4a49-991c-21aacc1f7d00
+      controls: !<MappingBased.AssignableType_4> 4d3d3dbe-5f3c-43e3-a0e0-f81def0af29e
+      pointer: !<MappingBased.AssignableType_5> 2d7ec838-da56-4e28-a4c6-5ec5da74e8b5
+      audio: !<MappingBased.AssignableType_6> e19dc8f4-1670-4e05-960c-576c96d054ad
+      bottleMetformin: !<MappingBased.AssignableType_7> a093d8b9-db33-4a37-9e38-2f148c71ef19
+      bottleAmlodipine: !<MappingBased.AssignableType_8> 458d617d-60fc-45fa-9fc5-0fcc22d70043
+      bottleFurosemide: !<MappingBased.AssignableType_9> 37c365e8-9e8a-403d-b847-e0f753dbdb08
+      bottleAtorvastatin: !<MappingBased.AssignableType_10> 658a867b-5b68-4409-b948-8e370db80cbf
+      bottleVitaminD: !<MappingBased.AssignableType_11> f48d186c-9d0b-4c69-af41-31d009c7c618
+      cameraObject: !<reference.SceneObject> 00000000-0000-0065-0000-000000000064
+      weekReadySeconds: !<float> 3.000000
+      nudgeTemplate: "1 left: {name}"
+      turnBackLabel: Back to the box
+      viewMargin: 0.050000
+      debugColliders: false
+  ScriptTypes:
+    "":
+      {}
 - !<SceneObject/b22d97e6-4c06-4135-af29-d26adb2b9d86>
   PrefabRemaps:
     []
@@ -1820,6 +2787,26 @@
     - !<own> 23018601-1041-4785-a20e-9ad5ab722f95
   Components:
     []
+- !<RenderMeshVisual/b543dc33-3238-4793-94b4-468397dc4cea>
+  PrefabRemaps:
+    []
+  Name: Render Mesh Visual
+  Enabled: true
+  RenderOrder: 0
+  StretchMode: Stretch
+  VerticalAlignment: Center
+  HorizontalAlignment: Center
+  MeshShadowMode: None
+  ShadowColor: {x: 1.000000, y: 1.000000, z: 1.000000, w: 1.000000}
+  ShadowDensity: 1.000000
+  Materials:
+    - !<reference> c1d63954-36cd-4052-a99c-839a5f73440b
+  Mesh: !<reference> 935319a9-7765-404f-9dac-60bd4ce06dda
+  Skin: !<reference> 00000000-0000-0000-0000-000000000000
+  BlendShapesEnabled: true
+  BlendNormals: false
+  BlendShapes:
+    {}
 - !<SceneObject/b54dc8b5-dbcf-4fcc-a310-fb436127cc60>
   PrefabRemaps:
     []
@@ -1835,6 +2822,29 @@
     - !<own> fcc185fc-4e88-4e9e-9c71-40bd83b1b0ed
   Components:
     []
+- !<ScriptComponent/b63923a9-3a43-4605-9922-86b91cb40254>
+  PrefabRemaps:
+    []
+  Name: SundaySortPillbox
+  Enabled: true
+  ScriptAsset: !<reference> 438028a6-65d4-4f51-9cee-c5f318ed3b6c
+  ScriptInputsDefault:
+    widthCm: true
+    depthCm: true
+    wallHeightCm: true
+    trayColor: true
+  ScriptTypesDefault:
+    {}
+  ScriptInputs:
+    "":
+      trayMaterial: !<reference.Material> e19a87c7-acd4-4fba-9565-86797fcc193b
+      widthCm: !<float> 22.000000
+      depthCm: !<float> 8.000000
+      wallHeightCm: 2.200000
+      trayColor: !<Vec4> {x: 0.800000, y: 0.780000, z: 0.960000, w: 1.000000}
+  ScriptTypes:
+    "":
+      {}
 - !<SceneObject/b786dabc-29e4-4cfa-8a84-f39604ffcbdd>
   PrefabRemaps:
     []
@@ -1955,6 +2965,36 @@
     []
   Components:
     []
+- !<SceneObject/c3968f09-eea9-4285-ac24-81a470bb34fc>
+  PrefabRemaps:
+    []
+  Name: BottleRiser
+  Enabled: true
+  Layers: 1
+  LocalTransform: !<TransformEntity>
+    Position: {x: 11.250000, y: -13.000000, z: -68.000000}
+    Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Scale: {x: 11.500000, y: 6.000000, z: 6.000000}
+    HasSegmentScaleCompensation: false
+  Children:
+    []
+  Components:
+    - !<own> 7a1e22a1-b2fe-479c-b87b-a38fe4d45662
+- !<SceneObject/c67ba66b-a4b9-47ce-b7b9-807f1276559a>
+  PrefabRemaps:
+    []
+  Name: BottleVisual_VitaminD
+  Enabled: true
+  Layers: 1
+  LocalTransform: !<TransformEntity>
+    Position: {x: 0.000000, y: -4.000000, z: 0.000000}
+    Rotation: {x: 0.000000, y: 59.000000, z: 0.000000}
+    Scale: {x: 1.000000, y: 1.000000, z: 1.000000}
+    HasSegmentScaleCompensation: false
+  Children:
+    - !<own> a50b1961-d0d1-45fb-a96c-8b43e8bea4e6
+  Components:
+    []
 - !<ScriptComponent/c8e031d3-a8a1-468a-a419-427f8556de4c>
   PrefabRemaps:
     []
@@ -2053,6 +3093,38 @@
     index-2: !<reference> 2dae2a27-8ce6-466a-8bff-622195c1b3a8
     thumb-3_end_end_end_end: !<reference> bf2095b6-c6f8-48c8-b840-e0a6cec0dc99
     wrist_to_pinky: !<reference> 3b4f5057-b516-4d3b-9c8d-14c81af2f505
+- !<SceneObject/ccfad242-1bcb-455f-ad97-cd8a9cdbae6d>
+  PrefabRemaps:
+    []
+  Name: Kitchen
+  Enabled: true
+  Layers: 1
+  LocalTransform: !<TransformEntity>
+    Position: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Scale: {x: 1.000000, y: 1.000000, z: 1.000000}
+    HasSegmentScaleCompensation: false
+  Children:
+    - !<own> 342e54c9-26b3-4e33-af7d-65466a177686
+    - !<own> c3968f09-eea9-4285-ac24-81a470bb34fc
+    - !<own> 5fb8295b-12e7-4073-9c09-63bd86bc7a83
+  Components:
+    []
+- !<SceneObject/cd0f2cbf-e0bd-493a-a336-65fc75831c0d>
+  PrefabRemaps:
+    []
+  Name: Scene
+  Enabled: true
+  Layers: 1
+  LocalTransform: !<TransformEntity>
+    Position: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Scale: {x: 1.000000, y: 1.000000, z: 1.000000}
+    HasSegmentScaleCompensation: false
+  Children:
+    - !<own> 9549c070-b525-4414-a850-34d5e20c5fb6
+  Components:
+    []
 - !<SceneObject/ce2213a1-7aa1-4201-a3c7-c2aaa06fd4ff>
   PrefabRemaps:
     []
@@ -2238,6 +3310,26 @@
     - !<own> d4a9c5e3-fe96-4824-9b20-59f5ad39eabd
   Components:
     []
+- !<RenderMeshVisual/ddfe6af6-8b30-42c3-b6fd-dac8a544e204>
+  PrefabRemaps:
+    []
+  Name: geometry_0
+  Enabled: true
+  RenderOrder: 0
+  StretchMode: Stretch
+  VerticalAlignment: Center
+  HorizontalAlignment: Center
+  MeshShadowMode: None
+  ShadowColor: {x: 1.000000, y: 1.000000, z: 1.000000, w: 1.000000}
+  ShadowDensity: 1.000000
+  Materials:
+    - !<reference> 45ff15ca-b272-4a6c-8421-692fe2e10d2c
+  Mesh: !<reference> a1dd189c-b28c-446a-a854-0618dbb8450d
+  Skin: !<reference> 00000000-0000-0000-0000-000000000000
+  BlendShapesEnabled: true
+  BlendNormals: false
+  BlendShapes:
+    {}
 - !<RenderMeshVisual/e1031f7e-3474-489f-a529-282f7192f812>
   PrefabRemaps:
     []
@@ -2258,6 +3350,43 @@
   BlendNormals: false
   BlendShapes:
     {}
+- !<ScriptComponent/e19dc8f4-1670-4e05-960c-576c96d054ad>
+  PrefabRemaps:
+    []
+  Name: SundaySortAudio
+  Enabled: true
+  ScriptAsset: !<reference> 52d73140-2f9b-47d7-b45e-95409db7352e
+  ScriptInputsDefault:
+    chimeVolume: true
+    nudgeVolume: true
+  ScriptTypesDefault:
+    {}
+  ScriptInputs:
+    "":
+      doneChime: !<reference.AudioTrackAsset> 42c396c1-1aae-4a8c-a660-7b2aa8182c0e
+      nudgeChime: !<reference.AudioTrackAsset> 01c691bb-f98b-486b-bd0c-535db88174cd
+      weekReadyChime: !<reference.AudioTrackAsset> 79052933-d0a0-422a-9934-bbaff7cad932
+      nudgeSource: !<reference.SceneObject> 3421d506-03a6-4b83-82f1-713d917b5e22
+      chimeVolume: 0.700000
+      nudgeVolume: 0.900000
+  ScriptTypes:
+    "":
+      {}
+- !<SceneObject/e1af9c51-587d-420a-b75d-d308da11c34a>
+  PrefabRemaps:
+    []
+  Name: BottleVisual_Atorvastatin
+  Enabled: true
+  Layers: 1
+  LocalTransform: !<TransformEntity>
+    Position: {x: 0.000000, y: -4.000000, z: 0.000000}
+    Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Scale: {x: 1.000000, y: 1.000000, z: 1.000000}
+    HasSegmentScaleCompensation: false
+  Children:
+    - !<own> 49ce9fe4-e112-493c-8ba2-16ba73d87371
+  Components:
+    []
 - !<SceneObject/e2ba526d-75d1-466b-86a5-9cd7c42dca84>
   PrefabRemaps:
     []
@@ -2311,6 +3440,25 @@
     HasSegmentScaleCompensation: false
   Children:
     - !<own> 0f983d21-20bc-4d89-a991-fbb95bacbd64
+  Components:
+    []
+- !<SceneObject/e82e477a-d07c-4fd8-91ca-ffcfa56be5d7>
+  PrefabRemaps:
+    - 1ed29961-53eb-4fce-b406-6ba6c6ba0b08: 0e769550-ad04-4e71-5ba4-20be7f2fad61
+    - 3a51346f-c794-4b68-9dfa-0d5f95d9fde2: 9a92fbc4-98a1-4dd8-6ec8-935bf60d8f5a
+    - 63d78215-c040-4b77-942b-c0532843c5d1: 2b9976b9-11d9-4e24-751f-70bdddebf2ad
+    - e82e477a-d07c-4fd8-91ca-ffcfa56be5d7: b48f1e43-3ae7-4df3-6a6f-69486f50666c
+    - f86b7ad5-b588-48b6-acde-5cd115156750: 8adafc5d-5e14-4162-68b1-149ef4cf8a9d
+  Name: MetforminMesh
+  Enabled: true
+  Layers: 1
+  LocalTransform: !<TransformEntity>
+    Position: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Scale: {x: 100.000000, y: 100.000000, z: 100.000000}
+    HasSegmentScaleCompensation: false
+  Children:
+    - !<own> 63d78215-c040-4b77-942b-c0532843c5d1
   Components:
     []
 - !<SceneObject/e9454e66-5d09-4a8a-bcd7-dea762326a48>
@@ -2382,6 +3530,45 @@
   Components:
     - !<own> d3e2fbc5-8795-4913-9af6-c8626f8e6d9c
     - !<own> 275aeb4d-77ac-4b1b-811e-907652542110
+- !<SceneObject/f4760e27-b466-46a8-a832-7c77307f6133>
+  PrefabRemaps:
+    []
+  Name: ControlsUI
+  Enabled: true
+  Layers: 1
+  LocalTransform: !<TransformEntity>
+    Position: {x: -2.200000, y: -14.850000, z: -56.500000}
+    Rotation: {x: -60.000000, y: -2.000000, z: 0.000000}
+    Scale: {x: 1.000000, y: 1.000000, z: 1.000000}
+    HasSegmentScaleCompensation: false
+  Children:
+    []
+  Components:
+    - !<own> 4d3d3dbe-5f3c-43e3-a0e0-f81def0af29e
+- !<ScriptComponent/f48d186c-9d0b-4c69-af41-31d009c7c618>
+  PrefabRemaps:
+    []
+  Name: SundaySortBottle
+  Enabled: true
+  ScriptAsset: !<reference> 9de67fea-74e5-4160-be0f-6705191cf31b
+  ScriptInputsDefault:
+    highlightColor: true
+    hoverScale: true
+  ScriptTypesDefault:
+    {}
+  ScriptInputs:
+    "":
+      bottleId: vitaminD
+      visual: !<reference.SceneObject> c67ba66b-a4b9-47ce-b7b9-807f1276559a
+      tickIcon: !<reference.Texture> 54f874c8-f07a-4640-a4f2-2211fcbbf65a
+      overlayMaterial: !<reference.Material> 4d5da0e1-bb1f-4c32-b483-1653c2f43d1f
+      cameraObject: !<reference.SceneObject> 00000000-0000-0065-0000-000000000064
+      colliderSizeCm: !<Vec3> {x: 4.800000, y: 9.000000, z: 4.800000}
+      highlightColor: !<Vec4> {x: 0.200000, y: 0.950000, z: 1.000000, w: 1.000000}
+      hoverScale: 1.070000
+  ScriptTypes:
+    "":
+      {}
 - !<SceneObject/f5d74682-203a-4970-81ea-9fa7b88c96bb>
   PrefabRemaps:
     - 012a3973-9507-4230-a6ff-2b8dfd2154fe: e3ec5982-f5aa-45f3-4551-4d3a92a1f432
@@ -2528,6 +3715,21 @@
     - !<own> 9468c53c-f76f-49b7-8a49-b5ec6af1c5a3
   Components:
     []
+- !<SceneObject/f5e9a82d-5d23-41cd-bef4-87e793d4b12f>
+  PrefabRemaps:
+    []
+  Name: Bottle_Atorvastatin
+  Enabled: true
+  Layers: 1
+  LocalTransform: !<TransformEntity>
+    Position: {x: 13.750000, y: -12.000000, z: -62.000000}
+    Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Scale: {x: 1.000000, y: 1.000000, z: 1.000000}
+    HasSegmentScaleCompensation: false
+  Children:
+    - !<own> e1af9c51-587d-420a-b75d-d308da11c34a
+  Components:
+    - !<own> 658a867b-5b68-4409-b948-8e370db80cbf
 - !<SceneObject/f666b5eb-6a03-4db0-9d84-5b34c6e8905a>
   PrefabRemaps:
     []
@@ -2573,6 +3775,56 @@
     - !<own> a7526b33-fca3-4f28-8e32-b0e9aa13c4b4
   Components:
     []
+- !<RenderMeshVisual/f86b7ad5-b588-48b6-acde-5cd115156750>
+  PrefabRemaps:
+    []
+  Name: geometry_0
+  Enabled: true
+  RenderOrder: 0
+  StretchMode: Stretch
+  VerticalAlignment: Center
+  HorizontalAlignment: Center
+  MeshShadowMode: None
+  ShadowColor: {x: 1.000000, y: 1.000000, z: 1.000000, w: 1.000000}
+  ShadowDensity: 1.000000
+  Materials:
+    - !<reference> ed5a5a1a-fc7a-445e-918c-3cd11585c230
+  Mesh: !<reference> 92fcf063-ab77-456b-bb13-088d544f0382
+  Skin: !<reference> 00000000-0000-0000-0000-000000000000
+  BlendShapesEnabled: true
+  BlendNormals: false
+  BlendShapes:
+    {}
+- !<SceneObject/f96c6a88-facd-49d3-8667-757591ae3722>
+  PrefabRemaps:
+    []
+  Name: PointerUI
+  Enabled: true
+  Layers: 1
+  LocalTransform: !<TransformEntity>
+    Position: {x: -14.000000, y: -8.000000, z: -60.000000}
+    Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Scale: {x: 1.000000, y: 1.000000, z: 1.000000}
+    HasSegmentScaleCompensation: false
+  Children:
+    []
+  Components:
+    - !<own> 2d7ec838-da56-4e28-a4c6-5ec5da74e8b5
+- !<SceneObject/fa9baa4e-439c-4e6a-a9fe-0082117155b7>
+  PrefabRemaps:
+    []
+  Name: geometry_0
+  Enabled: true
+  Layers: 1
+  LocalTransform: !<TransformEntity>
+    Position: {x: 0.000000, y: 0.040000, z: 0.000000}
+    Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Scale: {x: 1.000000, y: 1.000000, z: 1.000000}
+    HasSegmentScaleCompensation: false
+  Children:
+    []
+  Components:
+    - !<own> 07ab0995-1d19-4485-925f-d27381d0859d
 - !<SceneObject/fcc185fc-4e88-4e9e-9c71-40bd83b1b0ed>
   PrefabRemaps:
     []
@@ -2601,5 +3853,20 @@
     HasSegmentScaleCompensation: false
   Children:
     - !<own> bb75b5ea-8baf-4d8d-bcf8-49bd79873881
+  Components:
+    []
+- !<SceneObject/ff0d2571-a88e-4e97-95da-2ea85333a3d6>
+  PrefabRemaps:
+    []
+  Name: Scenes
+  Enabled: true
+  Layers: 1
+  LocalTransform: !<TransformEntity>
+    Position: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Scale: {x: 1.000000, y: 1.000000, z: 1.000000}
+    HasSegmentScaleCompensation: false
+  Children:
+    - !<own> 5bc20738-e29b-46d4-b38b-94b3b288e83e
   Components:
     []
