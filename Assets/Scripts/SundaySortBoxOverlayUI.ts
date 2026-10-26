@@ -2,8 +2,10 @@
  * SundaySortBoxOverlayUI — everything drawn ON the pillbox (passive view).
  *
  * Owns: the 14 cell overlays (cyan rim ring + floating count + pill icons),
- *       the MON..SUN day labels along the back edge, one progress dot per
- *       bottle, the "Week ready" banner, and the small corner tick left at the end.
+ *       the MON..SUN day labels and one progress dot per bottle sitting on the
+ *       back edge, the "Week ready" banner, the small corner tick left at the
+ *       end, and (stretch) the pulsing orange cells + "-1 amlodipine" label of
+ *       the doctor's change.
  * Expects: pillbox (cell geometry), overlayMaterial (Unlit), cameraObject
  *          (labels turn to face it), tickIcon (check_circle texture).
  * Must NOT: decide anything. SundaySortMain pushes what to show through the
@@ -18,18 +20,18 @@
  * Test-facing names: Cell_MON_AM (enabled while shown), CellCount_MON_AM (Text),
  * CellIcon_MON_AM_0..3, DayLabel_MON (Text), ProgressDot_0..4 with child
  * ProgressDotFill_0..4 (enabled when that bottle is done), WeekReady /
- * WeekReadyText, BoxCornerTick.
+ * WeekReadyText, BoxCornerTick, DoseChangeLabel (Text).
  */
 import animate, {CancelFunction} from "SpectaclesInteractionKit.lspkg/Utils/animate"
 import {BackPlate} from "SpectaclesUIKit.lspkg/Scripts/BackPlate"
 import {FlexItem} from "SpectaclesUIKit.lspkg/Scripts/Components/Layout2D/Flex/FlexItem"
 import {FlexLayout} from "SpectaclesUIKit.lspkg/Scripts/Components/Layout2D/Flex/FlexLayout"
 import {FlexAlign, FlexDirection, FlexJustify} from "SpectaclesUIKit.lspkg/Scripts/Components/Layout2D/Flex/FlexTypes"
-import {BOTTLES, DAY_NAMES, ROW_AM, SCENE_NAMES, cellKey} from "./SundaySortData"
+import {BOTTLES, DAY_NAMES, DOSE_CHANGE, ROW_AM, SCENE_NAMES, cellKey} from "./SundaySortData"
 import {SundaySortPillbox} from "./SundaySortPillbox"
 import {buildCircleRing, buildEllipse, buildFlatRingXZ, makeVisual, pillMesh, setVisualColor} from "./SundaySortShapes"
 import {CellView} from "./SundaySortState"
-import {applyTextRole, setupText, sizeForDigitHeight, tintPlate, withAlpha} from "./SundaySortThemeUI"
+import {applyTextRole, outlineText, setupText, sizeForDigitHeight, tintPlate, withAlpha} from "./SundaySortThemeUI"
 
 const imageMaterial = requireAsset("../Materials/ImageMaterial.mat") as Material
 
@@ -37,7 +39,11 @@ const MAX_ICONS = 4
 const LIT_ICON_CM = 1.0
 const CHECK_ICON_CM = 0.75
 const FADE_SECONDS = 0.45
-const DOT_SPACING_CM = 1.7
+const DOT_SPACING_CM = 1.3
+const DOT_RADIUS_CM = 0.4
+const DAY_LABEL_DIGIT_CM = 0.7
+const WEEK_READY_LIFT_CM = 6.0 // above the back-edge labels and dots, so it never covers them
+const DOSE_LABEL_GAP_CM = 1.6 // gap between the morning counts and the "-1 amlodipine" label
 const COUNT_WHITE = new vec4(1, 1, 1, 1)
 const DAY_DIM = new vec4(0.78, 0.8, 0.88, 0.55)
 const CHECK_RING = new vec4(1, 1, 1, 0.45)
@@ -55,6 +61,7 @@ interface CellNodes {
   icons: RenderMeshVisual[]
   iconColors: vec4[]
   ringColor: vec4
+  countColor: vec4
 }
 
 @component
@@ -100,19 +107,29 @@ export class SundaySortBoxOverlayUI extends BaseScriptComponent {
   countHeightCm: number = 2.0
 
   @input
-  @hint("How far above the rim the evening (front row) counts float, in cm.")
-  @widget(new SliderWidget(0.5, 6, 0.1))
-  countLiftFrontCm: number = 1.9
+  @hint("How far above the rim the evening (front row) counts float, in cm. High enough to clear the back-edge labels and dots from where the user stands.")
+  @widget(new SliderWidget(0.5, 8, 0.1))
+  countLiftFrontCm: number = 4.3
 
   @input
   @hint("How far above the rim the morning (back row) counts float, in cm. Higher than the front row so the rows don't overlap from 60 cm.")
-  @widget(new SliderWidget(0.5, 9, 0.1))
-  countLiftBackCm: number = 4.3
+  @widget(new SliderWidget(0.5, 10, 0.1))
+  countLiftBackCm: number = 7.0
 
   @input
-  @hint("How far above the rim the MON..SUN labels float along the back edge, in cm.")
-  @widget(new SliderWidget(1, 12, 0.1))
-  dayLabelLiftCm: number = 5.5
+  @hint("Height of the centre of the MON..SUN labels above the back edge, in cm (they sit on the edge: keep it 2 cm or less).")
+  @widget(new SliderWidget(0.3, 2, 0.05))
+  dayLabelLiftCm: number = 0.8
+
+  @input
+  @hint("Height of the centre of the progress dots above the back edge, in cm (top of the dots stays within 2 cm).")
+  @widget(new SliderWidget(0.4, 1.6, 0.05))
+  dotLiftCm: number = 1.6
+
+  @input("vec4", "{1.0,0.55,0.12,1}")
+  @hint("Doctor's change: colour of the pulsing rings, counts and label (bright orange).")
+  @widget(new ColorWidget())
+  doseChangeColor: vec4
   @ui.group_end
 
   private cells: {[key: string]: CellNodes} = {}
@@ -127,6 +144,10 @@ export class SundaySortBoxOverlayUI extends BaseScriptComponent {
   private weekReadyWanted = false
   private cornerTick: SceneObject
   private dayLabelsRoot: SceneObject
+  private doseLabel: Text
+  private dosePulsing = false
+  private dosePulseT = 0
+  private doseFade: CancelFunction | null = null
   private cellFade: CancelFunction | null = null
   private allFade: CancelFunction | null = null
   private started = false
@@ -144,6 +165,7 @@ export class SundaySortBoxOverlayUI extends BaseScriptComponent {
     this.buildProgressDots()
     this.buildWeekReady()
     this.buildCornerTick()
+    this.buildDoseChangeLabel()
     this.createEvent("UpdateEvent").bind(() => this.onUpdate())
   }
 
@@ -157,6 +179,7 @@ export class SundaySortBoxOverlayUI extends BaseScriptComponent {
       const n = this.cells[v.key]
       if (!n) continue
       n.ringColor = this.ringColor
+      n.countColor = COUNT_WHITE
       setVisualColor(n.ring, this.ringColor)
       this.layoutLabel(n, v, false)
       n.root.enabled = true
@@ -172,6 +195,7 @@ export class SundaySortBoxOverlayUI extends BaseScriptComponent {
       const n = this.cells[v.key]
       if (!n) continue
       n.ringColor = CHECK_RING
+      n.countColor = COUNT_WHITE
       setVisualColor(n.ring, CHECK_RING)
       this.layoutLabel(n, v, true)
       n.root.enabled = true
@@ -205,7 +229,66 @@ export class SundaySortBoxOverlayUI extends BaseScriptComponent {
     for (const n of this.cellOrder) {
       n.root.enabled = false
       this.applyCellAlpha(n, 1)
+      n.ring.getTransform().setLocalScale(vec3.one())
     }
+  }
+
+  /**
+   * Stretch — the doctor's change: only these cells pulse orange with "-1" and
+   * the changed bottle's icon, their day labels brighten, and one
+   * "-1 amlodipine" label floats over them. The corner tick hides until Done.
+   */
+  showDoseChangeCells(views: CellView[], days: boolean[]): void {
+    this.stopCellFade()
+    this.stopDoseFade()
+    this.hideCells()
+    for (const v of views) {
+      const n = this.cells[v.key]
+      if (!n) continue
+      n.ringColor = this.doseChangeColor
+      n.countColor = this.doseChangeColor
+      setVisualColor(n.ring, this.doseChangeColor)
+      this.layoutLabel(n, v, false)
+      n.count.textFill.color = this.doseChangeColor
+      n.root.enabled = true
+    }
+    this.dayLabelsRoot.enabled = true
+    this.setDayLabels(days, this.doseChangeColor)
+    this.doseLabel.textFill.color = this.doseChangeColor
+    outlineText(this.doseLabel)
+    this.doseLabel.getSceneObject().enabled = true
+    this.cornerTick.enabled = false
+    this.dosePulseT = 0
+    this.dosePulsing = true
+  }
+
+  /** Doctor's change finished (Done) or cancelled (Undo): fade it out, put the corner tick back. */
+  endDoseChange(seconds: number = FADE_SECONDS): void {
+    this.stopCellFade()
+    this.stopDoseFade()
+    this.dosePulsing = false
+    const shown = this.cellOrder.filter((n) => n.root.enabled)
+    for (const n of shown) n.ring.getTransform().setLocalScale(vec3.one())
+    const texts: Text[] = this.dayLabels.slice()
+    const startColors = texts.map((t) => t.textFill.color)
+    this.doseFade = animate({
+      duration: seconds,
+      easing: "ease-out-quad",
+      update: (t: number) => {
+        const a = 1 - t
+        for (const n of shown) this.applyCellAlpha(n, a)
+        for (let i = 0; i < texts.length; i++) texts[i].textFill.color = withAlpha(startColors[i], a)
+        this.doseLabel.textFill.color = withAlpha(this.doseChangeColor, a)
+        outlineText(this.doseLabel, a)
+      },
+      ended: () => {
+        this.doseFade = null
+        this.hideCells()
+        this.doseLabel.getSceneObject().enabled = false
+        this.dayLabelsRoot.enabled = false
+        this.cornerTick.enabled = true
+      },
+    })
   }
 
   /** Fill dot i when bottle i (BOTTLES order) is done. */
@@ -272,6 +355,24 @@ export class SundaySortBoxOverlayUI extends BaseScriptComponent {
     return this.cornerTick ? this.cornerTick.enabled : false
   }
 
+  get isDoseChangeLabelVisible(): boolean {
+    return this.doseLabel ? this.doseLabel.getSceneObject().enabled : false
+  }
+
+  get doseChangeLabelText(): string {
+    return this.doseLabel ? this.doseLabel.text : ""
+  }
+
+  get isDoseChangePulsing(): boolean {
+    return this.dosePulsing
+  }
+
+  /** Current ring colour of a cell (alpha included) — for tests. */
+  cellRingColor(key: string): vec4 {
+    const n = this.cells[key]
+    return n ? n.ringColor : new vec4(0, 0, 0, 0)
+  }
+
   // ── Build ──────────────────────────────────────────────────────────────────
 
   private buildCells(): void {
@@ -294,6 +395,7 @@ export class SundaySortBoxOverlayUI extends BaseScriptComponent {
         const count = countSo.createComponent("Component.Text") as Text
         setupText(count, "", COUNT_WHITE, 3.0, this.countHeightCm * 1.4)
         count.size = digitSize
+        outlineText(count)
 
         const icons: RenderMeshVisual[] = []
         const iconColors: vec4[] = []
@@ -304,7 +406,7 @@ export class SundaySortBoxOverlayUI extends BaseScriptComponent {
           iconColors.push(COUNT_WHITE)
         }
         root.enabled = false
-        const nodes: CellNodes = {key, day, row, root, ring, label, count, icons, iconColors, ringColor: this.ringColor}
+        const nodes: CellNodes = {key, day, row, root, ring, label, count, icons, iconColors, ringColor: this.ringColor, countColor: COUNT_WHITE}
         this.cells[key] = nodes
         this.cellOrder.push(nodes)
       }
@@ -319,8 +421,8 @@ export class SundaySortBoxOverlayUI extends BaseScriptComponent {
       const so = this.child(this.dayLabelsRoot, SCENE_NAMES.dayLabelPrefix + DAY_NAMES[d])
       so.getTransform().setLocalPosition(new vec3(c.x, this.pillbox.rimY + this.dayLabelLiftCm, backZ))
       const t = so.createComponent("Component.Text") as Text
-      setupText(t, DAY_NAMES[d], DAY_DIM, this.pillbox.pitchX, 1.4)
-      t.size = sizeForDigitHeight(0.75)
+      setupText(t, DAY_NAMES[d], DAY_DIM, this.pillbox.pitchX, 1.0)
+      t.size = sizeForDigitHeight(DAY_LABEL_DIGIT_CM)
       this.dayLabels.push(t)
       this.dayLabelRoots.push(so)
     }
@@ -329,9 +431,9 @@ export class SundaySortBoxOverlayUI extends BaseScriptComponent {
   private buildProgressDots(): void {
     this.dotsRoot = this.child(this.getSceneObject(), "ProgressDots")
     const backZ = -this.pillbox.depthCm / 2 - 0.4
-    this.dotsRoot.getTransform().setLocalPosition(new vec3(0, this.pillbox.rimY + this.dayLabelLiftCm + 1.5, backZ))
-    const ringMesh = buildCircleRing(0.5, 0.36)
-    const fillMesh = buildEllipse(0.36, 0.36)
+    this.dotsRoot.getTransform().setLocalPosition(new vec3(0, this.pillbox.rimY + this.dotLiftCm, backZ))
+    const ringMesh = buildCircleRing(DOT_RADIUS_CM, DOT_RADIUS_CM * 0.72)
+    const fillMesh = buildEllipse(DOT_RADIUS_CM * 0.72, DOT_RADIUS_CM * 0.72)
     const n = BOTTLES.length
     for (let i = 0; i < n; i++) {
       const dot = makeVisual(this.dotsRoot, SCENE_NAMES.progressDotPrefix + i, ringMesh, this.overlayMaterial, DOT_RING, true)
@@ -345,7 +447,7 @@ export class SundaySortBoxOverlayUI extends BaseScriptComponent {
 
   private buildWeekReady(): void {
     this.weekReadyRoot = this.child(this.getSceneObject(), SCENE_NAMES.weekReady)
-    this.weekReadyRoot.getTransform().setLocalPosition(new vec3(0, this.pillbox.rimY + 3.6, 0.6))
+    this.weekReadyRoot.getTransform().setLocalPosition(new vec3(0, this.pillbox.rimY + WEEK_READY_LIFT_CM, 0.6))
     const plateSo = this.child(this.weekReadyRoot, "WeekReadyPanel")
     this.weekReadyPlate = plateSo.createComponent(BackPlate.getTypeName()) as BackPlate
     this.weekReadyPlate.size = new vec2(13, 4)
@@ -395,6 +497,26 @@ export class SundaySortBoxOverlayUI extends BaseScriptComponent {
     this.cornerTick.enabled = false
   }
 
+  /** One "-1 amlodipine" label centred over the cells the doctor's change touches, above their counts. */
+  private buildDoseChangeLabel(): void {
+    const so = this.child(this.getSceneObject(), SCENE_NAMES.doseChangeLabel)
+    let x = 0
+    let z = 0
+    let maxLift = 0
+    for (const c of DOSE_CHANGE.cells) {
+      const p = this.pillbox.cellCenterLocal(c.day, c.row)
+      x += p.x / DOSE_CHANGE.cells.length
+      z += p.z / DOSE_CHANGE.cells.length
+      maxLift = Math.max(maxLift, c.row === ROW_AM ? this.countLiftBackCm : this.countLiftFrontCm)
+    }
+    so.getTransform().setLocalPosition(new vec3(x, this.pillbox.rimY + maxLift + this.countHeightCm / 2 + DOSE_LABEL_GAP_CM, z))
+    this.doseLabel = so.createComponent("Component.Text") as Text
+    setupText(this.doseLabel, DOSE_CHANGE.label, this.doseChangeColor, 12, 2.0)
+    this.doseLabel.size = sizeForDigitHeight(1.3)
+    outlineText(this.doseLabel)
+    so.enabled = false
+  }
+
   // ── Helpers ────────────────────────────────────────────────────────────────
 
   private layoutLabel(n: CellNodes, v: CellView, checkMode: boolean): void {
@@ -437,15 +559,16 @@ export class SundaySortBoxOverlayUI extends BaseScriptComponent {
 
   private applyCellAlpha(n: CellNodes, a: number): void {
     setVisualColor(n.ring, withAlpha(n.ringColor, a))
-    n.count.textFill.color = withAlpha(COUNT_WHITE, a)
+    n.count.textFill.color = withAlpha(n.countColor, a)
+    outlineText(n.count, a)
     for (let i = 0; i < n.icons.length; i++) setVisualColor(n.icons[i], withAlpha(n.iconColors[i], a))
   }
 
-  private setDayLabels(lit: boolean[]): void {
+  private setDayLabels(lit: boolean[], litColor: vec4 = this.dayLitColor): void {
     for (let d = 0; d < 7; d++) {
       const on = lit[d] === true
       this.litDays[d] = on
-      this.dayLabels[d].textFill.color = on ? this.dayLitColor : DAY_DIM
+      this.dayLabels[d].textFill.color = on ? litColor : DAY_DIM
       const s = on ? 1.15 : 1.0
       this.dayLabelRoots[d].getTransform().setLocalScale(new vec3(s, s, s))
     }
@@ -470,7 +593,28 @@ export class SundaySortBoxOverlayUI extends BaseScriptComponent {
       this.applyPlateTint()
       this.weekReadyRoot.enabled = this.weekReadyWanted
     }
+    if (this.dosePulsing) this.pulseDoseCells()
     this.faceCamera()
+  }
+
+  /** Orange rings breathe (alpha + a little scale) so the changed cells read at a glance. */
+  private pulseDoseCells(): void {
+    this.dosePulseT += getDeltaTime()
+    const k = 0.5 + 0.5 * Math.sin(this.dosePulseT * 4.2)
+    const a = 0.35 + 0.65 * k
+    const s = 1 + 0.12 * k
+    for (const n of this.cellOrder) {
+      if (!n.root.enabled) continue
+      setVisualColor(n.ring, withAlpha(n.ringColor, a))
+      n.ring.getTransform().setLocalScale(new vec3(s, 1, s))
+    }
+  }
+
+  private stopDoseFade(): void {
+    if (this.doseFade) {
+      this.doseFade()
+      this.doseFade = null
+    }
   }
 
   /** Turn every visible label toward the camera so it reads from where the user stands. */
@@ -482,6 +626,7 @@ export class SundaySortBoxOverlayUI extends BaseScriptComponent {
     if (this.dotsRoot.enabled) this.face(this.dotsRoot.getTransform(), cam)
     if (this.weekReadyRoot.enabled) this.face(this.weekReadyRoot.getTransform(), cam)
     if (this.cornerTick.enabled) this.face(this.cornerTick.getTransform(), cam)
+    if (this.doseLabel.getSceneObject().enabled) this.face(this.doseLabel.getTransform(), cam)
   }
 
   private face(t: Transform, cam: vec3): void {

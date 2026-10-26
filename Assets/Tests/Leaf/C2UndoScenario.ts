@@ -8,8 +8,10 @@
  */
 import {Scenario} from "Leaf.lspkg/Scenarios/scenario/Scenario"
 import {sleep} from "Leaf.lspkg/Utils/common/Utils"
+import {SundaySortMain} from "../../Scripts/SundaySortMain"
 import {
   BOTTLE_OBJECTS,
+  CameraGuard,
   CheckList,
   filledDots,
   haloShown,
@@ -28,6 +30,16 @@ export class C2UndoScenario extends Scenario {
   async run(): Promise<void> {
     const c = new CheckList(C2_UNDO_ID)
     const main = await waitForLens()
+    const guard = new CameraGuard(C2_UNDO_ID, main.cameraObject)
+    try {
+      await this.steps(c, main)
+    } finally {
+      await guard.restore()
+    }
+    c.finish()
+  }
+
+  private async steps(c: CheckList, main: SundaySortMain): Promise<void> {
     const chimesBefore = main.doneChimeCount
 
     await pinch("Bottle_Metformin")
@@ -48,7 +60,5 @@ export class C2UndoScenario extends Scenario {
     c.check(main.mode === "sorting", "still sorting", main.mode, "sorting")
     c.check(text("DoneButtonLabel") === "Done", "button reads Done", JSON.stringify(text("DoneButtonLabel")), '"Done"')
     for (const b of BOTTLE_OBJECTS) c.check(!haloShown(b), `${b} not highlighted`, String(haloShown(b)), "false")
-
-    c.finish()
   }
 }

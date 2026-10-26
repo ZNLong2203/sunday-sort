@@ -8,14 +8,18 @@
  *       for N s, then everything fades except the corner tick. Also decides
  *       when the edge arrow shows (out-of-view Vitamin D nudge with one spatial
  *       chime, or "turn back" when a bottle is selected and the box is out of view).
+ *       Stretch: once the week is finished the "Doctor's change" card appears
+ *       beside the box; pinching it pulses only the changed cells orange, and
+ *       Done (or Undo) closes it without re-checking the whole week.
  * Expects (all wired by the scene bootstrap): the pillbox, the four UI modules,
  *       the audio module, the five bottles and the Camera Object.
  * Must NOT: build UI or text itself — views are driven only through their public methods.
  *
  * Public API for tests (LEAF) and debugging:
- *   selectBottle(id) / done() / undo() / allChecked()
+ *   selectBottle(id) / done() / undo() / allChecked() / doctorChange()
  *   selectedBottleId, doneBottleIds, mode, pointerMode,
- *   nudgeChimeCount, doneChimeCount, weekReadyChimeCount, isInView(worldPos)
+ *   nudgeChimeCount, doneChimeCount, weekReadyChimeCount, isInView(worldPos),
+ *   isDoctorCardVisible, doseChangeApplied
  * Bottle ids: metformin, amlodipine, furosemide, atorvastatin, vitaminD.
  */
 import {BOTTLES, BottleDef, bottleById} from "./SundaySortData"
@@ -24,11 +28,13 @@ import {SundaySortBottle} from "./SundaySortBottle"
 import {SundaySortBottleCardUI} from "./SundaySortBottleCardUI"
 import {SundaySortBoxOverlayUI} from "./SundaySortBoxOverlayUI"
 import {SundaySortControlsUI} from "./SundaySortControlsUI"
+import {SundaySortDoctorCardUI} from "./SundaySortDoctorCardUI"
 import {SundaySortPillbox} from "./SundaySortPillbox"
 import {SundaySortPointerUI} from "./SundaySortPointerUI"
 import {SundaySortState} from "./SundaySortState"
 
 const GLOW_FADE_SECONDS = 0.45
+const NUDGE_ANCHOR_FORWARD_CM = 17 // nudge arrow height: just past the counter's front edge, below Done/Undo
 
 @component
 export class SundaySortMain extends BaseScriptComponent {
@@ -60,6 +66,11 @@ export class SundaySortMain extends BaseScriptComponent {
   @input
   @hint("Chimes.")
   audio: SundaySortAudio
+
+  @input
+  @hint("Stretch: the 'Doctor's change' card beside the box (leave empty to skip the stretch).")
+  @allowUndefined
+  doctorCard: SundaySortDoctorCardUI
 
   @input
   @hint("Metformin bottle.")
@@ -97,6 +108,11 @@ export class SundaySortMain extends BaseScriptComponent {
   @input
   @hint("Nudge text when only the out-of-view bottle is left. {name} is replaced by the bottle's short name.")
   nudgeTemplate: string = "1 left: {name}"
+
+  @input
+  @hint("Stretch: seconds after the week fades before the 'Doctor's change' card appears.")
+  @widget(new SliderWidget(0, 5, 0.1))
+  doctorCardDelaySeconds: number = 1.0
 
   @input
   @hint("Arrow text when a bottle is selected and the box is out of view.")
@@ -160,6 +176,7 @@ export class SundaySortMain extends BaseScriptComponent {
     for (const id in this.bottles) this.bottles[id].onPinched.add((bid: string) => this.selectBottle(bid))
     this.controls.onDone.add(() => this.done())
     this.controls.onUndo.add(() => this.undo())
+    if (this.doctorCard) this.doctorCard.onPinched.add(() => this.doctorChange())
     this.overlay.setProgress(BOTTLES.map(() => false))
     this.controls.setAllCheckedMode(false)
     this.controls.setUndoActive(false)
@@ -206,12 +223,14 @@ export class SundaySortMain extends BaseScriptComponent {
       return "done:" + id
     }
     if (this.state.mode === "checking") return this.allChecked() ? "finished" : "noop"
+    if (this.state.mode === "doseChange") return this.applyDoseChange() ? "doseChangeApplied" : "noop"
     return "noop"
   }
 
   /** Clear a wrong selection without marking anything done. */
   undo(): boolean {
     if (!this.ready) return false
+    if (this.state.mode === "doseChange") return this.cancelDoseChange()
     const id = this.state.clearSelection()
     if (id === null) return false
     this.overlay.fadeOutCells(0.2)
@@ -240,8 +259,47 @@ export class SundaySortMain extends BaseScriptComponent {
       this.overlay.fadeOutAllExceptTick()
       this.controls.fadeOut()
       for (const bid in this.bottles) this.bottles[bid].finish()
+      if (this.doctorCard) {
+        this.afterDelay(0.8 + this.doctorCardDelaySeconds, () => {
+          if (this.state.mode === "finished" && !this.state.doseChangeApplied) this.doctorCard.show()
+        })
+      }
     })
     print("[SundaySortMain] week ready")
+    return true
+  }
+
+  /** Stretch: pinching the "Doctor's change" card — only the changed cells pulse orange. */
+  doctorChange(): boolean {
+    if (!this.ready || !this.doctorCard || !this.doctorCard.isVisible) return false
+    if (!this.state.startDoseChange()) return false
+    this.overlay.showDoseChangeCells(this.state.cellsForDoseChange(), this.state.doseChangeDays())
+    this.controls.show()
+    this.controls.setAllCheckedMode(false)
+    this.controls.setUndoActive(true)
+    print("[SundaySortMain] doctor's change shown")
+    return true
+  }
+
+  /** Done after taking the pills out: the box is right again, no full re-check. */
+  private applyDoseChange(): boolean {
+    if (!this.state.applyDoseChange()) return false
+    this.overlay.endDoseChange()
+    this.audio.playDone()
+    this.doctorCard.hide()
+    this.controls.setUndoActive(false)
+    this.controls.fadeOut()
+    print("[SundaySortMain] doctor's change applied")
+    return true
+  }
+
+  /** Undo while the change is shown: close it, keep the card for later. */
+  private cancelDoseChange(): boolean {
+    if (!this.state.cancelDoseChange()) return false
+    this.overlay.endDoseChange(0.2)
+    this.controls.setUndoActive(false)
+    this.controls.fadeOut()
+    print("[SundaySortMain] doctor's change cancelled")
     return true
   }
 
@@ -274,6 +332,14 @@ export class SundaySortMain extends BaseScriptComponent {
     return this.audio ? this.audio.playCount("weekReady") : 0
   }
 
+  get isDoctorCardVisible(): boolean {
+    return this.doctorCard ? this.doctorCard.isVisible : false
+  }
+
+  get doseChangeApplied(): boolean {
+    return this.state.doseChangeApplied
+  }
+
   /** True when a world point is in front of the camera and inside the view (minus the margin). */
   isInView(worldPos: vec3): boolean {
     if (!this.camTransform || !this.camera) return true
@@ -293,7 +359,7 @@ export class SundaySortMain extends BaseScriptComponent {
 
   /** Edge arrow + nudge chime: decided every frame from state + what is in view. */
   private updateGuidance(): void {
-    if (!this.ready || this.state.mode === "finished") return
+    if (!this.ready || this.state.mode === "finished" || this.state.mode === "doseChange") return
     const shelf = this.shelfBottleDef()
     const shelfBottle = shelf ? this.bottles[shelf.id] : null
     let mode = "none"
@@ -309,7 +375,7 @@ export class SundaySortMain extends BaseScriptComponent {
       const p = shelfBottle.centerWorld()
       if (!this.isInView(p)) {
         mode = "nudge"
-        this.pointer.pointTo(p, this.nudgeTemplate.replace("{name}", shelf.shortName), this.pillbox.topCenterWorld())
+        this.pointer.pointTo(p, this.nudgeTemplate.replace("{name}", shelf.shortName), this.pillbox.frontLeftCounterWorld(NUDGE_ANCHOR_FORWARD_CM))
         shelfBottle.setAttract(false)
         if (!this.nudgeChimed) {
           // one soft chime only — it never nags

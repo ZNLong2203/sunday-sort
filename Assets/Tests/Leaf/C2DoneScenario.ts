@@ -10,8 +10,10 @@
  */
 import {Scenario} from "Leaf.lspkg/Scenarios/scenario/Scenario"
 import {sleep} from "Leaf.lspkg/Utils/common/Utils"
+import {SundaySortMain} from "../../Scripts/SundaySortMain"
 import {
   BOTTLE_OBJECTS,
+  CameraGuard,
   CheckList,
   FrameRecorder,
   audioComp,
@@ -33,6 +35,16 @@ export class C2DoneScenario extends Scenario {
   async run(): Promise<void> {
     const c = new CheckList(C2_DONE_ID)
     const main = await waitForLens()
+    const guard = new CameraGuard(C2_DONE_ID, main.cameraObject)
+    try {
+      await this.steps(c, main)
+    } finally {
+      await guard.restore()
+    }
+    c.finish()
+  }
+
+  private async steps(c: CheckList, main: SundaySortMain): Promise<void> {
     const doneAudio = audioComp("DoneChimeAudio")
 
     const chimesBefore = main.doneChimeCount
@@ -91,7 +103,5 @@ export class C2DoneScenario extends Scenario {
     for (const b of BOTTLE_OBJECTS) c.check(!haloShown(b), `${b} not highlighted`, String(haloShown(b)), "false")
     c.check(JSON.stringify(main.doneBottleIds) === '["metformin"]', "controller done set", JSON.stringify(main.doneBottleIds), '["metformin"]')
     c.check(main.selectedBottleId === "", "nothing selected", JSON.stringify(main.selectedBottleId), '""')
-
-    c.finish()
   }
 }

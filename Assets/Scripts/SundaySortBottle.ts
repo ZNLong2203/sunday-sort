@@ -62,8 +62,8 @@ export class SundaySortBottle extends BaseScriptComponent {
   @ui.separator
   @ui.label('<span style="color: #60A5FA;">Settings</span>')
   @ui.group_start("Settings")
-  @input("vec3", "{4.8,9,4.8}")
-  @hint("Pinch target size in cm (a little bigger than the 4.5 x 8 cm bottle; keep under the 5 cm bottle spacing).")
+  @input("vec3", "{4.6,8.2,4.6}")
+  @hint("Pinch target size in cm: tight to the 4.5 x 8 cm bottle so it never catches a pinch meant for a neighbour.")
   colliderSizeCm: vec3
 
   @input("vec4", "{0.2,0.95,1.0,1}")

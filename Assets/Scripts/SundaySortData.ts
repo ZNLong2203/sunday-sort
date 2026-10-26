@@ -109,6 +109,37 @@ export const BOTTLES: BottleDef[] = [
   },
 ]
 
+/**
+ * Stretch: the "Doctor's change" that arrives after the week is filled.
+ * One fewer amlodipine on Thursday to Sunday mornings; only those cells pulse.
+ */
+export interface DoseChangeDef {
+  bottleId: string
+  cells: CellRef[]
+  delta: number
+  /** Floating label over the changed cells. */
+  label: string
+  /** Per-cell count text. */
+  countText: string
+  cardTitle: string
+  cardNote: string
+}
+
+export const DOSE_CHANGE: DoseChangeDef = {
+  bottleId: "amlodipine",
+  cells: [
+    {day: 3, row: ROW_AM},
+    {day: 4, row: ROW_AM},
+    {day: 5, row: ROW_AM},
+    {day: 6, row: ROW_AM},
+  ],
+  delta: -1,
+  label: "-1 amlodipine",
+  countText: "-1",
+  cardTitle: "Doctor's change",
+  cardNote: "Amlodipine 5 mg — pinch to see the cells",
+}
+
 export function bottleIndex(id: string): number {
   for (let i = 0; i < BOTTLES.length; i++) if (BOTTLES[i].id === id) return i
   return -1
@@ -155,4 +186,8 @@ export const SCENE_NAMES = {
   doneLabel: "DoneButtonLabel",
   arrow: "OutOfViewArrow",
   arrowText: "OutOfViewArrowText",
+  doctorCard: "DoctorChangeCard", // holds the SIK Interactable (runtime)
+  doctorCardTitle: "DoctorChangeCardTitle",
+  doctorCardNote: "DoctorChangeCardNote",
+  doseChangeLabel: "DoseChangeLabel", // Text: "-1 amlodipine"
 }

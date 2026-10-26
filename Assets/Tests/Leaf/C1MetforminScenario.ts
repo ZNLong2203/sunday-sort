@@ -10,10 +10,17 @@
  */
 import {Scenario} from "Leaf.lspkg/Scenarios/scenario/Scenario"
 import {sleep} from "Leaf.lspkg/Utils/common/Utils"
+import {SundaySortMain} from "../../Scripts/SundaySortMain"
 import {
   ALL_KEYS,
   BOTTLE_OBJECTS,
+  CameraGuard,
   CheckList,
+  PM_KEYS,
+  fmtRect,
+  rectsOverlap,
+  screenRectOf,
+  screenRectOfVisual,
   PILL_COLOR,
   cellCount,
   colorOf,
@@ -29,6 +36,7 @@ import {
   shown,
   text,
   visibleCellKeys,
+  labelsOverBottles,
   visibleIcons,
   waitForLens,
 } from "./SundaySortLeafHelpers"
@@ -40,6 +48,18 @@ export class C1MetforminScenario extends Scenario {
   async run(): Promise<void> {
     const c = new CheckList(C1_ID)
     const main = await waitForLens()
+    const guard = new CameraGuard(C1_ID, main.cameraObject)
+    try {
+      await this.steps(c, main)
+    } finally {
+      await guard.restore()
+    }
+    c.finish()
+  }
+
+  private async steps(c: CheckList, main: SundaySortMain): Promise<void> {
+    // Layout from the start pose: Done/Undo must not cover any cell on screen.
+    this.checkButtonsClearOfCells(c, main)
 
     // Precondition: nothing floats by default.
     c.check(visibleCellKeys().length === 0, "no cell lit before the pinch", JSON.stringify(visibleCellKeys()), "[]")
@@ -90,12 +110,13 @@ export class C1MetforminScenario extends Scenario {
     // Card position: above the pinched bottle (brief: "floats just above the bottle I pinched").
     const cardPos = obj("BottleCard").getTransform().getWorldPosition()
     const bottlePos = obj("Bottle_Metformin").getTransform().getWorldPosition()
+    const bottleTopY = bottlePos.y + main.bottleMetformin.colliderSizeCm.y / 2
     const boxPos = obj("Pillbox").getTransform().getWorldPosition()
     const rimY = boxPos.y + main.pillbox.rimY
     const horiz = Math.sqrt(Math.pow(cardPos.x - bottlePos.x, 2) + Math.pow(cardPos.z - bottlePos.z, 2))
-    const aboveBottleTop = cardPos.y - (bottlePos.y + 4.5)
+    const aboveBottleTop = cardPos.y - bottleTopY
     c.note(
-      `card at ${fmt3(cardPos)}; metformin bottle centre ${fmt3(bottlePos)} (top ≈ y ${(bottlePos.y + 4.5).toFixed(1)}); ` +
+      `card at ${fmt3(cardPos)}; metformin bottle centre ${fmt3(bottlePos)} (pinch-target top y ${bottleTopY.toFixed(1)}); ` +
         `box origin ${fmt3(boxPos)} rim y ${rimY.toFixed(1)}; card centre is ${aboveBottleTop.toFixed(1)} cm above the bottle top, ` +
         `${horiz.toFixed(1)} cm sideways from the bottle axis, ${(cardPos.y - rimY).toFixed(1)} cm above the box rim, ` +
         `${(cardPos.x - boxPos.x).toFixed(1)} cm right of the box centre`,
@@ -118,6 +139,34 @@ export class C1MetforminScenario extends Scenario {
     // Nothing marked done by a select.
     c.check(filledDots().length === 0, "no progress dot filled", JSON.stringify(filledDots()), "[]")
 
-    c.finish()
+    // Layout observation (not a criterion): do the floating counts land on a bottle on screen?
+    const over = labelsOverBottles(main, ALL_KEYS.map((k) => "CellCount_" + k))
+    c.note(`lit counts whose screen anchor falls on a counter bottle: ${over.length ? JSON.stringify(over) : "none"}`)
+  }
+
+  /**
+   * Project every cell ring (its mesh bounds through its world transform) and
+   * the Done / Undo button meshes to screen with the Lens camera at the start
+   * pose. No button rect may overlap a cell rect, and the buttons' top edge
+   * must sit below the front (evening) row's bottom edge (screen y grows down).
+   */
+  private checkButtonsClearOfCells(c: CheckList, main: SundaySortMain): void {
+    const cam = main.cameraObject.getTransform()
+    c.note(`layout check from camera pose ${fmt3(cam.getWorldPosition())}`)
+    const cells = ALL_KEYS.map((k) => ({key: k, r: screenRectOfVisual(main, meshVisual("CellRing_" + k))}))
+    const buttons = ["DoneButton", "UndoButton"].map((n) => ({name: n, r: screenRectOf(main, n)}))
+    const hits: string[] = []
+    for (const b of buttons) for (const cell of cells) if (rectsOverlap(b.r, cell.r)) hits.push(`${b.name}×${cell.key}`)
+    for (const b of buttons) c.note(`${b.name} screen rect ${fmtRect(b.r)}`)
+    const frontBottom = Math.max(...cells.filter((x) => PM_KEYS.indexOf(x.key) >= 0).map((x) => x.r.maxY))
+    const buttonTop = Math.min(...buttons.map((b) => b.r.minY))
+    c.note(`front-row cells bottom edge y ${frontBottom.toFixed(3)}; buttons top edge y ${buttonTop.toFixed(3)}`)
+    c.check(hits.length === 0, "Done/Undo cover no cell on screen (start pose)", hits.length ? JSON.stringify(hits) : "no overlaps", "no overlaps")
+    c.check(
+      buttonTop >= frontBottom,
+      "Done/Undo sit below the front row on screen",
+      `button top y ${buttonTop.toFixed(3)} vs front-row bottom y ${frontBottom.toFixed(3)} (gap ${(buttonTop - frontBottom).toFixed(3)} of screen height)`,
+      "button top y >= front-row bottom y",
+    )
   }
 }

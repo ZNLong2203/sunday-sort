@@ -98,6 +98,16 @@ export class SundaySortPillbox extends BaseScriptComponent {
     return this.getTransform().getWorldTransform().multiplyPoint(new vec3(0, this.rimY, 0))
   }
 
+  /**
+   * A point on the counter in front of the box's front-left corner. The nudge
+   * arrow pins to the left edge of the view at this height, so it sits just
+   * beside the box without covering any cell or the Done/Undo buttons.
+   */
+  frontLeftCounterWorld(forwardCm: number): vec3 {
+    const local = new vec3(-this.widthCm / 2, 0, this.depthCm / 2 + forwardCm)
+    return this.getTransform().getWorldTransform().multiplyPoint(local)
+  }
+
   private build(): void {
     if (this.built) return
     this.built = true

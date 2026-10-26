@@ -81,6 +81,19 @@ export function tintPlate(plateHost: SceneObject, background: vec4, border: vec4
   rr.borderColor = border
 }
 
+/**
+ * Dark outline behind floating text. On the additive display dark renders as
+ * see-through, so this changes nothing on glasses; in the preview it keeps the
+ * counts readable where they float in front of the white bottles.
+ */
+export const TEXT_OUTLINE = new vec4(0.03, 0.06, 0.12, 1)
+
+export function outlineText(t: Text, alpha: number = 1, size: number = 0.3): void {
+  t.outlineSettings.enabled = true
+  t.outlineSettings.size = size
+  t.outlineSettings.fill.color = withAlpha(TEXT_OUTLINE, alpha)
+}
+
 export function withAlpha(c: vec4, a: number): vec4 {
   return new vec4(c.x, c.y, c.z, c.w * a)
 }

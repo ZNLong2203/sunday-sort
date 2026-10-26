@@ -18,9 +18,15 @@ import {SundaySortMain} from "../../Scripts/SundaySortMain"
 import {
   ALL_KEYS,
   BOTTLE_OBJECTS,
+  CameraGuard,
   CheckList,
   FrameRecorder,
   LeafHeadTurner,
+  fmtRect,
+  meshVisual,
+  rectsOverlap,
+  screenRectOf,
+  screenRectOfVisual,
   PILL_COLOR,
   audioComp,
   cameraLocal,
@@ -82,11 +88,14 @@ export class C4VitaminDScenario extends Scenario {
   async run(): Promise<void> {
     const c = new CheckList(C4_ID)
     const main = await waitForLens()
+    const guard = new CameraGuard(C4_ID, main.cameraObject)
+    guard.pauseTracking()
     const head = new LeafHeadTurner(main.cameraObject)
     try {
       await this.steps(c, main, head)
     } finally {
       head.dispose()
+      await guard.restore()
     }
     c.finish()
   }
@@ -172,6 +181,14 @@ export class C4VitaminDScenario extends Scenario {
     const rightA = colorOf(this.icon(arrowRoot, "ArrowRightIcon")).w
     c.check(leftA > 0.5 && rightA < 0.05, "left-pointing arrow lit, right one dark", `left α ${leftA.toFixed(2)} right α ${rightA.toFixed(2)}`, "left > 0.5, right < 0.05")
     c.check(main.pointerMode === "nudge", "controller pointer mode", main.pointerMode, "nudge")
+
+    // Layout: the arrow's on-screen rect must not cover any cell (or Done/Undo).
+    const arrowRect = screenRectOf(main, "OutOfViewArrow")
+    c.note(`arrow screen rect ${fmtRect(arrowRect)}`)
+    const coveredCells = ALL_KEYS.filter((k) => rectsOverlap(arrowRect, screenRectOfVisual(main, meshVisual("CellRing_" + k))))
+    c.check(coveredCells.length === 0, "nudge arrow covers no cell on screen", coveredCells.length ? JSON.stringify(coveredCells) : "no overlaps", "no overlaps")
+    const coveredButtons = ["DoneButton", "UndoButton"].filter((n) => rectsOverlap(arrowRect, screenRectOf(main, n)))
+    c.check(coveredButtons.length === 0, "nudge arrow covers neither Done nor Undo on screen", coveredButtons.length ? JSON.stringify(coveredButtons) : "no overlaps", "no overlaps")
 
     // ── Turn to the shelf: arrow hides, bottle gets the gentle highlight ─────
     const err1 = await head.lookAt(vdPos)

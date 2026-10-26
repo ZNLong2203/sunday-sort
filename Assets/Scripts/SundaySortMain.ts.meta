@@ -38,6 +38,8 @@
     card: false
     controls: false
     debugColliders: false
+    doctorCard: false
+    doctorCardDelaySeconds: false
     nudgeTemplate: false
     overlay: false
     pillbox: false
@@ -60,14 +62,16 @@
       controls: !<MappingBased.AssignableType_4> 00000000-0000-0000-0000-000000000000
       pointer: !<MappingBased.AssignableType_5> 00000000-0000-0000-0000-000000000000
       audio: !<MappingBased.AssignableType_6> 00000000-0000-0000-0000-000000000000
-      bottleMetformin: !<MappingBased.AssignableType_7> 00000000-0000-0000-0000-000000000000
-      bottleAmlodipine: !<MappingBased.AssignableType_8> 00000000-0000-0000-0000-000000000000
-      bottleFurosemide: !<MappingBased.AssignableType_9> 00000000-0000-0000-0000-000000000000
-      bottleAtorvastatin: !<MappingBased.AssignableType_10> 00000000-0000-0000-0000-000000000000
-      bottleVitaminD: !<MappingBased.AssignableType_11> 00000000-0000-0000-0000-000000000000
+      doctorCard: !<MappingBased.AssignableType_7> 00000000-0000-0000-0000-000000000000
+      bottleMetformin: !<MappingBased.AssignableType_8> 00000000-0000-0000-0000-000000000000
+      bottleAmlodipine: !<MappingBased.AssignableType_9> 00000000-0000-0000-0000-000000000000
+      bottleFurosemide: !<MappingBased.AssignableType_10> 00000000-0000-0000-0000-000000000000
+      bottleAtorvastatin: !<MappingBased.AssignableType_11> 00000000-0000-0000-0000-000000000000
+      bottleVitaminD: !<MappingBased.AssignableType_12> 00000000-0000-0000-0000-000000000000
       cameraObject: !<reference.SceneObject> 00000000-0000-0000-0000-000000000000
       weekReadySeconds: !<float> 3.000000
       nudgeTemplate: "1 left: {name}"
+      doctorCardDelaySeconds: !<float> 1.000000
       turnBackLabel: Back to the box
       viewMargin: 0.050000
       debugColliders: false
@@ -85,11 +89,12 @@
     - '// @input AssignableType_4 controls {"hint":"Done / Undo buttons."}'
     - '// @input AssignableType_5 pointer {"hint":"Edge-of-view arrow."}'
     - '// @input AssignableType_6 audio {"hint":"Chimes."}'
-    - '// @input AssignableType_7 bottleMetformin {"hint":"Metformin bottle."}'
-    - '// @input AssignableType_8 bottleAmlodipine {"hint":"Amlodipine bottle."}'
-    - '// @input AssignableType_9 bottleFurosemide {"hint":"Furosemide bottle."}'
-    - '// @input AssignableType_10 bottleAtorvastatin {"hint":"Atorvastatin bottle."}'
-    - '// @input AssignableType_11 bottleVitaminD {"hint":"Vitamin D bottle (on the shelf to the left)."}'
+    - "// @input AssignableType_7 doctorCard {\"hint\":\"Stretch: the 'Doctor's change' card beside the box (leave empty to skip the stretch).\"}"
+    - '// @input AssignableType_8 bottleMetformin {"hint":"Metformin bottle."}'
+    - '// @input AssignableType_9 bottleAmlodipine {"hint":"Amlodipine bottle."}'
+    - '// @input AssignableType_10 bottleFurosemide {"hint":"Furosemide bottle."}'
+    - '// @input AssignableType_11 bottleAtorvastatin {"hint":"Atorvastatin bottle."}'
+    - '// @input AssignableType_12 bottleVitaminD {"hint":"Vitamin D bottle (on the shelf to the left)."}'
     - '// @input SceneObject cameraObject {"hint":"Camera Object — used to tell what is in view."}'
     - '// @ui {"widget":"group_end"}'
     - '// @ui {"widget":"separator"}'
@@ -97,6 +102,7 @@
     - '// @ui {"widget":"group_start", "label":"Settings"}'
     - "// @input float weekReadySeconds = 3 {\"hint\":\"How long 'Week ready' stays on the box before everything fades, in seconds.\", \"widget\":\"slider\", \"min\":1, \"max\":8, \"step\":0.5}"
     - "// @input string nudgeTemplate = \"1 left: {name}\" {\"hint\":\"Nudge text when only the out-of-view bottle is left. {name} is replaced by the bottle's short name.\"}"
+    - "// @input float doctorCardDelaySeconds = 1 {\"hint\":\"Stretch: seconds after the week fades before the 'Doctor's change' card appears.\", \"widget\":\"slider\", \"min\":0, \"max\":5, \"step\":0.1}"
     - '// @input string turnBackLabel = "Back to the box" {"hint":"Arrow text when a bottle is selected and the box is out of view."}'
     - "// @input float viewMargin = 0.05 {\"hint\":\"Screen-edge margin (fraction of the view) a point must be inside to count as 'in view'.\", \"widget\":\"slider\", \"min\":0, \"max\":0.3, \"step\":0.01}"
     - '// @input bool debugColliders {"hint":"Debug: draw every collider as a wireframe (takes effect on preview restart)."}'

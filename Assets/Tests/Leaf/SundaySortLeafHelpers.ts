@@ -21,6 +21,9 @@ import {LeafHandInteractor} from "Leaf.lspkg/Interactors/interactor/LeafTwoHandI
 import {HeadController} from "Leaf.lspkg/IKSolver/HeadController"
 import {PoseTransform} from "Leaf.lspkg/IKSolver/PoseTransform"
 import {expect} from "Leaf.lspkg/Utils/common/Expect"
+import {BackPlate} from "SpectaclesUIKit.lspkg/Scripts/BackPlate"
+import {Button} from "SpectaclesUIKit.lspkg/Scripts/Components/Button/Button"
+import {RoundedRectangle} from "SpectaclesUIKit.lspkg/Scripts/Visuals/RoundedRectangle/RoundedRectangle"
 import {UpdateDispatcher} from "Leaf.lspkg/Utils/common/UpdateDispatcher"
 import {findSceneObjectByName, nextFrame, sleep} from "Leaf.lspkg/Utils/common/Utils"
 import {SundaySortMain} from "../../Scripts/SundaySortMain"
@@ -254,36 +257,86 @@ export class FrameRecorder<T> {
 }
 
 /**
+ * Saves the Camera Object's world pose and its DeviceTracking state when a
+ * scenario starts, and puts all of it back when the scenario ends — whatever
+ * the scenario did to the head in between (LeafHeadTurner, LEAF's IK head).
+ *
+ * Preview caveat: DeviceTracking rewrites the camera pose at the start of
+ * every frame, before any script's UpdateEvent. A head pose written from LEAF
+ * (UpdateDispatcher runs after the Lens's own scripts) is never seen by the
+ * Lens's per-frame logic unless tracking is paused, so scenarios that turn the
+ * head call pauseTracking(). restore() writes the saved position AND rotation
+ * back BEFORE re-enabling tracking, then checks the pose a few frames later.
+ */
+export class CameraGuard {
+  private readonly camT: Transform
+  private readonly startPos: vec3
+  private readonly startRot: quat
+  private readonly tracking: DeviceTracking | null
+  private readonly trackingWasEnabled: boolean
+  private restored = false
+
+  constructor(private readonly scenarioId: string, cameraObject: SceneObject) {
+    this.camT = cameraObject.getTransform()
+    this.startPos = this.camT.getWorldPosition()
+    this.startRot = this.camT.getWorldRotation()
+    this.tracking = cameraObject.getComponent("Component.DeviceTracking") as DeviceTracking
+    this.trackingWasEnabled = this.tracking ? this.tracking.enabled : false
+    log(`${scenarioId} camera at start: pos ${fmt3(this.startPos)} rot ${fmtQuat(this.startRot)} tracking=${this.trackingWasEnabled}`)
+  }
+
+  get startPosition(): vec3 {
+    return this.startPos
+  }
+
+  pauseTracking(): void {
+    if (this.tracking && this.tracking.enabled) {
+      this.tracking.enabled = false
+      log(`${this.scenarioId} DeviceTracking paused while LEAF drives the head (restored at the end)`)
+    }
+  }
+
+  /** Put pose + tracking back; returns the leftover offset (cm, degrees) after a few frames. */
+  async restore(): Promise<{posErr: number; rotErrDeg: number}> {
+    if (this.restored) return {posErr: 0, rotErrDeg: 0}
+    this.restored = true
+    this.camT.setWorldPosition(this.startPos)
+    this.camT.setWorldRotation(this.startRot)
+    if (this.tracking && !isNull(this.tracking)) this.tracking.enabled = this.trackingWasEnabled
+    for (let i = 0; i < 5; i++) await nextFrame()
+    const pos = this.camT.getWorldPosition()
+    const rot = this.camT.getWorldRotation()
+    const posErr = pos.distance(this.startPos)
+    const rotErrDeg = (quat.angleBetween(rot, this.startRot) * 180) / Math.PI
+    log(
+      `${this.scenarioId} camera restored: pos ${fmt3(pos)} rot ${fmtQuat(rot)} tracking=${this.tracking ? this.tracking.enabled : "none"} ` +
+        `(offset ${posErr.toFixed(2)} cm, ${rotErrDeg.toFixed(2)}° from start)`,
+    )
+    return {posErr, rotErrDeg}
+  }
+}
+
+export function fmtQuat(q: quat): string {
+  const e = q.toEulerAngles()
+  const d = 180 / Math.PI
+  return `(${(e.x * d).toFixed(1)}°, ${(e.y * d).toFixed(1)}°, ${(e.z * d).toFixed(1)}°)`
+}
+
+/**
  * Turns the user's head (the Camera Object) with LEAF's IK HeadController —
  * the same smoothed head physics LEAF's IKBodyInteractor uses when it looks at
  * a target. The camera POSITION is left untouched; only the rotation changes.
- *
- * Preview caveat: the Camera Object's DeviceTracking rewrites the camera pose
- * at the start of every frame, before any script's UpdateEvent. A head pose
- * written from LEAF's UpdateDispatcher (which runs after the Lens's own
- * scripts) is therefore never seen by the Lens's per-frame logic. While the
- * test drives the head, DeviceTracking is paused so the turned pose persists
- * into the next frame; dispose() restores both tracking and the start rotation.
+ * Needs DeviceTracking paused (CameraGuard.pauseTracking) for the Lens to see it.
  */
 export class LeafHeadTurner {
   private readonly controller = new HeadController()
   private readonly head: PoseTransform
   private readonly camT: Transform
-  private readonly initialRotation: quat
-  private readonly tracking: DeviceTracking | null
-  private readonly trackingWasEnabled: boolean
   private unsub: (() => void) | null
 
   constructor(cameraObject: SceneObject) {
     this.camT = cameraObject.getTransform()
     this.head = new PoseTransform(this.camT)
-    this.initialRotation = this.camT.getWorldRotation()
-    this.tracking = cameraObject.getComponent("Component.DeviceTracking") as DeviceTracking
-    this.trackingWasEnabled = this.tracking ? this.tracking.enabled : false
-    if (this.tracking) {
-      this.tracking.enabled = false
-      log("head turner: DeviceTracking paused while LEAF drives the head (restored on dispose)")
-    }
     this.unsub = UpdateDispatcher.getInstance().onUpdate.add(() => {
       const dt = getDeltaTime()
       if (!(dt > 0)) return
@@ -317,15 +370,104 @@ export class LeafHeadTurner {
     return this.angleTo(target)
   }
 
-  /** Stop driving the head, put the camera back where it started, resume DeviceTracking. */
+  /** Stop driving the head (CameraGuard.restore() puts the pose back). */
   dispose(): void {
     if (this.unsub) {
       this.unsub()
       this.unsub = null
     }
-    this.camT.setWorldRotation(this.initialRotation)
-    if (this.tracking && !isNull(this.tracking)) this.tracking.enabled = this.trackingWasEnabled
   }
+}
+
+// ── Screen-space layout ──────────────────────────────────────────────────────
+
+export interface ScreenRect {
+  minX: number
+  maxX: number
+  minY: number
+  maxY: number
+}
+
+/** Screen rect (0..1, y down) of a box given by 8 world-space corners. */
+function rectOfPoints(main: SundaySortMain, pts: vec3[]): ScreenRect {
+  const r: ScreenRect = {minX: Infinity, maxX: -Infinity, minY: Infinity, maxY: -Infinity}
+  for (const p of pts) {
+    const s = screenPos(main, p)
+    r.minX = Math.min(r.minX, s.x)
+    r.maxX = Math.max(r.maxX, s.x)
+    r.minY = Math.min(r.minY, s.y)
+    r.maxY = Math.max(r.maxY, s.y)
+  }
+  return r
+}
+
+function boxCorners(mn: vec3, mx: vec3, m: mat4): vec3[] {
+  const out: vec3[] = []
+  for (const x of [mn.x, mx.x]) for (const y of [mn.y, mx.y]) for (const z of [mn.z, mx.z]) out.push(m.multiplyPoint(new vec3(x, y, z)))
+  return out
+}
+
+/** Exact on-screen footprint of a mesh visual: its local mesh bounds through its world transform. */
+export function screenRectOfVisual(main: SundaySortMain, v: RenderMeshVisual): ScreenRect {
+  const m = v.mesh
+  if (m) return rectOfPoints(main, boxCorners(m.aabbMin, m.aabbMax, v.getTransform().getWorldTransform()))
+  return rectOfPoints(main, boxCorners(v.worldAabbMin(), v.worldAabbMax(), mat4.identity()))
+}
+
+/** On-screen footprint of a box of `size` centred on a transform (e.g. a bottle's pinch target). */
+export function screenRectOfBox(main: SundaySortMain, t: Transform, size: vec3): ScreenRect {
+  const h = size.uniformScale(0.5)
+  return rectOfPoints(main, boxCorners(h.uniformScale(-1), h, t.getWorldTransform()))
+}
+
+/**
+ * UIKit Buttons and BackPlates draw a unit mesh sized in the shader, so their
+ * RenderMeshVisual bounds understate what is drawn. Their real footprint is
+ * the Element / BackPlate `size`, centred on the object.
+ */
+function uikitSize(so: SceneObject): vec3 | null {
+  const btn = so.getComponent(Button.getTypeName()) as Button
+  if (btn && btn.size) {
+    // A flat RoundedRectangle style draws no depth; only a BeveledPrism has thickness.
+    const flat = !!so.getComponent(RoundedRectangle.getTypeName())
+    return flat ? new vec3(btn.size.x, btn.size.y, 0) : btn.size
+  }
+  const plate = so.getComponent(BackPlate.getTypeName()) as BackPlate
+  if (plate && plate.size) return new vec3(plate.size.x, plate.size.y, 0.1)
+  return null
+}
+
+/** On-screen footprint of a named object: UIKit size box when it is a UIKit element, else its mesh bounds. */
+export function screenRectOf(main: SundaySortMain, name: string): ScreenRect {
+  const so = obj(name)
+  const size = uikitSize(so)
+  if (size) return screenRectOfBox(main, so.getTransform(), size)
+  return screenRectOfVisual(main, meshVisual(name))
+}
+
+export function pointInRect(p: vec2, r: ScreenRect): boolean {
+  return p.x >= r.minX && p.x <= r.maxX && p.y >= r.minY && p.y <= r.maxY
+}
+
+/** Layout observation: which visible labels have their on-screen anchor inside a counter bottle's pinch-target rect. */
+export function labelsOverBottles(main: SundaySortMain, labelNames: string[]): string[] {
+  const bottles = [main.bottleMetformin, main.bottleAmlodipine, main.bottleFurosemide, main.bottleAtorvastatin]
+  const rects = bottles.map((b) => ({name: b.getSceneObject().name, r: screenRectOfBox(main, b.getTransform(), b.colliderSizeCm)}))
+  const out: string[] = []
+  for (const n of labelNames) {
+    if (!shown(n)) continue
+    const p = screenPos(main, obj(n).getTransform().getWorldPosition())
+    for (const x of rects) if (pointInRect(p, x.r)) out.push(`${n} over ${x.name}`)
+  }
+  return out
+}
+
+export function rectsOverlap(a: ScreenRect, b: ScreenRect): boolean {
+  return a.minX < b.maxX && b.minX < a.maxX && a.minY < b.maxY && b.minY < a.maxY
+}
+
+export function fmtRect(r: ScreenRect): string {
+  return `x ${r.minX.toFixed(3)}–${r.maxX.toFixed(3)}, y ${r.minY.toFixed(3)}–${r.maxY.toFixed(3)}`
 }
 
 /** Collects named check results so a scenario can report every failure at once, then throw. */

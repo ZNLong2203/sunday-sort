@@ -7,8 +7,10 @@
  */
 import {Scenario} from "Leaf.lspkg/Scenarios/scenario/Scenario"
 import {sleep} from "Leaf.lspkg/Utils/common/Utils"
+import {SundaySortMain} from "../../Scripts/SundaySortMain"
 import {
   BOTTLE_OBJECTS,
+  CameraGuard,
   CheckList,
   DAYS,
   PILL_COLOR,
@@ -39,6 +41,16 @@ export class C3FurosemideScenario extends Scenario {
   async run(): Promise<void> {
     const c = new CheckList(C3_ID)
     const main = await waitForLens()
+    const guard = new CameraGuard(C3_ID, main.cameraObject)
+    try {
+      await this.steps(c, main)
+    } finally {
+      await guard.restore()
+    }
+    c.finish()
+  }
+
+  private async steps(c: CheckList, main: SundaySortMain): Promise<void> {
 
     // Unlit baseline for the day labels, read before anything is selected.
     const baseColor = textComp("DayLabel_TUE").textFill.color
@@ -112,7 +124,5 @@ export class C3FurosemideScenario extends Scenario {
       const want = b === "Bottle_Furosemide"
       c.check(haloShown(b) === want, `${b} highlight ${want ? "on" : "off"}`, String(haloShown(b)), String(want))
     }
-
-    c.finish()
   }
 }

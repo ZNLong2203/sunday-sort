@@ -16,18 +16,35 @@
  * completes the pinch through LEAF's simulated-SIK DefaultLeafInteractor so
  * the rest of the targets still get an IK reach attempt.
  *
- * DeviceTracking is paused for the run (see LeafHeadTurner's note) so the IK
- * head pose is the pose the Lens's own per-frame logic sees.
+ * DeviceTracking is paused for the run (see CameraGuard's note) so the IK
+ * head pose is the pose the Lens's own per-frame logic sees; the camera pose
+ * and tracking are restored at the end.
  */
 import {Interactable} from "SpectaclesInteractionKit.lspkg/Components/Interaction/Interactable/Interactable"
 import {DiagnosticRecorder} from "Leaf.lspkg/Diagnostic/DiagnosticRecorder"
 import {findInteractableByName} from "Leaf.lspkg/Interactors/InteractableUtils"
 import {DefaultLeafInteractor} from "Leaf.lspkg/Interactors/interactor/DefaultLeafInteractor"
+import {IKBodyInteractor} from "Leaf.lspkg/Interactors/interactor/ik/IKBodyInteractor"
 import {createIKInteractor} from "Leaf.lspkg/Interactors/interactor/ik/visualizer/BitmojiAvatar"
 import {Scenario} from "Leaf.lspkg/Scenarios/scenario/Scenario"
 import {sleep} from "Leaf.lspkg/Utils/common/Utils"
 import {SundaySortMain} from "../../Scripts/SundaySortMain"
-import {BOTTLE_OBJECTS, CheckList, FrameRecorder, filledDots, log, shown, text, visibleCellKeys, waitForLens} from "./SundaySortLeafHelpers"
+import {
+  BOTTLE_OBJECTS,
+  CameraGuard,
+  CheckList,
+  FrameRecorder,
+  filledDots,
+  fmt3,
+  fmtRect,
+  log,
+  rectsOverlap,
+  screenRectOfBox,
+  shown,
+  text,
+  visibleCellKeys,
+  waitForLens,
+} from "./SundaySortLeafHelpers"
 
 export const IK_ID = "ik-reach-full-week"
 
@@ -36,20 +53,39 @@ export class IKReachScenario extends Scenario {
   async run(): Promise<void> {
     const c = new CheckList(IK_ID)
     const main = await waitForLens()
-    const tracking = main.cameraObject.getComponent("Component.DeviceTracking") as DeviceTracking
-    const startRot = main.cameraObject.getTransform().getWorldRotation()
-    if (tracking) tracking.enabled = false
+    const guard = new CameraGuard(IK_ID, main.cameraObject)
     try {
+      // From where the user stands (start pose): no bottle's pinch target overlaps another's on screen.
+      this.checkBottlesSeparateOnScreen(c, main)
+      guard.pauseTracking()
       await this.steps(c, main)
     } finally {
-      main.cameraObject.getTransform().setWorldRotation(startRot)
-      if (tracking && !isNull(tracking)) tracking.enabled = true
+      await guard.restore()
     }
     c.finish()
   }
 
+  private checkBottlesSeparateOnScreen(c: CheckList, main: SundaySortMain): void {
+    const bottles = [main.bottleMetformin, main.bottleAmlodipine, main.bottleFurosemide, main.bottleAtorvastatin, main.bottleVitaminD]
+    const rects = bottles.map((b) => ({name: b.getSceneObject().name, r: screenRectOfBox(main, b.getTransform(), b.colliderSizeCm)}))
+    const overlaps: string[] = []
+    for (let i = 0; i < rects.length; i++)
+      for (let j = i + 1; j < rects.length; j++) if (rectsOverlap(rects[i].r, rects[j].r)) overlaps.push(`${rects[i].name}×${rects[j].name}`)
+    for (const x of rects.slice(0, 4)) c.note(`${x.name} pinch target ${fmt3(main.bottleMetformin.colliderSizeCm)} cm, screen rect ${fmtRect(x.r)}`)
+    c.check(overlaps.length === 0, "no bottle pinch target overlaps another on screen (start pose)", overlaps.length ? JSON.stringify(overlaps) : "no overlaps", "no overlaps")
+  }
+
   private async steps(c: CheckList, main: SundaySortMain): Promise<void> {
     const ik = createIKInteractor()
+    try {
+      await this.week(c, main, ik)
+    } finally {
+      // Stop the IK head writing the camera before CameraGuard restores the pose.
+      ik.destroy()
+    }
+  }
+
+  private async week(c: CheckList, main: SundaySortMain, ik: IKBodyInteractor): Promise<void> {
     await Promise.race([ik.ready, sleep(20000)])
     const diags = DiagnosticRecorder.getInstance()
 

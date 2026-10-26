@@ -5,9 +5,9 @@
     - !<own> 0005641c-028d-459a-0000-000000014b4d
     - !<own> f5d74682-203a-4970-81ea-9fa7b88c96bb
     - !<own> 07612024-c62b-4995-a0de-fda0e3e84f75
-    - !<own> 4fbce8a3-b5a4-4fc2-9f2e-2c208a46653b
     - !<own> 205e6c39-914e-4e8c-9894-4d07430dc933
     - !<own> 6de99b08-4cb9-4451-b4a7-bc8f9f7b08bd
+    - !<own> d060142a-0f5c-4ca5-b90d-065a15caa3a5
   layers: !<Layers/267ee9a7-aff2-4f9d-9a49-f71214747d03>
     userLayers:
       - id: 1
@@ -671,22 +671,6 @@
     []
   Components:
     - !<own> f86b7ad5-b588-48b6-acde-5cd115156750
-- !<ScriptComponent/1f5769c0-9614-4a23-9734-2eac789f5d71>
-  PrefabRemaps:
-    []
-  Name: AgentInteractScript
-  Enabled: true
-  ScriptAsset: !<reference> 29091811-e792-46be-bfa4-28ddec5f11be
-  ScriptInputsDefault:
-    {}
-  ScriptTypesDefault:
-    {}
-  ScriptInputs:
-    "":
-      {}
-  ScriptTypes:
-    "":
-      {}
 - !<RenderMeshVisual/1f969daa-5809-4500-b314-98d91ccba131>
   PrefabRemaps:
     []
@@ -926,7 +910,6 @@
   Enabled: true
   ScriptAsset: !<reference> a03a8241-e309-47a8-b528-a073fdd39ef2
   ScriptInputsDefault:
-    distanceCm: true
     edgeInset: true
     arrowColor: true
     plateColor: true
@@ -936,7 +919,7 @@
     "":
       cameraObject: !<reference.SceneObject> 00000000-0000-0065-0000-000000000064
       arrowIcon: !<reference.Texture> 0cf8a7ff-46a8-424c-b1bf-ec2c49b9f4f5
-      distanceCm: !<float> 60.000000
+      distanceCm: !<float> 36.000000
       edgeInset: 0.880000
       arrowColor: !<Vec4> {x: 1.000000, y: 0.860000, z: 0.350000, w: 1.000000}
       plateColor: !<Vec4> {x: 0.100000, y: 0.360000, z: 0.460000, w: 0.900000}
@@ -965,7 +948,7 @@
   Enabled: true
   Layers: 1
   LocalTransform: !<TransformEntity>
-    Position: {x: -5.000000, y: -16.000000, z: -64.000000}
+    Position: {x: 0.000000, y: -11.200000, z: -60.000000}
     Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
     Scale: {x: 1.000000, y: 1.000000, z: 1.000000}
     HasSegmentScaleCompensation: false
@@ -1045,7 +1028,7 @@
   Enabled: true
   Layers: 1
   LocalTransform: !<TransformEntity>
-    Position: {x: 0.000000, y: -18.000000, z: -66.000000}
+    Position: {x: 0.000000, y: -13.200000, z: -66.000000}
     Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
     Scale: {x: 120.000000, y: 4.000000, z: 48.000000}
     HasSegmentScaleCompensation: false
@@ -1107,7 +1090,7 @@
       tickIcon: !<reference.Texture> 54f874c8-f07a-4640-a4f2-2211fcbbf65a
       overlayMaterial: !<reference.Material> 4d5da0e1-bb1f-4c32-b483-1653c2f43d1f
       cameraObject: !<reference.SceneObject> 00000000-0000-0065-0000-000000000064
-      colliderSizeCm: !<Vec3> {x: 4.800000, y: 9.000000, z: 4.800000}
+      colliderSizeCm: !<Vec3> {x: 4.600000, y: 8.200000, z: 4.600000}
       highlightColor: !<Vec4> {x: 0.200000, y: 0.950000, z: 1.000000, w: 1.000000}
       hoverScale: 1.070000
   ScriptTypes:
@@ -1120,7 +1103,7 @@
   Enabled: true
   Layers: 1
   LocalTransform: !<TransformEntity>
-    Position: {x: 8.750000, y: -12.000000, z: -62.000000}
+    Position: {x: 3.000000, y: -2.700000, z: -67.599998}
     Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
     Scale: {x: 1.000000, y: 1.000000, z: 1.000000}
     HasSegmentScaleCompensation: false
@@ -1233,6 +1216,26 @@
     - !<own> 7aa85bd8-d423-42cd-b190-473711e94929
   Components:
     []
+- !<RenderMeshVisual/420e3559-cac9-42cd-8a1c-1802bec1d03c>
+  PrefabRemaps:
+    []
+  Name: Render Mesh Visual
+  Enabled: true
+  RenderOrder: 0
+  StretchMode: Stretch
+  VerticalAlignment: Center
+  HorizontalAlignment: Center
+  MeshShadowMode: None
+  ShadowColor: {x: 1.000000, y: 1.000000, z: 1.000000, w: 1.000000}
+  ShadowDensity: 1.000000
+  Materials:
+    - !<reference> 781bffee-6146-415f-ac9c-c3c4013b0832
+  Mesh: !<reference> 935319a9-7765-404f-9dac-60bd4ce06dda
+  Skin: !<reference> 00000000-0000-0000-0000-000000000000
+  BlendShapesEnabled: true
+  BlendNormals: false
+  BlendShapes:
+    {}
 - !<SceneObject/421c3378-3246-429d-bd2f-4ee81f6751a7>
   PrefabRemaps:
     []
@@ -1281,7 +1284,7 @@
       tickIcon: !<reference.Texture> 54f874c8-f07a-4640-a4f2-2211fcbbf65a
       overlayMaterial: !<reference.Material> 4d5da0e1-bb1f-4c32-b483-1653c2f43d1f
       cameraObject: !<reference.SceneObject> 00000000-0000-0065-0000-000000000064
-      colliderSizeCm: !<Vec3> {x: 4.800000, y: 9.000000, z: 4.800000}
+      colliderSizeCm: !<Vec3> {x: 4.600000, y: 8.200000, z: 4.600000}
       highlightColor: !<Vec4> {x: 0.200000, y: 0.950000, z: 1.000000, w: 1.000000}
       hoverScale: 1.070000
   ScriptTypes:
@@ -1421,7 +1424,7 @@
   Enabled: true
   Layers: 1
   LocalTransform: !<TransformEntity>
-    Position: {x: 8.750000, y: -6.000000, z: -68.000000}
+    Position: {x: -9.000000, y: -2.700000, z: -67.599998}
     Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
     Scale: {x: 1.000000, y: 1.000000, z: 1.000000}
     HasSegmentScaleCompensation: false
@@ -1429,22 +1432,21 @@
     - !<own> 0646e58d-6327-4a97-bc60-629ba1acce14
   Components:
     - !<own> a093d8b9-db33-4a37-9e38-2f148c71ef19
-- !<SceneObject/4fbce8a3-b5a4-4fc2-9f2e-2c208a46653b>
+- !<SceneObject/50b36a56-be5f-48f8-95ab-faaeee2e4f3f>
   PrefabRemaps:
     []
-  Name: AiPreviewAgent Handler
+  Name: BottleStep
   Enabled: true
   Layers: 1
   LocalTransform: !<TransformEntity>
-    Position: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Position: {x: 0.000000, y: -8.950000, z: -67.599998}
     Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
-    Scale: {x: 1.000000, y: 1.000000, z: 1.000000}
+    Scale: {x: 24.000000, y: 4.500000, z: 6.000000}
     HasSegmentScaleCompensation: false
   Children:
     []
   Components:
-    - !<own> 8ae7efdd-8c75-4e1a-a808-2d56ec6a004a
-    - !<own> 1f5769c0-9614-4a23-9734-2eac789f5d71
+    - !<own> 420e3559-cac9-42cd-8a1c-1802bec1d03c
 - !<SceneObject/52ecefe4-5642-445a-ad16-52ce818076bc>
   PrefabRemaps:
     []
@@ -1567,7 +1569,6 @@
   ScriptAsset: !<reference> df7c6ef1-ed85-4d05-8982-1d34345f7262
   ScriptInputsDefault:
     titlePrefix: true
-    cardLiftCm: true
     plateColor: true
     borderColor: true
     noteColor: true
@@ -1578,7 +1579,7 @@
       cameraObject: !<reference.SceneObject> 00000000-0000-0065-0000-000000000064
       titlePrefix: "Found: "
       cardWidthCm: 13.500000
-      cardLiftCm: 1.800000
+      cardLiftCm: !<float> 3.000000
       plateColor: !<Vec4> {x: 0.100000, y: 0.360000, z: 0.460000, w: 0.900000}
       borderColor: !<Vec4> {x: 0.300000, y: 0.950000, z: 1.000000, w: 1.000000}
       noteColor: !<Vec4> {x: 1.000000, y: 0.860000, z: 0.400000, w: 1.000000}
@@ -1744,7 +1745,7 @@
       tickIcon: !<reference.Texture> 54f874c8-f07a-4640-a4f2-2211fcbbf65a
       overlayMaterial: !<reference.Material> 4d5da0e1-bb1f-4c32-b483-1653c2f43d1f
       cameraObject: !<reference.SceneObject> 00000000-0000-0065-0000-000000000064
-      colliderSizeCm: !<Vec3> {x: 4.800000, y: 9.000000, z: 4.800000}
+      colliderSizeCm: !<Vec3> {x: 4.600000, y: 8.200000, z: 4.600000}
       highlightColor: !<Vec4> {x: 0.200000, y: 0.950000, z: 1.000000, w: 1.000000}
       hoverScale: 1.070000
   ScriptTypes:
@@ -1817,7 +1818,7 @@
   Enabled: true
   Layers: 1
   LocalTransform: !<TransformEntity>
-    Position: {x: 13.750000, y: -6.000000, z: -68.000000}
+    Position: {x: -3.000000, y: -2.700000, z: -67.599998}
     Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
     Scale: {x: 1.000000, y: 1.000000, z: 1.000000}
     HasSegmentScaleCompensation: false
@@ -1910,8 +1911,8 @@
     ringColor: true
     dayLitColor: true
     countHeightCm: true
-    countLiftFrontCm: true
-    countLiftBackCm: true
+    dotLiftCm: true
+    doseChangeColor: true
   ScriptTypesDefault:
     {}
   ScriptInputs:
@@ -1923,9 +1924,11 @@
       ringColor: !<Vec4> {x: 0.200000, y: 0.950000, z: 1.000000, w: 1.000000}
       dayLitColor: !<Vec4> {x: 0.350000, y: 0.970000, z: 1.000000, w: 1.000000}
       countHeightCm: !<float> 2.000000
-      countLiftFrontCm: 1.900000
-      countLiftBackCm: 4.300000
-      dayLabelLiftCm: 6.300000
+      countLiftFrontCm: 4.300000
+      countLiftBackCm: !<float> 7.000000
+      dayLabelLiftCm: 0.800000
+      dotLiftCm: 1.600000
+      doseChangeColor: !<Vec4> {x: 1.000000, y: 0.550000, z: 0.120000, w: 1.000000}
   ScriptTypes:
     "":
       {}
@@ -2004,26 +2007,6 @@
     []
   Components:
     - !<own> e19dc8f4-1670-4e05-960c-576c96d054ad
-- !<RenderMeshVisual/7a1e22a1-b2fe-479c-b87b-a38fe4d45662>
-  PrefabRemaps:
-    []
-  Name: Render Mesh Visual
-  Enabled: true
-  RenderOrder: 0
-  StretchMode: Stretch
-  VerticalAlignment: Center
-  HorizontalAlignment: Center
-  MeshShadowMode: None
-  ShadowColor: {x: 1.000000, y: 1.000000, z: 1.000000, w: 1.000000}
-  ShadowDensity: 1.000000
-  Materials:
-    - !<reference> 781bffee-6146-415f-ac9c-c3c4013b0832
-  Mesh: !<reference> 935319a9-7765-404f-9dac-60bd4ce06dda
-  Skin: !<reference> 00000000-0000-0000-0000-000000000000
-  BlendShapesEnabled: true
-  BlendNormals: false
-  BlendShapes:
-    {}
 - !<SceneObject/7aa85bd8-d423-42cd-b190-473711e94929>
   PrefabRemaps:
     []
@@ -2226,22 +2209,6 @@
     - !<own> 1fc7fa3e-6910-4741-b8a7-1b6660a39a9d
   Components:
     - !<own> 28e05826-1521-46fa-a54c-80f2957ec80c
-- !<ScriptComponent/8ae7efdd-8c75-4e1a-a808-2d56ec6a004a>
-  PrefabRemaps:
-    []
-  Name: AgentInspectScript
-  Enabled: true
-  ScriptAsset: !<reference> 0b25079c-f5bf-4c6d-96c4-f43b89dfa213
-  ScriptInputsDefault:
-    {}
-  ScriptTypesDefault:
-    {}
-  ScriptInputs:
-    "":
-      {}
-  ScriptTypes:
-    "":
-      {}
 - !<SceneObject/8b877074-7eee-4be1-b669-714f8d5a1da3>
   PrefabRemaps:
     []
@@ -2295,6 +2262,22 @@
     - !<own> b859e31c-4c76-46bd-bd6a-042228e52728
   Components:
     []
+- !<ScriptComponent/8dff7cf6-de1f-496b-a8a3-017f5a2654b5>
+  PrefabRemaps:
+    []
+  Name: AgentInteractScript
+  Enabled: true
+  ScriptAsset: !<reference> 29091811-e792-46be-bfa4-28ddec5f11be
+  ScriptInputsDefault:
+    {}
+  ScriptTypesDefault:
+    {}
+  ScriptInputs:
+    "":
+      {}
+  ScriptTypes:
+    "":
+      {}
 - !<SceneObject/8e9ec7f0-cc83-499c-ba76-6368f2b14b90>
   PrefabRemaps:
     - 7de0f627-e3e8-48a9-a8ff-91bc105eebb8: 0bfd6697-ce91-40a6-6d29-94701684aab0
@@ -2455,12 +2438,27 @@
       tickIcon: !<reference.Texture> 54f874c8-f07a-4640-a4f2-2211fcbbf65a
       overlayMaterial: !<reference.Material> 4d5da0e1-bb1f-4c32-b483-1653c2f43d1f
       cameraObject: !<reference.SceneObject> 00000000-0000-0065-0000-000000000064
-      colliderSizeCm: !<Vec3> {x: 4.800000, y: 9.000000, z: 4.800000}
+      colliderSizeCm: !<Vec3> {x: 4.600000, y: 8.200000, z: 4.600000}
       highlightColor: !<Vec4> {x: 0.200000, y: 0.950000, z: 1.000000, w: 1.000000}
       hoverScale: 1.070000
   ScriptTypes:
     "":
       {}
+- !<SceneObject/a1ecd206-3f9c-4b14-93f6-7e5b346be657>
+  PrefabRemaps:
+    []
+  Name: DoctorChangeUI
+  Enabled: true
+  Layers: 1
+  LocalTransform: !<TransformEntity>
+    Position: {x: -7.000000, y: 6.000000, z: -63.000000}
+    Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Scale: {x: 1.000000, y: 1.000000, z: 1.000000}
+    HasSegmentScaleCompensation: false
+  Children:
+    []
+  Components:
+    - !<own> a8115f85-7e8a-41ea-844f-f88730c4cf38
 - !<RenderMeshVisual/a20bc345-75a1-420d-9f15-b0ddfc1410f8>
   PrefabRemaps:
     []
@@ -2639,6 +2637,25 @@
     - !<own> 0c355300-e635-47c1-a8c3-5ddef30b8824
   Components:
     []
+- !<ScriptComponent/a8115f85-7e8a-41ea-844f-f88730c4cf38>
+  PrefabRemaps:
+    []
+  Name: SundaySortDoctorCardUI
+  Enabled: true
+  ScriptAsset: !<reference> 41f0973b-0dce-46ff-ac3b-e8efbe06939c
+  ScriptInputsDefault:
+    cardWidthCm: true
+    titleColor: true
+  ScriptTypesDefault:
+    {}
+  ScriptInputs:
+    "":
+      cameraObject: !<reference.SceneObject> 00000000-0000-0065-0000-000000000064
+      cardWidthCm: !<float> 12.000000
+      titleColor: !<Vec4> {x: 1.000000, y: 0.620000, z: 0.200000, w: 1.000000}
+  ScriptTypes:
+    "":
+      {}
 - !<SceneObject/a98a7d22-28b9-4357-97cd-1486e721ac5d>
   PrefabRemaps:
     []
@@ -2669,6 +2686,7 @@
     - !<own> 2cfc25bd-a95c-4e19-b2c2-42ba063603af
     - !<own> f4760e27-b466-46a8-a832-7c77307f6133
     - !<own> f96c6a88-facd-49d3-8667-757591ae3722
+    - !<own> a1ecd206-3f9c-4b14-93f6-7e5b346be657
   Components:
     []
 - !<SceneObject/abfa4c71-3560-46f0-9471-90e212f21185>
@@ -2715,6 +2733,7 @@
   ScriptInputsDefault:
     weekReadySeconds: true
     nudgeTemplate: true
+    doctorCardDelaySeconds: true
     turnBackLabel: true
     viewMargin: true
     debugColliders: true
@@ -2728,14 +2747,16 @@
       controls: !<MappingBased.AssignableType_4> 4d3d3dbe-5f3c-43e3-a0e0-f81def0af29e
       pointer: !<MappingBased.AssignableType_5> 2d7ec838-da56-4e28-a4c6-5ec5da74e8b5
       audio: !<MappingBased.AssignableType_6> e19dc8f4-1670-4e05-960c-576c96d054ad
-      bottleMetformin: !<MappingBased.AssignableType_7> a093d8b9-db33-4a37-9e38-2f148c71ef19
-      bottleAmlodipine: !<MappingBased.AssignableType_8> 458d617d-60fc-45fa-9fc5-0fcc22d70043
-      bottleFurosemide: !<MappingBased.AssignableType_9> 37c365e8-9e8a-403d-b847-e0f753dbdb08
-      bottleAtorvastatin: !<MappingBased.AssignableType_10> 658a867b-5b68-4409-b948-8e370db80cbf
-      bottleVitaminD: !<MappingBased.AssignableType_11> f48d186c-9d0b-4c69-af41-31d009c7c618
+      doctorCard: !<MappingBased.AssignableType_7> a8115f85-7e8a-41ea-844f-f88730c4cf38
+      bottleMetformin: !<MappingBased.AssignableType_8> a093d8b9-db33-4a37-9e38-2f148c71ef19
+      bottleAmlodipine: !<MappingBased.AssignableType_9> 458d617d-60fc-45fa-9fc5-0fcc22d70043
+      bottleFurosemide: !<MappingBased.AssignableType_10> 37c365e8-9e8a-403d-b847-e0f753dbdb08
+      bottleAtorvastatin: !<MappingBased.AssignableType_11> 658a867b-5b68-4409-b948-8e370db80cbf
+      bottleVitaminD: !<MappingBased.AssignableType_12> f48d186c-9d0b-4c69-af41-31d009c7c618
       cameraObject: !<reference.SceneObject> 00000000-0000-0065-0000-000000000064
       weekReadySeconds: !<float> 3.000000
       nudgeTemplate: "1 left: {name}"
+      doctorCardDelaySeconds: !<float> 1.000000
       turnBackLabel: Back to the box
       viewMargin: 0.050000
       debugColliders: false
@@ -2965,21 +2986,22 @@
     []
   Components:
     []
-- !<SceneObject/c3968f09-eea9-4285-ac24-81a470bb34fc>
+- !<ScriptComponent/c1140367-f9b2-4f9e-9d6c-a7a4651fef77>
   PrefabRemaps:
     []
-  Name: BottleRiser
+  Name: AgentInspectScript
   Enabled: true
-  Layers: 1
-  LocalTransform: !<TransformEntity>
-    Position: {x: 11.250000, y: -13.000000, z: -68.000000}
-    Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
-    Scale: {x: 11.500000, y: 6.000000, z: 6.000000}
-    HasSegmentScaleCompensation: false
-  Children:
-    []
-  Components:
-    - !<own> 7a1e22a1-b2fe-479c-b87b-a38fe4d45662
+  ScriptAsset: !<reference> 0b25079c-f5bf-4c6d-96c4-f43b89dfa213
+  ScriptInputsDefault:
+    {}
+  ScriptTypesDefault:
+    {}
+  ScriptInputs:
+    "":
+      {}
+  ScriptTypes:
+    "":
+      {}
 - !<SceneObject/c67ba66b-a4b9-47ce-b7b9-807f1276559a>
   PrefabRemaps:
     []
@@ -3106,8 +3128,8 @@
     HasSegmentScaleCompensation: false
   Children:
     - !<own> 342e54c9-26b3-4e33-af7d-65466a177686
-    - !<own> c3968f09-eea9-4285-ac24-81a470bb34fc
     - !<own> 5fb8295b-12e7-4073-9c09-63bd86bc7a83
+    - !<own> 50b36a56-be5f-48f8-95ab-faaeee2e4f3f
   Components:
     []
 - !<SceneObject/cd0f2cbf-e0bd-493a-a336-65fc75831c0d>
@@ -3155,6 +3177,22 @@
     - !<own> 650dc0b4-8d22-4aab-87b4-d8e56fb59a67
   Components:
     - !<own> 0847d2bb-a13f-4c4a-a404-169f67308f6f
+- !<SceneObject/d060142a-0f5c-4ca5-b90d-065a15caa3a5>
+  PrefabRemaps:
+    []
+  Name: AiPreviewAgent Handler
+  Enabled: true
+  Layers: 1
+  LocalTransform: !<TransformEntity>
+    Position: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Scale: {x: 1.000000, y: 1.000000, z: 1.000000}
+    HasSegmentScaleCompensation: false
+  Children:
+    []
+  Components:
+    - !<own> c1140367-f9b2-4f9e-9d6c-a7a4651fef77
+    - !<own> 8dff7cf6-de1f-496b-a8a3-017f5a2654b5
 - !<SceneObject/d08269e3-acd4-4156-b5b9-477ca259611d>
   PrefabRemaps:
     []
@@ -3537,8 +3575,8 @@
   Enabled: true
   Layers: 1
   LocalTransform: !<TransformEntity>
-    Position: {x: -2.200000, y: -14.850000, z: -56.500000}
-    Rotation: {x: -60.000000, y: -2.000000, z: 0.000000}
+    Position: {x: 3.900000, y: -9.600000, z: -46.000000}
+    Rotation: {x: -60.000000, y: -4.000000, z: 0.000000}
     Scale: {x: 1.000000, y: 1.000000, z: 1.000000}
     HasSegmentScaleCompensation: false
   Children:
@@ -3563,7 +3601,7 @@
       tickIcon: !<reference.Texture> 54f874c8-f07a-4640-a4f2-2211fcbbf65a
       overlayMaterial: !<reference.Material> 4d5da0e1-bb1f-4c32-b483-1653c2f43d1f
       cameraObject: !<reference.SceneObject> 00000000-0000-0065-0000-000000000064
-      colliderSizeCm: !<Vec3> {x: 4.800000, y: 9.000000, z: 4.800000}
+      colliderSizeCm: !<Vec3> {x: 4.600000, y: 8.200000, z: 4.600000}
       highlightColor: !<Vec4> {x: 0.200000, y: 0.950000, z: 1.000000, w: 1.000000}
       hoverScale: 1.070000
   ScriptTypes:
@@ -3722,7 +3760,7 @@
   Enabled: true
   Layers: 1
   LocalTransform: !<TransformEntity>
-    Position: {x: 13.750000, y: -12.000000, z: -62.000000}
+    Position: {x: 9.000000, y: -2.700000, z: -67.599998}
     Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
     Scale: {x: 1.000000, y: 1.000000, z: 1.000000}
     HasSegmentScaleCompensation: false
@@ -3804,7 +3842,7 @@
   LocalTransform: !<TransformEntity>
     Position: {x: -14.000000, y: -8.000000, z: -60.000000}
     Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
-    Scale: {x: 1.000000, y: 1.000000, z: 1.000000}
+    Scale: {x: 0.600000, y: 0.600000, z: 0.600000}
     HasSegmentScaleCompensation: false
   Children:
     []

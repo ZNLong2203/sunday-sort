@@ -1,9 +1,11 @@
 /**
  * SundaySortControlsUI — the big Done button and the smaller Undo next to it.
  *
- * Owns: two UIKit Buttons in a FlexLayout row ([Undo] [Done]) at the box's
- *       front-right corner. The authored SceneObject carries the tilt toward
- *       the user. Done reads "All checked" in check mode (same spot).
+ * Owns: two UIKit Buttons in a FlexLayout row ([Undo] [Done]) lying on the
+ *       counter in front of the box's front-right edge. The authored SceneObject
+ *       carries the ~30° tilt toward the user and sits far enough forward that
+ *       the buttons never cover a cell from where the user stands. Done reads
+ *       "All checked" in check mode (same spot).
  * Expects: icon textures (check, done_all, undo).
  * Must NOT: decide what Done/Undo mean — it only emits onDone / onUndo.
  *
@@ -22,6 +24,11 @@ import {TextRole, applyTextRole, setupText} from "./SundaySortThemeUI"
 const imageMaterial = requireAsset("../Materials/ImageMaterial.mat") as Material
 
 const LABEL_Z = 0.08
+// The SnapOS3 Prism body is centred on the button (front face at +depth/2) and
+// pushes forward up to 0.3 cm on hover; content must sit in front of that or the
+// glass hides it depending on draw order.
+const PRISM_DEPTH = 1
+const PRISM_LABEL_Z = PRISM_DEPTH / 2 + 0.3 + 0.1
 const LABEL_DISTANCE_CM = 70 // lift labels in front of the button face (specs-build-ui gotcha)
 const DONE_H = 4.6
 const UNDO_H = 3.2
@@ -136,6 +143,20 @@ export class SundaySortControlsUI extends BaseScriptComponent {
     this.undo.iconMat.mainPass.baseColor = active ? new vec4(1, 1, 1, 1) : new vec4(1, 1, 1, 0.45)
   }
 
+  /** Bring the buttons back after fadeOut() (the doctor's change needs Done again). */
+  show(): void {
+    if (this.fade) {
+      this.fade()
+      this.fade = null
+    }
+    this.row.enabled = true
+    this.row.getTransform().setLocalScale(vec3.one())
+  }
+
+  get isShown(): boolean {
+    return this.row ? this.row.enabled : false
+  }
+
   /** End of the week: shrink the buttons away and disable them. */
   fadeOut(seconds: number = 0.8): void {
     if (this.fade) this.fade()
@@ -179,12 +200,12 @@ export class SundaySortControlsUI extends BaseScriptComponent {
     so.setParent(parent)
     const button = so.createComponent(Button.getTypeName()) as Button
     button.setVariant({theme: "SnapOS3", style: style})
-    button.size = new vec3(w, h, 1)
+    button.size = new vec3(w, h, PRISM_DEPTH)
     so.createComponent(FlexItem.getTypeName())
 
     const content = global.scene.createSceneObject(name + "Content")
     content.setParent(so)
-    content.getTransform().setLocalPosition(new vec3(0, 0, LABEL_Z))
+    content.getTransform().setLocalPosition(new vec3(0, 0, style === "Prism" ? PRISM_LABEL_Z : LABEL_Z))
     const flex = content.createComponent(FlexLayout.getTypeName()) as FlexLayout
     flex.direction = FlexDirection.Row
     flex.alignItems = FlexAlign.Center

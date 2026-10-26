@@ -45,9 +45,9 @@ export class SundaySortPointerUI extends BaseScriptComponent {
   @ui.label('<span style="color: #60A5FA;">Settings</span>')
   @ui.group_start("Settings")
   @input
-  @hint("Distance from the eyes to the arrow, in cm (the box is ~60 cm away).")
+  @hint("Distance from the eyes to the arrow, in cm. Nearer than the box (~60 cm) so the pill floats in front of the counter's edge; scale the SceneObject by distance / 60 to keep its size in view.")
   @widget(new SliderWidget(30, 120, 1))
-  distanceCm: number = 60
+  distanceCm: number = 36
 
   @input
   @hint("How close to the view edge the arrow sits (1 = right at the edge).")
@@ -213,8 +213,9 @@ export class SundaySortPointerUI extends BaseScriptComponent {
     const d = this.distanceCm
     const halfH = Math.tan(this.camera.fov / 2) * d * this.edgeInset
     const halfW = halfH * this.camera.aspect
-    const ex = Math.max(1, halfW - PANEL_W / 2)
-    const ey = Math.max(1, halfH - PANEL_H / 2)
+    const sc = this.getTransform().getWorldScale().x // a nearer pill is scaled down to keep its size in view
+    const ex = Math.max(1, halfW - (PANEL_W * sc) / 2)
+    const ey = Math.max(1, halfH - (PANEL_H * sc) / 2)
     const s = 1 / Math.max(Math.abs(dx) / ex, Math.abs(dy) / ey)
     let px = dx * s
     let py = dy * s

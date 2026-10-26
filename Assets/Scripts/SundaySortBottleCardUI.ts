@@ -47,7 +47,7 @@ export class SundaySortBottleCardUI extends BaseScriptComponent {
   @input
   @hint("Gap between the top of the bottle and the bottom of the card, in cm.")
   @widget(new SliderWidget(0, 8, 0.1))
-  cardLiftCm: number = 1.8
+  cardLiftCm: number = 3.0
 
   @input("vec4", "{0.10,0.36,0.46,0.9}")
   @hint("Card fill. Mid-bright teal so white text still contrasts on the additive display.")
