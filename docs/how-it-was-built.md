@@ -22,9 +22,34 @@ Decisions the interview pushed on, and where they landed:
 - CLAD plugin: `ls-clad@ls-extensions`, enabled for this project in [`.claude/settings.json`](../.claude/settings.json).
 - Prompt, in a fresh session: *"Read devpost/design-brief.md and build it for SPECS. Follow the brief closely. Get the basic flow working first, then add detail. Write and run LEAF tests for each done criterion, and tell me which pass."*
 - CLAD's `lens-studio-router` checked the project, the MCP connection and the sign-in, then handed off to the `specs-experience-builder` agent.
-- Generated so far: three chimes with `build-sfx` (done, nudge, week ready) and Material icons for the buttons.
+- Assets: five pill bottles from SPECS text-to-3D (`build-mesh`), three chimes from `build-sfx` (done, nudge, week ready), and Material icons for the buttons.
+- Logic: twelve TypeScript components in `Assets/Scripts/SundaySort*.ts`. `SundaySortData.ts` holds the sample week; `SundaySortMain.ts` runs the flow.
+- After building, the agent pinched through the flow itself in the preview, then handed testing to CLAD's `live-lens-tester` agent.
 
-*(Build details and LEAF results are added below when the build finishes.)*
+### First build: LEAF results
+
+The LEAF scenarios live in [`Assets/Tests/Leaf/`](../Assets/Tests/Leaf/). Each one drives the Lens with simulated pinches in Lens Studio's preview.
+
+| # | Done criterion | Result |
+|---|---|---|
+| 1 | Pinching metformin lights exactly its 14 cells with "1" and shows its card | Pass |
+| 2 | Done fades the glow, chimes, fills the dot and ticks the bottle; Undo clears the selection | Pass |
+| 3 | Furosemide lights only Monday, Wednesday and Friday mornings with "½", and those day labels brighten | Pass |
+| 4 | With only the vitamin D left and out of view, a chime from the left and an arrow; then check mode and "Week ready" | Pass |
+| 5 | Doctor's change (stretch) | Not built yet |
+
+What the tests can't prove, so it's labelled **feel unproven** until the Lens runs on SPECS:
+
+- Sound: the tests confirm the chimes play and that the nudge comes from the left, not how they sound.
+- Head turns: simulated. The test pauses device tracking while it turns the view, otherwise the preview resets the pose every frame.
+- Readability: colours and text are checked as values, not as they look on the additive display.
+
+An extra reach test (`IKReachScenario`) found a real problem: when a simulated arm aims at the furosemide bottle, the metformin bottle behind it catches the aim. Criterion 3 still passes because LEAF's pinch goes straight to the bottle, but on glasses the wrong bottle could be picked.
+
+Two tool notes from the build:
+
+- Pinching a UI Kit button by name in the preview tool can fail as "obstructed by Collider" (the button's own child collider). Pinching at the button's world position works; LEAF's hand pinch is unaffected.
+- LEAF scenarios that turn the head need the camera's device tracking paused, or the preview resets the turn every frame.
 
 ## 3. Snags worth knowing about
 
