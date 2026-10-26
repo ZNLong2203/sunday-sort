@@ -34,6 +34,7 @@ Workspaces/**
 leaf_plugin_settings.json
 ls-live-instance.json
 ls-live-instance.json.tmp
+/.icon_tmp/
 
 # Lens Studio MCP connection details (local port and token)
 # BEGIN Lens Studio managed Agents-Docs block
