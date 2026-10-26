@@ -51,7 +51,7 @@ The full story, with what went wrong along the way, is in [docs/how-it-was-built
 ## What's proven and what isn't
 
 - **Logic proven:** every done criterion in the brief, the reach test and the layout checks pass in the preview.
-- **Feel unproven:** real bottle and box recognition (faked by the pinch), real hand tracking, how the chimes sound, and how the colours and text read on the additive display. Only real glasses can answer those.
+- **Feel unproven:** real bottle and box recognition (stood in for by the pinch and a virtual box on a virtual counter), real hand tracking, how the chimes sound, and how the colours and text read on the additive display. Only real glasses can answer those.
 
 ## Safety
 
