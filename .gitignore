@@ -25,13 +25,15 @@ Workspaces/**
 
 # ─── Skill pack ──────────────────────────────────────────────
 # Duplicate copy the installer makes for the Eve agent; the real
-# skill lives in .agents/skills and is committed.
+# skill lives in .claude/skills (Lens Studio deletes .agents/ on load).
 /agent/
 
 # ─── Lens Studio extras (the shipped block above covers caches) ─
 /.clad/
 .virtual-scene.json
 leaf_plugin_settings.json
+ls-live-instance.json
+ls-live-instance.json.tmp
 
 # Lens Studio MCP connection details (local port and token)
 # BEGIN Lens Studio managed Agents-Docs block
@@ -40,8 +42,6 @@ leaf_plugin_settings.json
 .vscode/mcp.json
 .codex/config.toml
 .claude/settings.local.json
-ls-live-instance.json
-ls-live-instance.json.tmp
 # END Lens Studio managed Agents-Docs block
 
 # ─── Secrets ─────────────────────────────────────────────────
